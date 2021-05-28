@@ -1,0 +1,13 @@
+@model wencove.conexion.model.entity.User
+
+@{
+    ViewBag.Title = "GridView Details Page";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="text-content">
+    <h1 class="title" id="SubjectText">@Model.username</h1>
+    <p>Issue #@Model.id</p>
+    <hr />
+    <p>This is the GridView details page.</p>
+</div>

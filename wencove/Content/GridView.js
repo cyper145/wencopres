@@ -38,7 +38,7 @@
     }
     function deleteSelectedRecords() {
         if(confirm('Confirm Delete?')) {
-            gridView.GetSelectedFieldValues("Id", getSelectedFieldValuesCallback);
+            gridView.GetSelectedFieldValues("id", getSelectedFieldValuesCallback);
         }
     }
     function onFiltersNavBarItemClick(s, e) {

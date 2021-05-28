@@ -50,12 +50,20 @@ namespace wencove.conexion.model.neg
                 return;
             }
             objUser.estado = 99;
+            objUser.created_at = DateTime.Now;
+            objUser.update_at = DateTime.Now;
+            objUser.lastlogin = DateTime.Now;
+            
             objUserDao.create(objUser);
         }
 
         public bool find(User objAlumno)
         {
             return objUserDao.find(objAlumno);
+        }
+        public User find(int id)
+        {
+            return objUserDao.find(id);
         }
 
         public void update(User objAlumno)
@@ -85,5 +93,31 @@ namespace wencove.conexion.model.neg
 
         }
 
+        public void delete(User obj)
+        {
+            bool verificacion;
+            User objUserAux = new User();
+            objUserAux.id = obj.id;
+            verificacion = objUserDao.find(objUserAux);
+            if (!verificacion)
+            {
+                obj.estado = 33;
+                return;
+            }
+            obj.estado = 99;
+            objUserDao.delete(obj);
+        }
+
+
+        public void DeleteUser(List<int> ids)
+        {
+
+
+            ids.ForEach(elemet=>
+            {        
+                delete(find(elemet));
+            });
+            
+        }
     }
 }

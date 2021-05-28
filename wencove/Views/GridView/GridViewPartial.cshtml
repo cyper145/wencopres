@@ -76,12 +76,12 @@
         gridViewSettings.EditFormLayoutProperties.Items.Add(itemSettings =>
         {
             itemSettings.ColumnName = "isactive";
-           
+
 
         });
         gridViewSettings.EditFormLayoutProperties.Items.Add(itemSettings => {
             itemSettings.ColumnName = "password";
-          
+
         }).RequiredMarkDisplayMode = FieldRequiredMarkMode.Required;
         gridViewSettings.EditFormLayoutProperties.Items.Add(itemSettings => {
             itemSettings.ColumnName = "confirmpassword";
@@ -103,6 +103,12 @@
 
         gridViewSettings.Columns.Add(columnSettings =>
         {
+            columnSettings.FieldName = "id";
+            columnSettings.Visible = false;
+            columnSettings.ShowInCustomizationForm = false;
+        });
+        gridViewSettings.Columns.Add(columnSettings =>
+        {
             columnSettings.FieldName = "username";
             columnSettings.Caption = "Nombre de usuario";
 
@@ -122,17 +128,12 @@
             columnSettings.Settings.SortMode = DevExpress.XtraGrid.ColumnSortMode.DisplayText;
         });
 
-        gridViewSettings.Columns.Add(columnSettings =>
-        {
-            columnSettings.FieldName = "username";
-            columnSettings.Caption = "Customer Name";
-            columnSettings.Width = Unit.Pixel(150);
-        });
+        
         gridViewSettings.Columns.Add(columnSettings =>
         {
             columnSettings.FieldName = "password";
             columnSettings.Caption = "password";
-            columnSettings.Width = Unit.Pixel(150);
+            columnSettings.Width = Unit.Pixel(250);
             columnSettings.EditorProperties().ButtonEdit(s =>
             {
                 s.Width = Unit.Percentage(100);
@@ -258,7 +259,7 @@
         {
             columnSettings.FieldName = "isactive";
             columnSettings.Caption = "Estado";
-            columnSettings.Width = Unit.Pixel(90);
+            columnSettings.Width = Unit.Pixel(130);
             columnSettings.CellStyle.HorizontalAlign = HorizontalAlign.Center;
 
             columnSettings.EditorProperties().ComboBox(comboBoxProperties =>

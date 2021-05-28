@@ -41,8 +41,9 @@ namespace wencove.Model {
         }
 
         public static void DeleteRecords(string selectedRowIds) {
-            List<long> selectedIds = selectedRowIds.Split(',').ToList().ConvertAll(id => long.Parse(id));
-            DataProvider.DeleteIssues(selectedIds);
+            UserNeg userNeg = new UserNeg();
+            List<int> selectedIds = selectedRowIds.Split(',').ToList().ConvertAll(id => int.Parse(id));
+            userNeg.DeleteUser(selectedIds);
         }
     }
 }

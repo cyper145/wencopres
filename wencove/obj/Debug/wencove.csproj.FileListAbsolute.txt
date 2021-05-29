@@ -201,3 +201,9 @@ D:\ERP\wencove\wencove\obj\Debug\wencove.csproj.CoreCompileInputs.cache
 D:\ERP\wencove\wencove\obj\Debug\wencove.csproj.CopyComplete
 D:\ERP\wencove\wencove\obj\Debug\wencove.dll
 D:\ERP\wencove\wencove\obj\Debug\wencove.pdb
+D:\ERP\wencove\wencove\bin\es\System.Web.Helpers.resources.dll
+D:\ERP\wencove\wencove\bin\es\System.Web.Mvc.resources.dll
+D:\ERP\wencove\wencove\bin\es\System.Web.Razor.resources.dll
+D:\ERP\wencove\wencove\bin\es\System.Web.WebPages.resources.dll
+D:\ERP\wencove\wencove\bin\es\System.Web.WebPages.Deployment.resources.dll
+D:\ERP\wencove\wencove\bin\es\System.Web.WebPages.Razor.resources.dll

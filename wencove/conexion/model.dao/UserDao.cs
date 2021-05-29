@@ -8,7 +8,7 @@ using wencove.conexion.model.entity;
 
 namespace wencove.conexion.model.dao
 {
-     class UserDao: Obligatorio<User>
+      public class UserDao: Obligatorio<User>
     {
         private Conexion objConexion;
         private SqlCommand comando;
@@ -67,7 +67,6 @@ namespace wencove.conexion.model.dao
         {
             bool hayRegistros;
             string find = "select*from dk_users where id='" + user.id + "' ";
-
             try
             {
                 comando = new SqlCommand(find, objConexion.getCon());
@@ -153,7 +152,6 @@ namespace wencove.conexion.model.dao
 
 
 
-
         public List<User> findAll()
         {
             List<User> listUsers = new List<User>();
@@ -211,5 +209,54 @@ namespace wencove.conexion.model.dao
                 objConexion.cerrarConexion();
             }
         }
+        public static bool tienePrograma(int user_id, string programa)
+        {
+            Conexion objConexion;
+            SqlCommand comando;
+            objConexion = Conexion.saberEstado();
+            string permisos = "select*from dk_users ";
+            try
+            {
+                comando = new SqlCommand(permisos, objConexion.getCon());
+                objConexion.getCon().Open();
+                comando.ExecuteNonQuery();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                objConexion.getCon().Close();
+                objConexion.cerrarConexion();
+            }
+
+            return true;
+        }
+        public static bool tieneModulo(int user_id, string programa)
+        {
+            Conexion objConexion;
+            SqlCommand comando;
+            objConexion = Conexion.saberEstado();
+            string permisos = "select*from dk_users ";
+            try
+            {
+                comando = new SqlCommand(permisos, objConexion.getCon());
+                objConexion.getCon().Open();
+                comando.ExecuteNonQuery();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                objConexion.getCon().Close();
+                objConexion.cerrarConexion();
+            }
+
+            return true;
+        }
+
     }
 }

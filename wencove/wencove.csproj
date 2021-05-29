@@ -242,6 +242,9 @@
     <Content Include="Views\Scheduler\LeftPanelPartial.cshtml" />
     <Content Include="Views\Scheduler\SchedulerPartial.cshtml" />
     <None Include="packages.config" />
+    <Content Include="Views\Role\Index.cshtml" />
+    <Content Include="Views\Shared\leftpartial.cshtml" />
+    <Content Include="Views\partialGeneral\LeftPanelPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -255,17 +258,21 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Code\AuthHelper.cs" />
     <Compile Include="Code\DBContext.cs" />
+    <Compile Include="Code\RoleHelper.cs" />
     <Compile Include="conexion\model.dao\Conexion.cs" />
     <Compile Include="conexion\model.dao\Obligatorio.cs" />
+    <Compile Include="conexion\model.dao\RoleDao.cs" />
     <Compile Include="conexion\model.dao\UserDao.cs" />
-    <Compile Include="conexion\model.entity\Class1.cs" />
+    <Compile Include="conexion\model.entity\Role.cs" />
     <Compile Include="conexion\model.entity\User.cs" />
+    <Compile Include="conexion\model.neg\RoleNeg.cs" />
     <Compile Include="conexion\model.neg\UserNeg.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ArticleController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\GridViewController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\RoleController.cs" />
     <Compile Include="Controllers\SchedulerController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

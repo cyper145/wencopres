@@ -1,0 +1,82 @@
+﻿<h3 class="section-caption contents-caption"> Menú</h3>
+
+@Html.DevExpress().NavBar(
+       settings =>
+       {
+           int rol = HttpContext.Current.Session["Rol"] == null ? 1 : (int)HttpContext.Current.Session["Rol"];
+           int user_id = HttpContext.Current.Session["user_id"] == null ? 0 : (int)HttpContext.Current.Session["Rol"];
+           // int rol = HttpContext.Current.Session["Rol"] == null ? 1 : (int)HttpContext.Current.Session["Rol"];
+           settings.Name = "nbFeatures";
+           settings.AllowExpanding = true;
+           settings.AllowSelectItem = true;
+           settings.AutoCollapse = false;
+           settings.EnableHotTrack = true;
+           settings.EnableAnimation = true;
+           settings.SaveStateToCookies = false;
+           settings.Width = Unit.Parse("100%");
+
+           settings.Groups.Add(group =>
+           {
+
+               group.Visible = wencove.conexion.model.dao.UserDao.tieneModulo(user_id, "seguridad")==true?true:false;
+               group.Text = "seguridad";
+               if(wencove.conexion.model.dao.UserDao.tieneModulo(user_id, "usuarios"))
+               {
+                   group.Items.Add("Usuarios", "ratas", "~/Content/NavBar/BO_Scheduler.png", "GridView");
+               }
+               if (wencove.conexion.model.dao.UserDao.tieneModulo(user_id, "roles"))
+               {
+                   group.Items.Add("Roles", "ratas", "~/Content/NavBar/BO_Scheduler.png", "userview");
+               }
+               if (wencove.conexion.model.dao.UserDao.tieneModulo(user_id, "asignar-roles"))
+               {
+                   group.Items.Add("Asignar roles", "ratas", "~/Content/NavBar/BO_Scheduler.png", "userview");
+               }
+               if (wencove.conexion.model.dao.UserDao.tieneModulo(user_id, "asignar"))
+               {
+                   group.Items.Add("Asignar", "ratas", "~/Content/NavBar/BO_Scheduler.png", "userview");
+               }
+
+           });
+           settings.Groups.Add(group =>
+           {
+
+
+               group.Visible = wencove.conexion.model.dao.UserDao.tieneModulo(user_id, "compras") == true ? true : false;
+
+
+               group.Text = "Compras";
+               if (wencove.conexion.model.dao.UserDao.tieneModulo(user_id, "orden-compra"))
+               {
+                   group.Items.Add("orden compra", "ratas", "~/Content/NavBar/BO_Scheduler.png", "GridView");
+               }
+               if (wencove.conexion.model.dao.UserDao.tieneModulo(user_id, "requerimiento-aprobado"))
+               {
+                   group.Items.Add("requerimiento aprobado", "ratas", "~/Content/NavBar/BO_Scheduler.png", "GridView");
+               }
+               if (wencove.conexion.model.dao.UserDao.tieneModulo(user_id, "requerimiento"))
+               {
+                   group.Items.Add("requerimiento", "ratas", "~/Content/NavBar/BO_Scheduler.png", "GridView");
+               }
+
+
+           });
+           settings.Groups.Add(group =>
+           {
+
+
+               group.Visible = wencove.conexion.model.dao.UserDao.tieneModulo(user_id, "ventas") == true ? true : false;
+
+
+               group.Text = "Ventas";
+               if (wencove.conexion.model.dao.UserDao.tieneModulo(user_id, "cotizaciones"))
+               {
+                   group.Items.Add("orden compra", "ratas", "~/Content/NavBar/BO_Scheduler.png", "GridView");
+               }
+             
+
+
+           });
+       }).GetHtml()
+
+

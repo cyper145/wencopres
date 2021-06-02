@@ -1,11 +1,12 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using wencove.conexion.model.neg;
-using wencove.conexion.model.entity;
 using wencove.Code;
+using wencove.conexion.model.entity;
+using wencove.conexion.model.neg;
 
 namespace wencove.Controllers
 {
@@ -23,13 +24,69 @@ namespace wencove.Controllers
         {
             return View(negocio.findAll());
         }
+        // POST: /Account/SignIn
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public ActionResult recibirdata(FormCollection data)
+        {
+
+            int rol_id = Convert.ToInt32(data["rol"]);
+            string value4 = data["__RequestVerificationToken"];
+
+            string value2 = HttpUtility.HtmlDecode(data["dark"]);
+            DatatreeView htmlAttributes =
+ JsonConvert.DeserializeObject<DatatreeView>(value2);
+            string datad = htmlAttributes.nodesState[2].ToString();
+            Dictionary<string, string> nodes = JsonConvert.DeserializeObject<Dictionary<string, string>>(datad);
+
+            nodes = nodes.OrderBy(x => x.Key).ToDictionary(x => x.Key, x => x.Value);
+
+            List<NodeModule> nodeModules = new List<NodeModule>();
+            NodeModule currentModule;
+            NodePrograma currentPrograma = null;
+            NodeOperacion currentOperacion;
+            foreach (var entry in nodes)
+            {
+                // igual que cargar la data para subir al treeview
+                // System.Console.WriteLine(entry.Key + ":" + entry.Value);
+                List<String> dataniveles = entry.Key.Split('_').ToList();
+
+                currentModule = nodeModules.Find(x => x.name == dataniveles[0]);
+                switch (dataniveles.Count)
+                {
+
+                    case 1:
+                        currentModule = new NodeModule(entry.Key, entry.Value);
+                        nodeModules.Add(currentModule);
+                        break;
+                    case 2:
+                        currentPrograma = new NodePrograma(entry.Key, entry.Value);
+                        currentModule.programas.Add(currentPrograma);
+                        break;
+                    case 3:
+                        currentOperacion = new NodeOperacion(entry.Key, entry.Value);
+                        currentPrograma.operacions.Add(currentOperacion);
+                        break;
+                }
+            }
+            string funciones = JsonConvert.SerializeObject(nodeModules);
+
+            negocio.update(rol_id, funciones);
+            //return View();
+            return RedirectToAction("Index", "Role");
+        }
+
+
         public ActionResult GridViewDetailsPage(int id)
         {
             ViewBag.ShowBackButton = true;
-            Role obj = new Role(id);
-            negocio.find(obj);
-            return View(obj);
+            ViewBag.rol = id;
+            ViewBag.rol = id;
+            return View(negocio.lista(id));
         }
+
+
         public ActionResult GridViewPartial()
         {
             return PartialView("GridViewPartial", RoleHelper.getroles());
@@ -64,6 +121,6 @@ namespace wencove.Controllers
             if (!string.IsNullOrEmpty(Request.Params["SelectedRows"]))
                 RoleHelper.DeleteRecords(Request.Params["SelectedRows"]);
         }
-       
+
     }
 }

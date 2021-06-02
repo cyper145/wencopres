@@ -1,23 +1,28 @@
+using DevExpress.XtraScheduler;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
-using DevExpress.XtraScheduler;
-using System.ComponentModel.DataAnnotations;
 
-namespace wencove.Model {
+namespace wencove.Model
+{
     // Sample Data
-    public class Issue {
+    public class Issue
+    {
         public long Id { get; set; }
         [Required(ErrorMessage = "Subject is required")]
         public string Subject { get; set; }
         public Contact Customer { get; private set; }
         [Required(ErrorMessage = "Customer is required")]
-        public long CustomerId {
-            get {
+        public long CustomerId
+        {
+            get
+            {
                 return (Customer != null) ? Customer.Id : -1;
             }
-            set {
+            set
+            {
                 Customer = DataProvider.GetContacts().Find(contact => contact.Id == value);
             }
         }
@@ -32,17 +37,20 @@ namespace wencove.Model {
         public int Status { get; set; }
         public int Votes { get; set; }
 
-        public Issue() {
+        public Issue()
+        {
             Kind = 1;
             IsDraft = true;
             Status = 1;
             Priority = 1;
             Customer = new Contact();
         }
-        public void SetCustomer(Contact value) {
+        public void SetCustomer(Contact value)
+        {
             Customer = value;
         }
-        public void Assign(Issue src) {
+        public void Assign(Issue src)
+        {
             Subject = src.Subject;
             SetCustomer(src.Customer);
             Updated = DateTime.Now;
@@ -55,7 +63,8 @@ namespace wencove.Model {
         }
     }
 
-    public class Contact {
+    public class Contact
+    {
         public long Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
@@ -75,25 +84,31 @@ namespace wencove.Model {
     }
 
     #region DataProvider 
-    public static class DataProvider {
-        public static List<Contact> GetContacts() {
-            if(HttpContext.Current.Session["Contacts"] == null)
+    public static class DataProvider
+    {
+        public static List<Contact> GetContacts()
+        {
+            if (HttpContext.Current.Session["Contacts"] == null)
                 HttpContext.Current.Session["Contacts"] = GenerateContacts();
             return HttpContext.Current.Session["Contacts"] as List<Contact>;
         }
 
-        public static List<Issue> GetIssues() {
-            if(HttpContext.Current.Session["Issues"] == null)
+        public static List<Issue> GetIssues()
+        {
+            if (HttpContext.Current.Session["Issues"] == null)
                 HttpContext.Current.Session["Issues"] = GenerateIssues();
             return HttpContext.Current.Session["Issues"] as List<Issue>;
         }
-        static void UpdateIssues(List<Issue> list) {
+        static void UpdateIssues(List<Issue> list)
+        {
             HttpContext.Current.Session["Issues"] = list;
         }
 
         private static readonly object lockObject = new object();
-        public static void AddNewIssue(Issue issue) {
-            lock(lockObject) {
+        public static void AddNewIssue(Issue issue)
+        {
+            lock (lockObject)
+            {
                 List<Issue> issues = GetIssues();
 
                 issue.Id = GetNextIssueId();
@@ -105,21 +120,24 @@ namespace wencove.Model {
                 UpdateIssues(issues);
             }
         }
-        public static void UpdateIssue(Issue issue) {
+        public static void UpdateIssue(Issue issue)
+        {
             List<Issue> issues = GetIssues();
 
             Issue existingIssue = issues.Find(i => i.Id == issue.Id);
-            if(existingIssue != null) 
+            if (existingIssue != null)
                 existingIssue.Assign(issue);
 
             UpdateIssues(issues);
         }
-        public static void DeleteIssues(List<long> ids) {
+        public static void DeleteIssues(List<long> ids)
+        {
             List<Issue> issues = GetIssues();
             issues.RemoveAll(i => ids.Contains(i.Id));
             UpdateIssues(issues);
         }
-        static List<Contact> GenerateContacts() {
+        static List<Contact> GenerateContacts()
+        {
             List<Contact> contacts = new List<Contact> {
 
              new Contact {
@@ -218,7 +236,8 @@ namespace wencove.Model {
             return contacts;
         }
 
-        static List<Issue> GenerateIssues() {
+        static List<Issue> GenerateIssues()
+        {
             List<Issue> issues = new List<Issue> {
              new Issue {
               Id = 1, IsArchived = false, IsDraft = false, Subject = "DevAV Annual Performance Review", Unread = true, Kind = 1, Priority = 3, Status = 1, Notes = "Some notes for subject: DevAV Annual Performance Review", Votes = 1
@@ -373,7 +392,8 @@ namespace wencove.Model {
             };
 
             var rnd = new Random(Environment.TickCount);
-            foreach(var i in issues) {
+            foreach (var i in issues)
+            {
                 int contactIndex = rnd.Next(0, 29);
                 i.SetCustomer(GetContacts()[contactIndex]);
                 DateTime d = DateTime.Now;
@@ -384,9 +404,10 @@ namespace wencove.Model {
             return issues;
         }
 
-        internal static long GetNextIssueId() {
+        internal static long GetNextIssueId()
+        {
             IEnumerable<long> issuesIds = GetIssues().Select(i => i.Id);
-            if(issuesIds.Count() > 0)
+            if (issuesIds.Count() > 0)
                 return issuesIds.Max() + 1;
             else
                 return 1;
@@ -396,13 +417,15 @@ namespace wencove.Model {
 
     // Scheduler Sample Data
 
-    public class SchedulerLabel {
+    public class SchedulerLabel
+    {
         public long Id { get; set; }
         public string Name { get; set; }
         public System.Drawing.Color Color { get; set; }
     }
 
-    public class SchedulerAppointment {
+    public class SchedulerAppointment
+    {
         public long Id { get; set; }
         public string Subject { get; set; }
         public string Location { get; set; }
@@ -417,15 +440,18 @@ namespace wencove.Model {
         public long? ResourceId { get; set; }
     }
 
-    public class SchedulerResource {
+    public class SchedulerResource
+    {
         public long Id { get; set; }
         public string Name { get; set; }
     }
 
-    public static class SchedulerLabelsHelper {
+    public static class SchedulerLabelsHelper
+    {
         private static List<SchedulerLabel> items;
 
-        static SchedulerLabelsHelper() {
+        static SchedulerLabelsHelper()
+        {
             items = new List<SchedulerLabel>();
             items.Add(new SchedulerLabel { Id = 1, Name = "Development", Color = System.Drawing.Color.DarkBlue });
             items.Add(new SchedulerLabel { Id = 2, Name = "Webinars", Color = System.Drawing.Color.Blue });
@@ -433,30 +459,37 @@ namespace wencove.Model {
             items.Add(new SchedulerLabel { Id = 4, Name = "Birthdays", Color = System.Drawing.Color.OrangeRed });
         }
 
-        public static List<SchedulerLabel> GetItems() {
+        public static List<SchedulerLabel> GetItems()
+        {
             return items;
         }
     }
 
 
-    public class AppointmentDataSourceHelper {
-        public AppointmentDataSourceHelper() {
+    public class AppointmentDataSourceHelper
+    {
+        public AppointmentDataSourceHelper()
+        {
         }
 
-        static List<SchedulerAppointment> GetAppointments() {
-            if(HttpContext.Current.Session["SchedulerAppointments"] == null)
+        static List<SchedulerAppointment> GetAppointments()
+        {
+            if (HttpContext.Current.Session["SchedulerAppointments"] == null)
                 HttpContext.Current.Session["SchedulerAppointments"] = GenerateAppointments();
             return HttpContext.Current.Session["SchedulerAppointments"] as List<SchedulerAppointment>;
         }
-        static void UpdateAppointments(List<SchedulerAppointment> list) {
+        static void UpdateAppointments(List<SchedulerAppointment> list)
+        {
             HttpContext.Current.Session["SchedulerAppointments"] = list;
         }
 
-        public static List<SchedulerAppointment> SelectMethodHandler() {
+        public static List<SchedulerAppointment> SelectMethodHandler()
+        {
             return GetAppointments();
         }
 
-        private static List<SchedulerAppointment> GenerateAppointments() {
+        private static List<SchedulerAppointment> GenerateAppointments()
+        {
             List<SchedulerAppointment> list = new List<SchedulerAppointment>();
 
             int uniqueID = 0;
@@ -464,7 +497,8 @@ namespace wencove.Model {
             Random random = new Random();
 
             // Birthdays - from Contacts
-            for(int i = 0; i < DataProvider.GetContacts().Count; i++) {
+            for (int i = 0; i < DataProvider.GetContacts().Count; i++)
+            {
                 Contact contact = DataProvider.GetContacts()[i];
 
                 SchedulerAppointment appointment = new SchedulerAppointment();
@@ -491,8 +525,9 @@ namespace wencove.Model {
             }
 
             // Sample Appointments
-            for(int i = -100; i < 100; i++) {
-                if(i != 0 && i % random.Next(7, 10) == 0)
+            for (int i = -100; i < 100; i++)
+            {
+                if (i != 0 && i % random.Next(7, 10) == 0)
                     continue;
 
                 SchedulerAppointment appointment = new SchedulerAppointment();
@@ -513,7 +548,8 @@ namespace wencove.Model {
             return list;
         }
 
-        public static object InsertMethodHandler(SchedulerAppointment newAppointment) {
+        public static object InsertMethodHandler(SchedulerAppointment newAppointment)
+        {
             List<SchedulerAppointment> list = GetAppointments();
             long maxId = list.Count == 0 ? 0 : list.Max(i => i.Id);
             newAppointment.Id = maxId + 1;
@@ -524,16 +560,18 @@ namespace wencove.Model {
             return newAppointment.Id; // DXCOMMENT: Return this value to the ASPxScheduler and set the ASPxScheduler.ASPxAppointmentStorage.AutoRetrieveId ( https://documentation.devexpress.com/AspNet/DevExpress.Web.ASPxScheduler.ASPxAppointmentStorage.AutoRetrieveId.property ) property to true.
         }
 
-        public static void DeleteMethodHandler(SchedulerAppointment deletedAppointment) {
+        public static void DeleteMethodHandler(SchedulerAppointment deletedAppointment)
+        {
             List<SchedulerAppointment> list = GetAppointments();
             SchedulerAppointment item = list.FirstOrDefault(i => i.Id.Equals(deletedAppointment.Id));
-            if(item != null)
+            if (item != null)
                 list.Remove(item);
 
             UpdateAppointments(list);
         }
 
-        public static void UpdateMethodHandler(SchedulerAppointment updatedAppointment) {
+        public static void UpdateMethodHandler(SchedulerAppointment updatedAppointment)
+        {
             List<SchedulerAppointment> list = GetAppointments();
             SchedulerAppointment item = list.FirstOrDefault(i => i.Id.Equals(updatedAppointment.Id));
 
@@ -553,10 +591,12 @@ namespace wencove.Model {
         }
     }
 
-    public static class ResourceDataSourceHelper {
+    public static class ResourceDataSourceHelper
+    {
         private static List<SchedulerResource> items;
 
-        static ResourceDataSourceHelper() {
+        static ResourceDataSourceHelper()
+        {
             items = new List<SchedulerResource>();
             items.Add(new SchedulerResource { Id = 1, Name = "Calendar 1" });
             items.Add(new SchedulerResource { Id = 2, Name = "Calendar 2" });
@@ -568,12 +608,14 @@ namespace wencove.Model {
             items.Add(new SchedulerResource { Id = 8, Name = "Calendar 8" });
         }
 
-        public static List<SchedulerResource> GetItems() {
+        public static List<SchedulerResource> GetItems()
+        {
             return GetItems(null);
         }
 
-        public static List<SchedulerResource> GetItems(List<long> ids) {
-            if(ids == null)
+        public static List<SchedulerResource> GetItems(List<long> ids)
+        {
+            if (ids == null)
                 return items;
             return items.Where(item => ids.Contains(item.Id)).ToList();
         }

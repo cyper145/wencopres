@@ -122,11 +122,11 @@ html
     float: right;
 }
 
-.header-logo
-{
-    background: url('Images/logo.svg') no-repeat center;
+.header-logo {
+    background: url('Images/logo-katal.png') no-repeat center;
     height: 26px;
     width: 150px;
+    background-size: cover;
 }
 
 @media (max-width: 359px)

@@ -5,29 +5,37 @@ using System.Web.Mvc;
 using System.Web.UI.WebControls;
 using wencove.Model;
 
-namespace wencove.Controllers {
-    public class SchedulerController : BaseController {
-        public ActionResult Index() {
+namespace wencove.Controllers
+{
+    public class SchedulerController : BaseController
+    {
+        public ActionResult Index()
+        {
             return View(SchedulerHelper.GetSchedulerDataSource(GetSelectedResourcesIds()));
         }
-        public ActionResult SchedulerPartial() {
+        public ActionResult SchedulerPartial()
+        {
             return PartialView("SchedulerPartial", SchedulerHelper.GetSchedulerDataSource(GetSelectedResourcesIds()));
         }
         [ValidateAntiForgeryToken]
-        public ActionResult SchedulerPartialEditAppointment(SchedulerAppointment appointment) {
+        public ActionResult SchedulerPartialEditAppointment(SchedulerAppointment appointment)
+        {
             SafeExecute(() => SchedulerHelper.UpdateSchedulerDataSource());
             return SchedulerPartial();
         }
 
-        private List<long> GetSelectedResourcesIds() {
+        private List<long> GetSelectedResourcesIds()
+        {
             var selectedResourcesIds = SafeExecute(() => GetSelectedResourcesFromRequest());
-            if(selectedResourcesIds != null)
+            if (selectedResourcesIds != null)
                 return selectedResourcesIds as List<long>;
             return null;
         }
 
-        private List<long> GetSelectedResourcesFromRequest() {
-            if(Request.Params.AllKeys.Contains("SelectedResources")) {
+        private List<long> GetSelectedResourcesFromRequest()
+        {
+            if (Request.Params.AllKeys.Contains("SelectedResources"))
+            {
                 string selectedResourcesRequest = Request.Params["SelectedResources"];
                 return selectedResourcesRequest.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries).Select(id => Convert.ToInt64(id)).ToList();
             }

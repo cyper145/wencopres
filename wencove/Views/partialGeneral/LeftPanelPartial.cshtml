@@ -1,9 +1,13 @@
-﻿<h3 class="section-caption contents-caption"> Menú</h3>
+﻿@using wencove.conexion.model.neg
+@using wencove.conexion.model.entity
+
+<h3 class="section-caption contents-caption"> Menú</h3>
 
 @Html.DevExpress().NavBar(
        settings =>
        {
-           int rol = HttpContext.Current.Session["Rol"] == null ? 1 : (int)HttpContext.Current.Session["Rol"];
+           var rol2 = HttpContext.Current.Session["Rol"];
+           int rol = HttpContext.Current.Session["Rol"] == null ? -1 : (int)HttpContext.Current.Session["Rol"];
            int user_id = HttpContext.Current.Session["user_id"] == null ? 0 : (int)HttpContext.Current.Session["Rol"];
            // int rol = HttpContext.Current.Session["Rol"] == null ? 1 : (int)HttpContext.Current.Session["Rol"];
            settings.Name = "nbFeatures";
@@ -14,25 +18,28 @@
            settings.EnableAnimation = true;
            settings.SaveStateToCookies = false;
            settings.Width = Unit.Parse("100%");
-
+           // solucion rapida
+           RoleNeg roleNeg = new RoleNeg();
+           List<ModuloAsignacion> modulos=roleNeg.lista(rol);
            settings.Groups.Add(group =>
            {
 
-               group.Visible = wencove.conexion.model.dao.UserDao.tieneModulo(user_id, "seguridad")==true?true:false;
+               //guardar la seccion los modulos y programas
+               group.Visible = roleNeg.moduloAsigned(modulos, "seguridad") == true ? true : false;
                group.Text = "seguridad";
-               if(wencove.conexion.model.dao.UserDao.tieneModulo(user_id, "usuarios"))
+               if (roleNeg.moduloAsigned(modulos, "usuarios"))
                {
                    group.Items.Add("Usuarios", "ratas", "~/Content/NavBar/BO_Scheduler.png", "GridView");
                }
-               if (wencove.conexion.model.dao.UserDao.tieneModulo(user_id, "roles"))
+               if (roleNeg.moduloAsigned(modulos, "roles"))
                {
-                   group.Items.Add("Roles", "ratas", "~/Content/NavBar/BO_Scheduler.png", "userview");
+                   group.Items.Add("Roles", "ratas", "~/Content/NavBar/BO_Scheduler.png", "role");
                }
-               if (wencove.conexion.model.dao.UserDao.tieneModulo(user_id, "asignar-roles"))
+               if (roleNeg.moduloAsigned(modulos, "asignar-rol"))
                {
                    group.Items.Add("Asignar roles", "ratas", "~/Content/NavBar/BO_Scheduler.png", "userview");
                }
-               if (wencove.conexion.model.dao.UserDao.tieneModulo(user_id, "asignar"))
+               if (roleNeg.moduloAsigned(modulos, "asignar"))
                {
                    group.Items.Add("Asignar", "ratas", "~/Content/NavBar/BO_Scheduler.png", "userview");
                }
@@ -40,42 +47,29 @@
            });
            settings.Groups.Add(group =>
            {
-
-
-               group.Visible = wencove.conexion.model.dao.UserDao.tieneModulo(user_id, "compras") == true ? true : false;
-
-
+               group.Visible = roleNeg.moduloAsigned(modulos, "compras") == true ? true : false;
                group.Text = "Compras";
-               if (wencove.conexion.model.dao.UserDao.tieneModulo(user_id, "orden-compra"))
+               if (roleNeg.moduloAsigned(modulos, "orden-compra"))
                {
                    group.Items.Add("orden compra", "ratas", "~/Content/NavBar/BO_Scheduler.png", "GridView");
                }
-               if (wencove.conexion.model.dao.UserDao.tieneModulo(user_id, "requerimiento-aprobado"))
+               if (roleNeg.moduloAsigned(modulos, "requerimiento-aprobado"))
                {
                    group.Items.Add("requerimiento aprobado", "ratas", "~/Content/NavBar/BO_Scheduler.png", "GridView");
                }
-               if (wencove.conexion.model.dao.UserDao.tieneModulo(user_id, "requerimiento"))
+               if (roleNeg.moduloAsigned(modulos, "requerimiento"))
                {
                    group.Items.Add("requerimiento", "ratas", "~/Content/NavBar/BO_Scheduler.png", "GridView");
                }
-
-
            });
            settings.Groups.Add(group =>
            {
-
-
-               group.Visible = wencove.conexion.model.dao.UserDao.tieneModulo(user_id, "ventas") == true ? true : false;
-
-
+               group.Visible = roleNeg.moduloAsigned(modulos, "ventas") == true ? true : false;
                group.Text = "Ventas";
-               if (wencove.conexion.model.dao.UserDao.tieneModulo(user_id, "cotizaciones"))
+               if (roleNeg.moduloAsigned(modulos, "cotizaciones"))
                {
-                   group.Items.Add("orden compra", "ratas", "~/Content/NavBar/BO_Scheduler.png", "GridView");
+                   group.Items.Add("cotizaciones", "ratas", "~/Content/NavBar/BO_Scheduler.png", "GridView");
                }
-             
-
-
            });
        }).GetHtml()
 

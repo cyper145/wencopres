@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Web.Helpers;
 using wencove.conexion.model.entity;
+using wencove.Model;
 
 namespace wencove.conexion.model.dao
 {
-      public class UserDao: Obligatorio<User>
+    public class UserDao : Obligatorio<User>
     {
         private Conexion objConexion;
         private SqlCommand comando;
@@ -25,7 +24,7 @@ namespace wencove.conexion.model.dao
             string updte = obj.update_at.ToString("MM/dd/yyyy HH:mm:ss");
             string last = obj.lastlogin.ToString("MM/dd/yyyy HH:mm:ss");
 
-            string create = "insert into dk_users(id,username,password,email, photo,created_at,updated_at,isactive,last_login)values('" + obj.id + "','" + obj.username + "','" + obj.password + "','" + obj.email + "','" + obj.photo + "','" + creat + "','" + updte + "','" + obj.isactive + "','" + last + "')";
+            string create = "insert into dk_users(id,username,password,email, photo,created_at,updated_at,isactive,last_login,rol_id)values('" + obj.id + "','" + obj.username + "','" + obj.password + "','" + obj.email + "','" + obj.photo + "','" + creat + "','" + updte + "','" + obj.isactive + "','" + last + "','" + obj.rol_id + "')";
             try
             {
                 comando = new SqlCommand(create, objConexion.getCon());
@@ -156,7 +155,7 @@ namespace wencove.conexion.model.dao
         {
             List<User> listUsers = new List<User>();
 
-            string findAll = "select*from dk_users";
+            string findAll = "select u.*,r.name  from dk_users u left join dk_roles r on u.rol_id=r.id";
             try
             {
                 comando = new SqlCommand(findAll, objConexion.getCon());
@@ -174,6 +173,9 @@ namespace wencove.conexion.model.dao
                     user.update_at = DateTime.Parse(read[6].ToString());
                     user.isactive = Convert.ToInt32(read[8].ToString());
                     user.lastlogin = DateTime.Parse(read[9].ToString());
+                    var dar = read[10].ToString();
+                    user.rol_id = dar == "" ? -1 : Convert.ToInt32(dar);
+                    user.name = read[11].ToString();
                     listUsers.Add(user);
                 }
             }
@@ -208,6 +210,65 @@ namespace wencove.conexion.model.dao
                 objConexion.getCon().Close();
                 objConexion.cerrarConexion();
             }
+        }
+
+
+        public User login(string name, string password)
+        {
+            bool hayRegistros;
+            string findUser = "select* from dk_users" + " where username='" + name + "'";
+            User user = new User();
+            try
+            {
+                comando = new SqlCommand(findUser, objConexion.getCon());
+                objConexion.getCon().Open();
+                SqlDataReader read = comando.ExecuteReader();
+                hayRegistros = read.Read();
+                if (hayRegistros)
+                {
+                    user.id = Convert.ToInt32(read[0].ToString());
+                    user.username = read[1].ToString();
+                    user.password = read[2].ToString();
+                    user.email = read[3].ToString();
+                    user.photo = read[4].ToString();
+                    user.created_at = DateTime.Parse(read[5].ToString());
+                    user.update_at = DateTime.Parse(read[6].ToString());
+                    user.isactive = Convert.ToInt32(read[8].ToString());
+                    user.lastlogin = DateTime.Parse(read[9].ToString());
+                    var dar = read[10].ToString();
+                    user.rol_id = dar == "" ? -1 : Convert.ToInt32(dar);
+                    user.estado = 99;
+
+                    if (Crypto.VerifyHashedPassword(user.password, password))
+                    {
+                        return user;
+                    }
+                    else
+                    {
+                        user.estado = 1;
+                        return null;
+                    }
+
+
+                }
+                else
+                {
+                    user.estado = 1;
+                    return null;
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            finally
+            {
+                objConexion.getCon().Close();
+                objConexion.cerrarConexion();
+            }
+
+            return null;
         }
         public static bool tienePrograma(int user_id, string programa)
         {
@@ -257,6 +318,7 @@ namespace wencove.conexion.model.dao
 
             return true;
         }
+
 
     }
 }

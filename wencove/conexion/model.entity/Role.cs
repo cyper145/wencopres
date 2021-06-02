@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace wencove.conexion.model.entity
+﻿namespace wencove.conexion.model.entity
 {
     public class Role
     {
@@ -11,6 +6,7 @@ namespace wencove.conexion.model.entity
         public string name { get; set; }
         public string description { get; set; }
         public int estado { get; set; }
+        public string funciones { get; set; }
         public Role()
         {
 
@@ -19,11 +15,17 @@ namespace wencove.conexion.model.entity
         {
             this.id = id;
         }
-        public Role(int role_id, string role_name, string user_descrition)
+        public Role(int id, string funciones)
+        {
+            this.id = id;
+            this.funciones = funciones;
+        }
+        public Role(int role_id, string role_name, string role_descrition, string role_funciones)
         {
             this.id = role_id;
             this.name = role_name;
-            this.description = user_descrition;      
+            this.description = role_descrition;
+            this.funciones = role_funciones;
         }
     }
 }

@@ -3,16 +3,19 @@ using DevExpress.Web.ASPxScheduler;
 using DevExpress.Web.Internal;
 using DevExpress.Web.Mvc;
 using DevExpress.XtraScheduler;
-using wencove.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.UI.WebControls;
 
-namespace wencove.Model {
-    public static class SchedulerHelper {
-        public static SchedulerSettings Settings {
-            get {
+namespace wencove.Model
+{
+    public static class SchedulerHelper
+    {
+        public static SchedulerSettings Settings
+        {
+            get
+            {
                 SchedulerSettings settings = new SchedulerSettings();
                 settings.Name = "scheduler";
 
@@ -56,7 +59,7 @@ namespace wencove.Model {
 
                 // DXCOMMENT: Map labels by their ids
                 settings.Storage.Appointments.Labels.Clear();
-                foreach(SchedulerLabel label in SchedulerLabelsHelper.GetItems())
+                foreach (SchedulerLabel label in SchedulerLabelsHelper.GetItems())
                     settings.Storage.Appointments.Labels.Add(label.Id, label.Name, label.Name, label.Color);
 
                 // DXCOMMENT: Configure resource mappings
@@ -94,29 +97,34 @@ namespace wencove.Model {
             }
         }
 
-        public static SchedulerDataSource GetSchedulerDataSource(List<long> selectedResourceIds) {
+        public static SchedulerDataSource GetSchedulerDataSource(List<long> selectedResourceIds)
+        {
             return new SchedulerDataSource(selectedResourceIds);
         }
 
-        public static void UpdateSchedulerDataSource() {
+        public static void UpdateSchedulerDataSource()
+        {
             SchedulerDataSource schedulerDataSource = new SchedulerDataSource(null);
             InsertAppointments(schedulerDataSource);
             UpdateAppointments(schedulerDataSource);
             RemoveAppointments(schedulerDataSource);
         }
-        static void InsertAppointments(SchedulerDataSource schedulerDataSource) {
+        static void InsertAppointments(SchedulerDataSource schedulerDataSource)
+        {
             SchedulerAppointment[] appointmentsToInsert = SchedulerExtension.GetAppointmentsToInsert<SchedulerAppointment>("scheduler",
                 schedulerDataSource.Appointments, schedulerDataSource.Resources,
                 Settings.Storage.Appointments, Settings.Storage.Resources);
             schedulerDataSource.InsertSchedulerAppointments(appointmentsToInsert.ToList());
         }
-        static void UpdateAppointments(SchedulerDataSource schedulerDataSource) {
+        static void UpdateAppointments(SchedulerDataSource schedulerDataSource)
+        {
             SchedulerAppointment[] appointmentsToUpdate = SchedulerExtension.GetAppointmentsToUpdate<SchedulerAppointment>("scheduler",
                 schedulerDataSource.Appointments, schedulerDataSource.Resources,
                 Settings.Storage.Appointments, Settings.Storage.Resources);
             schedulerDataSource.UpdateSchedulerAppointments(appointmentsToUpdate.ToList());
         }
-        static void RemoveAppointments(SchedulerDataSource schedulerDataSource) {
+        static void RemoveAppointments(SchedulerDataSource schedulerDataSource)
+        {
             SchedulerAppointment[] appointmentsToRemove = SchedulerExtension.GetAppointmentsToRemove<SchedulerAppointment>("scheduler",
                 schedulerDataSource.Appointments, schedulerDataSource.Resources,
                 Settings.Storage.Appointments, Settings.Storage.Resources);

@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+using System.Web.Helpers;
 using wencove.conexion.model.dao;
 using wencove.conexion.model.entity;
+using wencove.Model;
 
 namespace wencove.conexion.model.neg
 {
-     class UserNeg
+    class UserNeg
     {
         private UserDao objUserDao;
         public UserNeg()
@@ -18,10 +18,10 @@ namespace wencove.conexion.model.neg
         {
             return objUserDao.findAll();
         }
-        public void  create(User objUser)
+        public void create(User objUser)
         {
             bool verificacion;
-            
+
             //validar Nombre Alumno estado=2
             string nombre = objUser.username;
             if (nombre == null)
@@ -39,8 +39,11 @@ namespace wencove.conexion.model.neg
                     return;
                 }
             }
+            objUser.id = int.Parse(AuthHelper.generateID());
+            objUser.password = Crypto.HashPassword(objUser.password);
             //validar que no exista idAlumno repetido estado=5
             User objUserAux = new User();
+
             objUserAux.id = objUser.id;
 
             verificacion = !objUserDao.find(objUserAux);
@@ -53,7 +56,7 @@ namespace wencove.conexion.model.neg
             objUser.created_at = DateTime.Now;
             objUser.update_at = DateTime.Now;
             objUser.lastlogin = DateTime.Now;
-            
+
             objUserDao.create(objUser);
         }
 
@@ -66,30 +69,31 @@ namespace wencove.conexion.model.neg
             return objUserDao.find(id);
         }
 
-        public void update(User objAlumno)
+        public void update(User objUser)
         {
             bool verificacion;
 
             //validar Nombre Alumno estado=2
-            string nombre = objAlumno.username;
+            string nombre = objUser.username;
             if (nombre == null)
             {
-                objAlumno.estado = 20;
+                objUser.estado = 20;
                 return;
             }
             else
             {
-                nombre = objAlumno.username.Trim();
+                nombre = objUser.username.Trim();
                 verificacion = nombre.Length > 0 && nombre.Length <= 50;
                 if (!verificacion)
                 {
-                    objAlumno.estado = 2;
+                    objUser.estado = 2;
                     return;
                 }
             }
-            objAlumno.update_at = DateTime.Now;
-            objAlumno.estado = 99;
-            objUserDao.update(objAlumno);
+            objUser.password = Crypto.HashPassword(objUser.password);
+            objUser.update_at = DateTime.Now;
+            objUser.estado = 99;
+            objUserDao.update(objUser);
 
         }
 
@@ -108,16 +112,23 @@ namespace wencove.conexion.model.neg
             objUserDao.delete(obj);
         }
 
-
         public void DeleteUser(List<int> ids)
         {
 
 
-            ids.ForEach(elemet=>
-            {        
+            ids.ForEach(elemet =>
+            {
                 delete(find(elemet));
             });
-            
+
+        }
+
+
+        public User login(string name, string password)
+        {
+
+
+            return objUserDao.login(name, password);
         }
     }
 }

@@ -1,16 +1,23 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Web.Mvc;
-using System.Web.UI.WebControls;
+using wencove.conexion.model.entity;
+using wencove.conexion.model.neg;
 using wencove.Model;
-using System.Threading.Tasks;
+namespace wencove.Controllers
+{
+    public class AccountController : BaseController
+    {
 
-namespace wencove.Controllers {
-    public class AccountController : BaseController {
+
+        private UserNeg userNeg;
+        public AccountController()
+        {
+            userNeg = new UserNeg();
+        }
         // GET: /Account/SignIn
         [AllowAnonymous]
-        public ActionResult SignIn(string returnUrl) {
+        public ActionResult SignIn(string returnUrl)
+        {
             ViewBag.ReturnUrl = returnUrl;
             return View(new SignInViewModel() { RememberMe = true });
         }
@@ -19,15 +26,24 @@ namespace wencove.Controllers {
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public ActionResult SignIn(SignInViewModel model, string returnUrl) {
-            if(!ModelState.IsValid) {
+        public ActionResult SignIn(SignInViewModel model, string returnUrl)
+        {
+            if (!ModelState.IsValid)
+            {
                 return View(model);
             }
 
             // DXCOMMENT: You Authentication logic
-            if(AuthHelper.SignIn(model.UserName, model.Password))
-                return RedirectToAction("Index", "Home");
-            else {
+
+            User user = userNeg.login(model.UserName, model.Password);
+            if (user!=null)
+            {
+                AuthHelper.SignIn(model.UserName, model.Password,user.rol_id);
+                    return RedirectToAction("Index", "Home");
+            }
+               
+            else
+            {
                 SetErrorText("Invalid login attempt.");
                 ModelState.AddModelError("", ViewBag.GeneralError);
                 return View(model);
@@ -36,7 +52,8 @@ namespace wencove.Controllers {
 
         // GET: /Account/Register
         [AllowAnonymous]
-        public ActionResult Register() {
+        public ActionResult Register()
+        {
             return View();
         }
 
@@ -44,23 +61,50 @@ namespace wencove.Controllers {
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public ActionResult Register(RegisterViewModel model) {
-            if(ModelState.IsValid) {
-                // DXCOMMENT: Your Registration logic 
+        public ActionResult Register(RegisterViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+
+                User user = new User();
+                user.username = model.UserName;
+                user.email = model.Email;
+                user.password = AuthHelper.Encriptar(model.Password);
+                user.photo = "ddd";// falta           
+                user.id = int.Parse(AuthHelper.generateID());
+
+                try
+                {
+                    userNeg.create(user);
+                    return RedirectToAction("Index", "Home");
+                }
+                catch (Exception e)
+                {
+                    ViewData["EditError"] = e.Message;
+                }
+
+            }
+            else
+            {
+                ViewData["EditError"] = "porfavor , Corriga todos los errores.";
             }
 
             return View(model);
+
+
         }
 
         // POST: /Account/SignOut
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult SignOut() {
+        public ActionResult SignOut()
+        {
             AuthHelper.SignOut(); // DXCOMMENT: Your Signing out logic
             return RedirectToAction("Index", "Home");
         }
 
-        public ActionResult UserMenuItemPartial() {
+        public ActionResult UserMenuItemPartial()
+        {
             return PartialView("UserMenuItemPartial", AuthHelper.GetLoggedInUserInfo());
         }
     }

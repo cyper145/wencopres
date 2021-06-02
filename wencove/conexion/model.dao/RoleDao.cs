@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Web;
 using wencove.conexion.model.entity;
 namespace wencove.conexion.model.dao
 {
@@ -18,8 +16,8 @@ namespace wencove.conexion.model.dao
         }
         public void create(Role obj)
         {
-            
-            string create = "insert into dk_roles(id,name,description)values('" + obj.id + "','" + obj.name + "','" + obj.description  + "')";
+
+            string create = "insert into dk_roles(id,name,description)values('" + obj.id + "','" + obj.name + "','" + obj.description + "')";
             try
             {
                 comando = new SqlCommand(create, objConexion.getCon());
@@ -69,7 +67,7 @@ namespace wencove.conexion.model.dao
                 {
                     obj.id = Convert.ToInt32(read[0].ToString());
                     obj.name = read[1].ToString();
-                    obj.description = read[2].ToString();               
+                    obj.description = read[2].ToString();
                 }
                 else
                 {
@@ -103,7 +101,7 @@ namespace wencove.conexion.model.dao
                 {
                     role.id = Convert.ToInt32(read[0].ToString());
                     role.name = read[1].ToString();
-                    role.description = read[2].ToString();                
+                    role.description = read[2].ToString();
                     return role;
                 }
                 else
@@ -140,7 +138,7 @@ namespace wencove.conexion.model.dao
                     user.id = Convert.ToInt32(read[0].ToString());
                     user.name = read[1].ToString();
                     user.description = read[2].ToString();
-                   
+
                     listUsers.Add(user);
                 }
             }
@@ -158,8 +156,8 @@ namespace wencove.conexion.model.dao
         }
         public void update(Role obj)
         {
-          
-            string update = "update  dk_roles set username='" + obj.name + "',password='" + obj.description +  "' where id='" + obj.id + "'";
+
+            string update = "update  dk_roles set name='" + obj.name + "',description='" + obj.description + "' where id='" + obj.id + "'";
             try
             {
                 comando = new SqlCommand(update, objConexion.getCon());
@@ -176,5 +174,121 @@ namespace wencove.conexion.model.dao
                 objConexion.cerrarConexion();
             }
         }
+
+
+        public List<ModuloAsignacion> listAsignation(int role_id)
+        {
+            List<ModuloAsignacion> listModuloAsignacion = new List<ModuloAsignacion>();
+            string findAll = "SELECT m.*,p.* , o.* FROM  dk_modulos m INNER JOIN dk_programas p ON m.id = p.module_id INNER JOIN dk_operacion_programa op ON op.programa_id = p.id INNER JOIN dk_operaciones o ON o.id = op.operacion_id ";
+            try
+            {
+                comando = new SqlCommand(findAll, objConexion.getCon());
+                objConexion.getCon().Open();
+                SqlDataReader read = comando.ExecuteReader();
+                ModuloAsignacion current_module;
+                ProgramaAsignacion current_programa;
+                OperacionAsignacion current_operacion;
+                while (read.Read())
+                {
+
+                    string name = read[1].ToString();
+                    current_module = listModuloAsignacion.Find(eleme => eleme.name == name);// busca el nombre
+                    if (current_module == null)
+                    {
+                        current_module = new ModuloAsignacion(Convert.ToInt32(read[0].ToString()), name, read[3].ToString());
+                        current_programa = new ProgramaAsignacion(Convert.ToInt32(read[4].ToString()), read[5].ToString(), read[6].ToString());
+                        current_operacion = new OperacionAsignacion(Convert.ToInt32(read[8].ToString()), read[9].ToString(), read[10].ToString());
+                        current_programa.operacions.Add(current_operacion);
+                        current_module.programas.Add(current_programa);
+                        listModuloAsignacion.Add(current_module);
+                    }
+                    else
+                    {
+                        current_programa = current_module.programas.Find(x => x.id == Convert.ToInt32(read[4].ToString()));
+                        if (current_programa == null)
+                        {
+                            current_programa = new ProgramaAsignacion(Convert.ToInt32(read[4].ToString()), read[5].ToString(), read[6].ToString());
+                            current_operacion = new OperacionAsignacion(Convert.ToInt32(read[8].ToString()), read[9].ToString(), read[10].ToString());
+                            current_programa.operacions.Add(current_operacion);
+                            current_module.programas.Add(current_programa);
+                        }
+                        else
+                        {
+                            current_operacion = new OperacionAsignacion(Convert.ToInt32(read[8].ToString()), read[9].ToString(), read[10].ToString());
+                            current_programa.operacions.Add(current_operacion);
+                        }
+
+                    }
+
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            finally
+            {
+                objConexion.getCon().Close();
+                objConexion.cerrarConexion();
+            }
+            return listModuloAsignacion;
+        }
+
+        public string listFunciones(int role_id)
+        {
+            bool hayRegistros;
+            string funciones = "";
+            string find = "SELECT r.asignaciones FROM  dk_roles r " + "where id='" + role_id + "'";
+            try
+            {
+                comando = new SqlCommand(find, objConexion.getCon());
+                objConexion.getCon().Open();
+                SqlDataReader read = comando.ExecuteReader();
+                hayRegistros = read.Read();
+
+                if (hayRegistros)
+                {
+                    funciones = read[0].ToString();
+
+                    return funciones;
+                }
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            finally
+            {
+                objConexion.getCon().Close();
+                objConexion.cerrarConexion();
+            }
+            return funciones;
+        }
+
+        public void updateFunctiones(Role obj)
+        {
+
+            string update = "update  dk_roles set asignaciones='" + obj.funciones + "' where id='" + obj.id + "'";
+            try
+            {
+                comando = new SqlCommand(update, objConexion.getCon());
+                objConexion.getCon().Open();
+                comando.ExecuteNonQuery();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                objConexion.getCon().Close();
+                objConexion.cerrarConexion();
+            }
+        }
+
     }
+
 }

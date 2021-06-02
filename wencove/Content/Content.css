@@ -424,4 +424,13 @@ blockquote footer::before
     {
         display: none !important;
     }
+    
+}
+
+/*propios*/
+form.asignation-form {
+    padding: 30px 40px ;
+}
+.dxgvControl_Office365 .dxgvTable_Office365 .dxgvFocusedRow_Office365 a, .dxgvControl_Office365 .dxgvTable_Office365 .dxgvFocusedGroupRow_Office365 a:hover {
+    color: white;
 }

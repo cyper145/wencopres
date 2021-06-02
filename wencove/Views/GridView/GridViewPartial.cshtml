@@ -1,4 +1,5 @@
 @using wencove.conexion.model.entity;
+@using wencove.Code;
 @using wencove.Model;
 @model List<User>
 
@@ -75,6 +76,12 @@
         }).RequiredMarkDisplayMode = FieldRequiredMarkMode.Required; ;
         gridViewSettings.EditFormLayoutProperties.Items.Add(itemSettings =>
         {
+            itemSettings.ColumnName = "rol_id";
+
+
+        });
+        gridViewSettings.EditFormLayoutProperties.Items.Add(itemSettings =>
+        {
             itemSettings.ColumnName = "isactive";
 
 
@@ -101,12 +108,7 @@
         gridViewSettings.CommandColumn.VisibleIndex = 0;
         gridViewSettings.CommandColumn.Width = Unit.Pixel(52);
 
-        gridViewSettings.Columns.Add(columnSettings =>
-        {
-            columnSettings.FieldName = "id";
-            columnSettings.Visible = false;
-            columnSettings.ShowInCustomizationForm = false;
-        });
+
         gridViewSettings.Columns.Add(columnSettings =>
         {
             columnSettings.FieldName = "username";
@@ -128,7 +130,7 @@
             columnSettings.Settings.SortMode = DevExpress.XtraGrid.ColumnSortMode.DisplayText;
         });
 
-        
+
         gridViewSettings.Columns.Add(columnSettings =>
         {
             columnSettings.FieldName = "password";
@@ -196,6 +198,28 @@
         {
             columnSettings.FieldName = "email";
             columnSettings.Width = Unit.Pixel(230);
+        });
+        gridViewSettings.Columns.Add(columnSettings =>
+        {
+            columnSettings.FieldName = "name";
+            columnSettings.Width = Unit.Pixel(230);
+        });
+        gridViewSettings.Columns.Add(columnSettings =>
+        {
+            columnSettings.FieldName = "rol_id";
+
+            columnSettings.Caption = "Rol";
+            columnSettings.Visible = false;
+            columnSettings.ColumnType = MVCxGridViewColumnType.ComboBox;
+
+            var comboBoxProperties = columnSettings.PropertiesEdit as ComboBoxProperties;
+            comboBoxProperties.ValueField = "id";
+            comboBoxProperties.TextField = "name";
+            comboBoxProperties.ValueType = typeof(long);
+            comboBoxProperties.ItemImage.Width = Unit.Pixel(32);
+            comboBoxProperties.ItemImage.Height = Unit.Pixel(32);
+            comboBoxProperties.DataSource = RoleHelper.getroles();
+
         });
 
         /*

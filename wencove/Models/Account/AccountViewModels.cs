@@ -1,8 +1,9 @@
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace wencove.Model {
-    public class SignInViewModel {
+namespace wencove.Model
+{
+    public class SignInViewModel
+    {
         [Required]
         [Display(Name = "User name")]
         public string UserName { get; set; }
@@ -16,16 +17,17 @@ namespace wencove.Model {
         public bool? RememberMe { get; set; }
     }
 
-    public class RegisterViewModel {
+    public class RegisterViewModel
+    {
         [Required]
         [Display(Name = "User name")]
         public string UserName { get; set; }
 
-        [Required]
+
         [Display(Name = "First name")]
         public string FirstName { get; set; }
 
-        [Required]
+
         [Display(Name = "Last name")]
         public string LastName { get; set; }
 

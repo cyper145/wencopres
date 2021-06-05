@@ -23,9 +23,8 @@ namespace wencove.Controllers
         public ActionResult GridViewDetailsPage(int id)
         {
             ViewBag.ShowBackButton = true;
-            User objALumno = new User(id);
-            userNeg.find(objALumno);
-            return View(objALumno);
+          
+            return View(GridViewHelper.getEmpresas());
         }
         public ActionResult GridViewPartial()
         {

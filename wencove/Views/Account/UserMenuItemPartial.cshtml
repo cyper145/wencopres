@@ -8,15 +8,23 @@
         <img id="AvatarUrl" src="@Url.Content(avatarUrl)" />
     </div>
     <div class="text-container">
-        @Html.DevExpress().Label(labelSettings => {
+        @Html.DevExpress().Label(labelSettings =>
+        {
            labelSettings.Name = "userNameLabel";
            labelSettings.Text = Model.UserName + " (" + Model.FirstName + " " + Model.LastName + ")";
            labelSettings.ControlStyle.CssClass = "user-name";
        }).GetHtml()
-       @Html.DevExpress().Label(labelSettings => {
-           labelSettings.Name = "emailLabel";
-           labelSettings.Text = Model.Email;
-           labelSettings.ControlStyle.CssClass = "email";
+        @Html.DevExpress().Label(labelSettings =>
+        {
+            labelSettings.Name = "emailLabel";
+            labelSettings.Text = Model.Email;
+            labelSettings.ControlStyle.CssClass = "email";
+        }).GetHtml()
+        @Html.DevExpress().Label(labelSettings =>
+        {
+           labelSettings.Name = "empresaLabel";
+           labelSettings.Text = Model.Empresa;
+           labelSettings.ControlStyle.CssClass = "user-name";
        }).GetHtml()
     </div>
 </div>

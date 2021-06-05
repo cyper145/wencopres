@@ -1,4 +1,5 @@
 @using wencove.Model
+@using wencove.conexion.model.neg
 @model SignInViewModel
 @{
     ViewBag.Title = "Sign In";
@@ -14,6 +15,9 @@
         @Html.Partial("TabControlPartial")
 
         @using(Html.BeginForm("SignIn", "Account", FormMethod.Post)) {
+
+
+            EmpresaNeg em = new EmpresaNeg();
             @Html.AntiForgeryToken()
 
             @Html.DevExpress().FormLayout(settings => {
@@ -29,6 +33,23 @@
                i.GroupBoxDecoration = GroupBoxDecoration.None;
                i.Paddings.Padding = Unit.Pixel(16);
 
+           });
+           groupItem.Items.Add(m => m.Empresa, i =>
+           {
+               i.HelpText = "Seleccione una empresa";
+               i.NestedExtension().ComboBox(s =>
+               {
+                   s.Width = Unit.Percentage(100);
+                   s.ShowModelErrors = true;
+                   s.Properties.ValidationSettings.Display = Display.Dynamic;
+                   s.Properties.ValidationSettings.SetFocusOnError = true;
+                   s.Properties.ValidationSettings.ErrorTextPosition = ErrorTextPosition.Bottom;
+                   s.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.ImageWithText;
+                   s.Properties.DataSource = em.findAll();
+                   s.Properties.ValueField = "codigoEmpresa";
+                   s.Properties.TextField = "RazonSocial";
+
+               });
            });
            groupItem.Items.Add(m => m.UserName, i => {
                i.HelpText = "Please, enter your login name";

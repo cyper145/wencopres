@@ -1,0 +1,12 @@
+D:\ERP\wencove\datos\bin\Debug\net5.0\datos.deps.json
+D:\ERP\wencove\datos\bin\Debug\net5.0\datos.dll
+D:\ERP\wencove\datos\bin\Debug\net5.0\ref\datos.dll
+D:\ERP\wencove\datos\bin\Debug\net5.0\datos.pdb
+D:\ERP\wencove\datos\obj\Debug\net5.0\datos.csprojAssemblyReference.cache
+D:\ERP\wencove\datos\obj\Debug\net5.0\datos.GeneratedMSBuildEditorConfig.editorconfig
+D:\ERP\wencove\datos\obj\Debug\net5.0\datos.AssemblyInfoInputs.cache
+D:\ERP\wencove\datos\obj\Debug\net5.0\datos.AssemblyInfo.cs
+D:\ERP\wencove\datos\obj\Debug\net5.0\datos.csproj.CoreCompileInputs.cache
+D:\ERP\wencove\datos\obj\Debug\net5.0\datos.dll
+D:\ERP\wencove\datos\obj\Debug\net5.0\ref\datos.dll
+D:\ERP\wencove\datos\obj\Debug\net5.0\datos.pdb

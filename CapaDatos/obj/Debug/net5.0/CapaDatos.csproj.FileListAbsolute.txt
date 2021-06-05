@@ -1,0 +1,12 @@
+D:\ERP\wencove\CapaDatos\bin\Debug\net5.0\CapaDatos.deps.json
+D:\ERP\wencove\CapaDatos\bin\Debug\net5.0\CapaDatos.dll
+D:\ERP\wencove\CapaDatos\bin\Debug\net5.0\ref\CapaDatos.dll
+D:\ERP\wencove\CapaDatos\bin\Debug\net5.0\CapaDatos.pdb
+D:\ERP\wencove\CapaDatos\obj\Debug\net5.0\CapaDatos.csprojAssemblyReference.cache
+D:\ERP\wencove\CapaDatos\obj\Debug\net5.0\CapaDatos.GeneratedMSBuildEditorConfig.editorconfig
+D:\ERP\wencove\CapaDatos\obj\Debug\net5.0\CapaDatos.AssemblyInfoInputs.cache
+D:\ERP\wencove\CapaDatos\obj\Debug\net5.0\CapaDatos.AssemblyInfo.cs
+D:\ERP\wencove\CapaDatos\obj\Debug\net5.0\CapaDatos.csproj.CoreCompileInputs.cache
+D:\ERP\wencove\CapaDatos\obj\Debug\net5.0\CapaDatos.dll
+D:\ERP\wencove\CapaDatos\obj\Debug\net5.0\ref\CapaDatos.dll
+D:\ERP\wencove\CapaDatos\obj\Debug\net5.0\CapaDatos.pdb

@@ -7,10 +7,14 @@ namespace wencove.conexion.model.dao
         //singleton
         private static Conexion objConexion = null;
         private SqlConnection con;
-
+        private string nameBaseDatos ;
         private Conexion()
+        {          
+            con = new SqlConnection(this.cadenaConexion("BDWENCO"));
+        }
+        private Conexion(string nameBaseDatos)
         {
-            con = new SqlConnection("Data Source=DESKTOP-6OG4V32\\SQLEXPRESS;Initial Catalog=BDWENCO;Integrated Security=True");
+            con = new SqlConnection(this.cadenaConexion(nameBaseDatos));
         }
 
         public static Conexion saberEstado()
@@ -21,7 +25,14 @@ namespace wencove.conexion.model.dao
             }
             return objConexion;
         }
-
+        public static Conexion saberEstado(string  nameBasedatos)
+        {
+            if (objConexion == null)
+            {
+                objConexion = new Conexion(nameBasedatos);
+            }
+            return objConexion;
+        }
         public SqlConnection getCon()
         {
             return con;
@@ -30,6 +41,11 @@ namespace wencove.conexion.model.dao
         public void cerrarConexion()
         {
             objConexion = null;
+        }
+
+        private string cadenaConexion(string nameBaseDatos)
+        {
+            return $"Data Source=DESKTOP-6OG4V32\\SQLEXPRESS;Initial Catalog={nameBaseDatos}; Integrated Security=True";
         }
     }
 }

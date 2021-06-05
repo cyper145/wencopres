@@ -264,12 +264,15 @@
     <Compile Include="Code\DBContext.cs" />
     <Compile Include="Code\RoleHelper.cs" />
     <Compile Include="conexion\model.dao\Conexion.cs" />
+    <Compile Include="conexion\model.dao\EmpresaDao.cs" />
     <Compile Include="conexion\model.dao\Obligatorio.cs" />
     <Compile Include="conexion\model.dao\RoleDao.cs" />
     <Compile Include="conexion\model.dao\UserDao.cs" />
+    <Compile Include="conexion\model.entity\Empresa.cs" />
+    <Compile Include="conexion\model.entity\Modulo.cs" />
     <Compile Include="conexion\model.entity\Role.cs" />
     <Compile Include="conexion\model.entity\User.cs" />
-    <Compile Include="conexion\model.entity\Modulo.cs" />
+    <Compile Include="conexion\model.neg\EmpresaNeg.cs" />
     <Compile Include="conexion\model.neg\RoleNeg.cs" />
     <Compile Include="conexion\model.neg\UserNeg.cs" />
     <Compile Include="Controllers\AccountController.cs" />
@@ -288,7 +291,6 @@
     <Compile Include="Models\Scheduler\SchedulerHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

@@ -23,6 +23,12 @@ namespace wencove.Model
             UserNeg userNeg = new UserNeg();
             return userNeg.findAll();
         }
+
+        public static List<Empresa> getEmpresas()
+        {
+            EmpresaNeg userNeg = new EmpresaNeg();
+            return userNeg.findAll();
+        }
         public static List<Contact> GetCustomers()
         {
             return DataProvider.GetContacts();

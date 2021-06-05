@@ -38,7 +38,7 @@ namespace wencove.Controllers
             User user = userNeg.login(model.UserName, model.Password);
             if (user!=null)
             {
-                AuthHelper.SignIn(model.UserName, model.Password,user.rol_id);
+                AuthHelper.SignIn(model.UserName, model.Password,user.rol_id, model.Empresa);
                     return RedirectToAction("Index", "Home");
             }
                

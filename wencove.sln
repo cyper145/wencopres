@@ -5,6 +5,10 @@ VisualStudioVersion = 16.0.31205.134
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "wencove", "wencove\wencove.csproj", "{A2B21694-9891-4509-A5B1-70C5362AECFA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CapaDatos", "CapaDatos\CapaDatos.csproj", "{96744611-7A47-4D0C-BB54-2FEE95F46319}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "datos", "datos\datos.csproj", "{D7C0B202-3803-454F-B1AA-2A1BB18E26F5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{A2B21694-9891-4509-A5B1-70C5362AECFA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A2B21694-9891-4509-A5B1-70C5362AECFA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A2B21694-9891-4509-A5B1-70C5362AECFA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{96744611-7A47-4D0C-BB54-2FEE95F46319}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{96744611-7A47-4D0C-BB54-2FEE95F46319}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{96744611-7A47-4D0C-BB54-2FEE95F46319}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{96744611-7A47-4D0C-BB54-2FEE95F46319}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D7C0B202-3803-454F-B1AA-2A1BB18E26F5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D7C0B202-3803-454F-B1AA-2A1BB18E26F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D7C0B202-3803-454F-B1AA-2A1BB18E26F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D7C0B202-3803-454F-B1AA-2A1BB18E26F5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

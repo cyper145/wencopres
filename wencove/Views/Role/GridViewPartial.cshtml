@@ -7,6 +7,7 @@
     var gridView = Html.DevExpress().GridView(gridViewSettings =>
     {
         gridViewSettings.Name = "gridView";
+       
         gridViewSettings.KeyFieldName = "id";
 
         gridViewSettings.CallbackRouteValues = new { Controller = "role", Action = "GridViewPartial" };
@@ -127,17 +128,17 @@
             columnSettings.Width = System.Web.UI.WebControls.Unit.Pixel(300);
             columnSettings.CellStyle.HorizontalAlign = HorizontalAlign.Left;
             columnSettings.ExportCellStyle.HorizontalAlign = HorizontalAlign.Left;
-          
+
             columnSettings.SetDataItemTemplateContent(c =>
             {
-                
+
                 Html.DevExpress().HyperLink(hyperLinkSettings =>
                 {
                     hyperLinkSettings.Properties.Text = "Modulos";
                     hyperLinkSettings.Properties.ImageUrl= "Content/Images/edit.svg";
                     hyperLinkSettings.Properties.ImageHeight = Unit.Pixel(15);
                     hyperLinkSettings.ToolTip = "Editar Funciones";
-                    
+
                     hyperLinkSettings.NavigateUrl = Url.Action("GridViewDetailsPage", "role", new { id = DataBinder.Eval(c.DataItem, "id") });
                 }).Render();
             });

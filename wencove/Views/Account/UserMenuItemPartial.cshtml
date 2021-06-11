@@ -15,15 +15,16 @@
            labelSettings.ControlStyle.CssClass = "user-name";
        }).GetHtml()
         @Html.DevExpress().Label(labelSettings =>
-        {
-            labelSettings.Name = "emailLabel";
-            labelSettings.Text = Model.Email;
-            labelSettings.ControlStyle.CssClass = "email";
-        }).GetHtml()
+       {
+           labelSettings.Name = "RolLabel";
+           labelSettings.Text ="Rol: " + Model.Rol;
+           labelSettings.ControlStyle.CssClass = "email";
+       }).GetHtml()
+
         @Html.DevExpress().Label(labelSettings =>
         {
            labelSettings.Name = "empresaLabel";
-           labelSettings.Text = Model.Empresa;
+           labelSettings.Text ="Empresa: " + Model.Empresa;
            labelSettings.ControlStyle.CssClass = "user-name";
        }).GetHtml()
     </div>

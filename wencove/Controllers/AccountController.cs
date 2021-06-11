@@ -35,10 +35,10 @@ namespace wencove.Controllers
 
             // DXCOMMENT: You Authentication logic
 
-            User user = userNeg.login(model.UserName, model.Password);
+            User user = userNeg.login(model.UserName, model.Password, model.Empresa);
             if (user!=null)
             {
-                AuthHelper.SignIn(model.UserName, model.Password,user.rol_id, model.Empresa);
+                AuthHelper.SignIn(model.UserName, model.Password,user.rol_id, user.empresa, user.rol);
                     return RedirectToAction("Index", "Home");
             }
                

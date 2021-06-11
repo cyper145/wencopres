@@ -149,13 +149,10 @@ namespace wencove.conexion.model.dao
             return null;
         }
 
-
-
         public List<User> findAll()
         {
             List<User> listUsers = new List<User>();
-
-            string findAll = "select u.*,r.name  from dk_users u left join dk_roles r on u.rol_id=r.id";
+            string findAll = consultaLogin();
             try
             {
                 comando = new SqlCommand(findAll, objConexion.getCon());
@@ -163,25 +160,35 @@ namespace wencove.conexion.model.dao
                 SqlDataReader read = comando.ExecuteReader();
                 while (read.Read())
                 {
-                    User user = new User();
-                    user.id = Convert.ToInt32(read[0].ToString());
-                    user.username = read[1].ToString();
-                    user.password = read[2].ToString();
-                    user.email = read[3].ToString();
-                    user.photo = read[4].ToString();
-                    user.created_at = DateTime.Parse(read[5].ToString());
-                    user.update_at = DateTime.Parse(read[6].ToString());
-                    user.isactive = Convert.ToInt32(read[8].ToString());
-                    user.lastlogin = DateTime.Parse(read[9].ToString());
-                    var dar = read[10].ToString();
-                    user.rol_id = dar == "" ? -1 : Convert.ToInt32(dar);
-                    user.name = read[11].ToString();
-                    listUsers.Add(user);
+                    int id = Convert.ToInt32(read[0].ToString());
+                    User userTemp = listUsers.Find(X => X.id == id);
+                    if (listUsers.Find(X=>X.id == Convert.ToInt32(read[0].ToString())) == null)
+                    {
+                        User user = new User();
+                        user.id = id;
+                        user.username = read[1].ToString();
+                        user.password = read[2].ToString();
+                        user.email = read[3].ToString();
+                        user.photo = read[4].ToString();
+                        user.created_at = DateTime.Parse(read[5].ToString());
+                        user.update_at = DateTime.Parse(read[6].ToString());
+                        user.isactive = Convert.ToInt32(read[8].ToString());
+                        user.lastlogin = DateTime.Parse(read[9].ToString());
+                        var dar = read[10].ToString();
+                        user.rol_id = dar == "" ? -1 : Convert.ToInt32(dar);
+                        user.rol = read[11].ToString();
+                        user.empresa = read[12].ToString();
+                        listUsers.Add(user);
+                    }
+                    else
+                    {
+                        userTemp.rol +=" - " +read[11].ToString();
+                        userTemp.empresa +=" - "+ read[12].ToString();
+                    }                   
                 }
             }
             catch (Exception)
             {
-
                 throw;
             }
             finally
@@ -212,11 +219,10 @@ namespace wencove.conexion.model.dao
             }
         }
 
-
-        public User login(string name, string password)
+        public User login(string name, string password, string codEmpresa)
         {
             bool hayRegistros;
-            string findUser = "select* from dk_users" + " where username='" + name + "'";
+            string findUser =consultaLogin(name, password, codEmpresa) ;
             User user = new User();
             try
             {
@@ -236,9 +242,10 @@ namespace wencove.conexion.model.dao
                     user.isactive = Convert.ToInt32(read[8].ToString());
                     user.lastlogin = DateTime.Parse(read[9].ToString());
                     var dar = read[10].ToString();
-                    user.rol_id = dar == "" ? -1 : Convert.ToInt32(dar);
+                    user.rol_id = dar == "" ? -1 : Convert.ToInt32(dar);// detalle cuando aya varios roles cual escoger
+                    user.rol = read[11].ToString();
+                    user.empresa = read[12].ToString();
                     user.estado = 99;
-
                     if (Crypto.VerifyHashedPassword(user.password, password))
                     {
                         return user;
@@ -248,8 +255,6 @@ namespace wencove.conexion.model.dao
                         user.estado = 1;
                         return null;
                     }
-
-
                 }
                 else
                 {
@@ -259,7 +264,6 @@ namespace wencove.conexion.model.dao
             }
             catch (Exception)
             {
-
                 throw;
             }
             finally
@@ -269,6 +273,18 @@ namespace wencove.conexion.model.dao
             }
 
             return null;
+        }
+      
+        
+        private string consultaLogin(string name, string password, string codEmpresa)
+        {
+            string  consulta = "select U.*, r.name, e.EMP_RAZON_NOMBRE_NEW  from dk_users as U inner join dk_empresa_rol_user eu on U.id=eu.user_id inner join EMPRESA e on eu.cod_empres = e.EMP_CODIGO inner join dk_roles r on eu.rol_id = r.id where U.username='" + name + "'" + "AND"+ " e.EMP_CODIGO = '" + codEmpresa + "'" ;
+            return consulta;
+        }
+        private string consultaLogin()
+        {
+            string consulta = "select U.*, r.name, e.EMP_RAZON_NOMBRE_NEW  from dk_users as U left join dk_empresa_rol_user eu on U.id=eu.user_id left join EMPRESA e on eu.cod_empres = e.EMP_CODIGO left join dk_roles r on eu.rol_id = r.id ";
+            return consulta;
         }
         public static bool tienePrograma(int user_id, string programa)
         {

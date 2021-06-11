@@ -1,4 +1,8 @@
+using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
 using System.Web.Mvc;
 using wencove.conexion.model.entity;
 using wencove.conexion.model.neg;
@@ -23,9 +27,76 @@ namespace wencove.Controllers
         public ActionResult GridViewDetailsPage(int id)
         {
             ViewBag.ShowBackButton = true;
-          
+
             return View(GridViewHelper.getEmpresas());
         }
+
+        public ActionResult GridViewRolPage(int id)
+        {
+            ViewBag.ShowBackButton = true;
+
+            return View(GridViewHelper.getEmpresas());
+        }
+
+
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public ActionResult recibirdataEmpresa(FormCollection data)
+        {
+
+            int rol_id = Convert.ToInt32(data["rol"]);
+            string value4 = data["__RequestVerificationToken"];
+
+            string value2 = HttpUtility.HtmlDecode(data["dark"]);
+            DatatreeView htmlAttributes =
+            JsonConvert.DeserializeObject<DatatreeView>(value2);
+            string datad = htmlAttributes.nodesState[2].ToString();
+            Dictionary<string, string> nodes = JsonConvert.DeserializeObject<Dictionary<string, string>>(datad);
+
+            nodes = nodes.OrderBy(x => x.Key).ToDictionary(x => x.Key, x => x.Value);
+
+            List<NodeModule> nodeModules = new List<NodeModule>();
+            NodeModule currentModule;
+            NodePrograma currentPrograma = null;
+            NodeOperacion currentOperacion;
+            foreach (var entry in nodes)
+            {
+                // igual que cargar la data para subir al treeview
+                // System.Console.WriteLine(entry.Key + ":" + entry.Value);
+                List<String> dataniveles = entry.Key.Split('_').ToList();
+
+                currentModule = nodeModules.Find(x => x.name == dataniveles[0]);
+                switch (dataniveles.Count)
+                {
+
+                    case 1:
+                        currentModule = new NodeModule(entry.Key, entry.Value);
+                        nodeModules.Add(currentModule);
+                        break;
+                    case 2:
+                        currentPrograma = new NodePrograma(entry.Key, entry.Value);
+                        currentModule.programas.Add(currentPrograma);
+                        break;
+                    case 3:
+                        currentOperacion = new NodeOperacion(entry.Key, entry.Value);
+                        currentPrograma.operacions.Add(currentOperacion);
+                        break;
+                }
+            }
+            string funciones = JsonConvert.SerializeObject(nodeModules);
+
+            //negocio.update(rol_id, funciones);
+          
+            return RedirectToAction("Index", "Role");
+        }
+        public ActionResult GridViewEmpresaPage(int id)
+        {
+            ViewBag.ShowBackButton = true;
+
+            return View(GridViewHelper.getEmpresas());
+        }
+
         public ActionResult GridViewPartial()
         {
             return PartialView("GridViewPartial", GridViewHelper.getUsers());

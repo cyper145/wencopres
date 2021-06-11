@@ -19,6 +19,8 @@ namespace wencove.conexion.model.entity
         public int rol_id { get; set; }
         public String name { get; set; }
         public string message { get; set; }
+        public string empresa { get; set; }
+        public string rol { get; set; }
         public User()
         {
 

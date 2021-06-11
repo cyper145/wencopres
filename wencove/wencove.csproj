@@ -249,6 +249,8 @@
     <Content Include="Views\partialGeneral\LeftPanelPartial.cshtml" />
     <Content Include="Views\Role\GridViewPartial.cshtml" />
     <Content Include="Views\Role\GridViewDetailsPage.cshtml" />
+    <Content Include="Views\GridView\GridViewRolPage.cshtml" />
+    <Content Include="Views\GridView\GridViewEmpresaPage.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -263,11 +265,13 @@
     <Compile Include="Code\AuthHelper.cs" />
     <Compile Include="Code\DBContext.cs" />
     <Compile Include="Code\RoleHelper.cs" />
+    <Compile Include="conexion\model.dao\ArticuloDao.cs" />
     <Compile Include="conexion\model.dao\Conexion.cs" />
     <Compile Include="conexion\model.dao\EmpresaDao.cs" />
     <Compile Include="conexion\model.dao\Obligatorio.cs" />
     <Compile Include="conexion\model.dao\RoleDao.cs" />
     <Compile Include="conexion\model.dao\UserDao.cs" />
+    <Compile Include="conexion\model.entity\Articulo.cs" />
     <Compile Include="conexion\model.entity\Empresa.cs" />
     <Compile Include="conexion\model.entity\Modulo.cs" />
     <Compile Include="conexion\model.entity\Role.cs" />
@@ -282,6 +286,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\RoleController.cs" />
     <Compile Include="Controllers\SchedulerController.cs" />
+    <Compile Include="Filters\VerificarSession.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

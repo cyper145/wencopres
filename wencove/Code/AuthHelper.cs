@@ -11,13 +11,15 @@ namespace wencove.Model
         public string Email { get; set; }
         public string AvatarUrl { get; set; }
         public string Empresa { get; set; }
+        public string Rol { get; set; }
+  
     }
 
     public static class AuthHelper
     {
-        public static bool SignIn(string userName, string password , int rol_id ,string empresa)
+        public static bool SignIn(string userName, string password , int rol_id ,string empresa, string rol)
         {
-            HttpContext.Current.Session["User"] = CreateDefualtUser(userName, empresa);
+            HttpContext.Current.Session["User"] = CreateDefualtUser(userName, empresa, rol);
             HttpContext.Current.Session["Rol"] = rol_id; // Mock user data
             return true;
         }
@@ -35,7 +37,7 @@ namespace wencove.Model
         {
             return HttpContext.Current.Session["User"] as ApplicationUser;
         }
-        private static ApplicationUser CreateDefualtUser(string username,string empresa )
+        private static ApplicationUser CreateDefualtUser(string username,string empresa, string rol )
         {
             return new ApplicationUser
             {
@@ -45,6 +47,7 @@ namespace wencove.Model
                 Email = username,
                 AvatarUrl = "~/Content/Photo/Alberto_Alonso.jpg",
                 Empresa = empresa,
+                Rol=rol
             };
         }
         public static string Encriptar(this string _cadenaAencriptar)

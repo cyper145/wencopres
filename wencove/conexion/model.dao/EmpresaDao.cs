@@ -31,7 +31,7 @@ namespace wencove.conexion.model.dao
                 {
                     Empresa user = new Empresa();              
                     user.codigoEmpresa = read[0].ToString();
-                    user.RazonSocial = read[1].ToString();
+                    user.RazonSocial = read[2].ToString();
 
                     listUsers.Add(user);
                 }

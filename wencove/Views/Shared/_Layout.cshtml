@@ -40,9 +40,12 @@
     </script>
 </head>
 <body>
-    @using(Html.BeginForm("SignOut", "Account", FormMethod.Post, new { id = "signOutForm" })) {
-        @Html.AntiForgeryToken();
+   
+    @using (Html.BeginForm("SignOut", "Account", FormMethod.Post, new { id = "signOutForm" })) {
+            if (AuthHelper.IsAuthenticated()) { @Html.AntiForgeryToken();
+        }
     }
+
     <div class="content-wrapper">
         @Html.DevExpress().Panel(settings => {
         settings.Name = "headerPanel";
@@ -150,11 +153,7 @@
                             subItem.Text = "Sign in";
                             subItem.NavigateUrl = "~/Account/SignIn";
                         });
-                        item.Items.Add(subItem => {
-                            subItem.Name = "RegisterItem";
-                            subItem.Text = "Register";
-                            subItem.NavigateUrl = "~/Account/Register";
-                        });
+                      
                     }
                 });
                 if(IsSectionDefined("RightPanelContent")) {

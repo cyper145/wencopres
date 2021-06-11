@@ -16,7 +16,6 @@
 
         @using(Html.BeginForm("SignIn", "Account", FormMethod.Post)) {
 
-
             EmpresaNeg em = new EmpresaNeg();
             @Html.AntiForgeryToken()
 
@@ -119,7 +118,7 @@
                i.NestedExtension().Button(s => {
                    s.Name = "SignInButton";
                    s.Width = Unit.Pixel(200);
-                   s.Text = "Log In";
+                   s.Text = "Login";
                    s.UseSubmitBehavior = true;
                });
            });

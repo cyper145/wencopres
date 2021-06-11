@@ -124,11 +124,11 @@ namespace wencove.conexion.model.neg
         }
 
 
-        public User login(string name, string password)
+        public User login(string name, string password, string codEmpresa)
         {
 
 
-            return objUserDao.login(name, password);
+            return objUserDao.login(name, password, codEmpresa);
         }
     }
 }

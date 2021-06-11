@@ -24,8 +24,7 @@
 
 <div class="formLayout-verticalAlign">
     <div class="formLayout-container">
-        @Html.Partial("TabControlPartial")
-
+       
         @using (Html.BeginForm("Register", "Account", FormMethod.Post))
         {
             @Html.AntiForgeryToken()

@@ -130,7 +130,16 @@
             columnSettings.Settings.SortMode = DevExpress.XtraGrid.ColumnSortMode.DisplayText;
         });
 
-
+        gridViewSettings.Columns.Add(columnSettings =>
+        {
+            columnSettings.FieldName = "rol";
+            columnSettings.Width = Unit.Pixel(230);
+        });
+        gridViewSettings.Columns.Add(columnSettings =>
+        {
+            columnSettings.FieldName = "empresa";
+            columnSettings.Width = Unit.Pixel(230);
+        });
         gridViewSettings.Columns.Add(columnSettings =>
         {
             columnSettings.FieldName = "password";
@@ -199,11 +208,7 @@
             columnSettings.FieldName = "email";
             columnSettings.Width = Unit.Pixel(230);
         });
-        gridViewSettings.Columns.Add(columnSettings =>
-        {
-            columnSettings.FieldName = "name";
-            columnSettings.Width = Unit.Pixel(230);
-        });
+       
         gridViewSettings.Columns.Add(columnSettings =>
         {
             columnSettings.FieldName = "rol_id";

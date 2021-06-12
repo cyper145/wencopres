@@ -1,19 +1,18 @@
 ﻿
 @using wencove.conexion.model.entity;
+@using wencove.Code;
 @using wencove.Model;
-@model List<Role>
 
 @{
     var gridView = Html.DevExpress().GridView(gridViewSettings =>
     {
         gridViewSettings.Name = "gridView";
-       
-        gridViewSettings.KeyFieldName = "id";
+        gridViewSettings.KeyFieldName = "PRVCCODIGO";
 
-        gridViewSettings.CallbackRouteValues = new { Controller = "role", Action = "GridViewPartial" };
-        gridViewSettings.CustomActionRouteValues = new { Controller = "role", Action = "GridViewCustomActionPartial" };
-        gridViewSettings.SettingsEditing.AddNewRowRouteValues = new { Controller = "role", Action = "GridViewAddNewPartial" };
-        gridViewSettings.SettingsEditing.UpdateRowRouteValues = new { Controller = "role", Action = "GridViewUpdatePartial" };
+        gridViewSettings.CallbackRouteValues = new { Controller = "OrdenCompra", Action = "GridViewPartial" };
+        gridViewSettings.CustomActionRouteValues = new { Controller = "OrdenCompra", Action = "GridViewCustomActionPartial" };
+        gridViewSettings.SettingsEditing.AddNewRowRouteValues = new { Controller = "OrdenCompra", Action = "GridViewAddNewPartial" };
+        gridViewSettings.SettingsEditing.UpdateRowRouteValues = new { Controller = "OrdenCompra", Action = "GridViewUpdatePartial" };
 
         gridViewSettings.EnablePagingGestures = AutoBoolean.False;
 
@@ -31,7 +30,7 @@
 
         gridViewSettings.SettingsSearchPanel.CustomEditorName = "searchButtonEdit";
 
-        //gridViewSettings.SettingsEditing.Mode = GridViewEditingMode.PopupEditForm;
+        gridViewSettings.SettingsEditing.Mode = GridViewEditingMode.EditForm;
         gridViewSettings.SettingsEditing.EditFormColumnCount = 2;
 
         gridViewSettings.SettingsSearchPanel.CustomEditorName = "searchButtonEdit";
@@ -61,22 +60,54 @@
 
         gridViewSettings.EditFormLayoutProperties.Styles.LayoutItem.Paddings.PaddingBottom = Unit.Pixel(8);
 
-        //gridViewSettings.EditFormLayoutProperties.ColCount = 2;
+        gridViewSettings.EditFormLayoutProperties.ColCount = 2;
         gridViewSettings.EditFormLayoutProperties.Items.Add(itemSettings =>
         {
-            itemSettings.ColumnName = "name";
-
-
-
-
+            itemSettings.ColumnName = "codigo";
         }).RequiredMarkDisplayMode = FieldRequiredMarkMode.Required;
-        // gridViewSettings.EditFormLayoutProperties.Items.Add("photo");
-        gridViewSettings.EditFormLayoutProperties.Items.Add(itemSettings =>
+// gridViewSettings.EditFormLayoutProperties.Items.Add("photo");
+gridViewSettings.EditFormLayoutProperties.Items.Add(itemSettings =>
         {
             itemSettings.ColumnName = "description";
         }).RequiredMarkDisplayMode = FieldRequiredMarkMode.Required; ;
+        gridViewSettings.EditFormLayoutProperties.Items.Add(itemSettings =>
+        {
+            itemSettings.ColumnName = "unidad";
 
+        });
+        gridViewSettings.EditFormLayoutProperties.Items.Add(itemSettings =>
+        {
+            itemSettings.ColumnName = "lote";
+        });
 
+        gridViewSettings.EditFormLayoutProperties.Items.Add(itemSettings =>
+        {
+            itemSettings.ColumnName = "codigo2";
+        }).RequiredMarkDisplayMode = FieldRequiredMarkMode.Required;
+        gridViewSettings.EditFormLayoutProperties.Items.Add(itemSettings =>
+        {
+            itemSettings.ColumnName = "familia";
+        }).RequiredMarkDisplayMode = FieldRequiredMarkMode.Required;
+        gridViewSettings.EditFormLayoutProperties.Items.Add(itemSettings =>
+        {
+            itemSettings.ColumnName = "modelo";
+        }).RequiredMarkDisplayMode = FieldRequiredMarkMode.Required;
+        gridViewSettings.EditFormLayoutProperties.Items.Add(itemSettings =>
+        {
+            itemSettings.ColumnName = "grupo";
+        }).RequiredMarkDisplayMode = FieldRequiredMarkMode.Required;
+        gridViewSettings.EditFormLayoutProperties.Items.Add(itemSettings =>
+        {
+            itemSettings.ColumnName = "tipo";
+        }).RequiredMarkDisplayMode = FieldRequiredMarkMode.Required;
+        gridViewSettings.EditFormLayoutProperties.Items.Add(itemSettings =>
+        {
+            itemSettings.ColumnName = "cuenta";
+        }).RequiredMarkDisplayMode = FieldRequiredMarkMode.Required;
+        gridViewSettings.EditFormLayoutProperties.Items.Add(itemSettings =>
+        {
+            itemSettings.ColumnName = "marca";
+        }).RequiredMarkDisplayMode = FieldRequiredMarkMode.Required;
 
 
 
@@ -95,73 +126,40 @@
 
         gridViewSettings.Columns.Add(columnSettings =>
         {
-            columnSettings.FieldName = "name";
-            columnSettings.Caption = "Nombre del Rol";
+            columnSettings.FieldName = "PRVCCODIGO";
+            columnSettings.Caption = "codigo";
 
-            columnSettings.Width = System.Web.UI.WebControls.Unit.Pixel(300);
+            columnSettings.Width = System.Web.UI.WebControls.Unit.Pixel(150);
             columnSettings.CellStyle.HorizontalAlign = HorizontalAlign.Left;
             columnSettings.ExportCellStyle.HorizontalAlign = HorizontalAlign.Left;
-            columnSettings.SetDataItemTemplateContent(c =>
-            {
-                Html.DevExpress().HyperLink(hyperLinkSettings =>
-                {
-                    hyperLinkSettings.Properties.Text = (string)DataBinder.Eval(c.DataItem, "name");
-                    hyperLinkSettings.NavigateUrl = Url.Action("GridViewDetailsPage", "role", new { id = DataBinder.Eval(c.DataItem, "id") });
-                }).Render();
-            });
-
             columnSettings.Settings.FilterMode = ColumnFilterMode.DisplayText;
             columnSettings.Settings.SortMode = DevExpress.XtraGrid.ColumnSortMode.DisplayText;
         });
 
         gridViewSettings.Columns.Add(columnSettings =>
         {
-            columnSettings.FieldName = "description";
-            columnSettings.Width = Unit.Pixel(230);
+            columnSettings.FieldName = "PRVCNOMBRE";
+            columnSettings.Width = Unit.Pixel(400);
         });
+        gridViewSettings.Columns.Add(columnSettings =>
+        {
+            columnSettings.FieldName = "PRVCDIRECC";
+            columnSettings.Width = Unit.Pixel(300);
+        });
+
 
         gridViewSettings.Columns.Add(columnSettings =>
         {
-
-            columnSettings.Caption = "Modulos";
-
-            columnSettings.Width = System.Web.UI.WebControls.Unit.Pixel(300);
-            columnSettings.CellStyle.HorizontalAlign = HorizontalAlign.Left;
-            columnSettings.ExportCellStyle.HorizontalAlign = HorizontalAlign.Left;
-
-            columnSettings.SetDataItemTemplateContent(c =>
-            {
-
-                Html.DevExpress().HyperLink(hyperLinkSettings =>
-                {
-                    hyperLinkSettings.Properties.Text = "Modulos";
-                    hyperLinkSettings.Properties.ImageUrl= "Content/Images/edit.svg";
-                    hyperLinkSettings.Properties.ImageHeight = Unit.Pixel(15);
-                    hyperLinkSettings.ToolTip = "Editar Funciones";
-
-                    hyperLinkSettings.NavigateUrl = Url.Action("GridViewDetailsPage", "role", new { id = DataBinder.Eval(c.DataItem, "id") });
-                }).Render();
-            });
-
-            columnSettings.Settings.FilterMode = ColumnFilterMode.DisplayText;
-            columnSettings.Settings.SortMode = DevExpress.XtraGrid.ColumnSortMode.DisplayText;
+            columnSettings.FieldName = "PRVCTELEF1";
+            columnSettings.Width = Unit.Pixel(200);
         });
 
 
 
-
-        gridViewSettings.ClientSideEvents.Init = "onGridViewInit";
         gridViewSettings.ClientSideEvents.SelectionChanged = "onGridViewSelectionChanged";
-        gridViewSettings.ClientSideEvents.BeginCallback = "onGridViewBeginCallback";
+       // gridViewSettings.ClientSideEvents.BeginCallback = "onGridViewBeginCallback";
 
-        gridViewSettings.InitNewRow += (s, e) =>
-        {
-            e.NewValues["Kind"] = 1;
-            e.NewValues["Priority"] = 2;
-            e.NewValues["Status"] = 1;
-            e.NewValues["IsDraft"] = true;
-            e.NewValues["IsArchived"] = false;
-        };
+
         gridViewSettings.CellEditorInitialize = (s, e) =>
         {
             ((ASPxEdit)e.Editor).ValidationSettings.Display = Display.Dynamic;
@@ -174,3 +172,4 @@
 }
 
 @gridView.Bind(Model).GetHtml()
+

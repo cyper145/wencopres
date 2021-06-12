@@ -27,9 +27,9 @@
                //guardar la seccion los modulos y programas
                group.Visible = roleNeg.moduloAsigned(modulos, "seguridad") == true ? true : false;
                group.Text = "seguridad";
-               if (roleNeg.moduloAsigned(modulos, "usuarios"))
+               if (roleNeg.moduloAsigned(modulos, "usuario"))
                {
-                   group.Items.Add("Usuarios", "ratas", "~/Content/NavBar/BO_Scheduler.png", "GridView");
+                   group.Items.Add("Usuarios", "ratas", "~/Content/NavBar/BO_Scheduler.png", "/GridView");
                }
                if (roleNeg.moduloAsigned(modulos, "roles"))
                {
@@ -49,17 +49,25 @@
            {
                group.Visible = roleNeg.moduloAsigned(modulos, "compras") == true ? true : false;
                group.Text = "Compras";
+               if (roleNeg.moduloAsigned(modulos, "articulos"))
+               {
+                   group.Items.Add("articulos", "ratas", "~/Content/NavBar/BO_Scheduler.png", "/Article");
+               }
+               if (roleNeg.moduloAsigned(modulos, "proveedores"))
+               {
+                   group.Items.Add("proveedores", "ratas", "~/Content/NavBar/BO_Scheduler.png", "/Proveedor");
+               }
+               if (roleNeg.moduloAsigned(modulos, "areas"))
+               {
+                   group.Items.Add("Areas", "ratas", "~/Content/NavBar/BO_Scheduler.png", "/Area");
+               }
                if (roleNeg.moduloAsigned(modulos, "orden-compra"))
                {
-                   group.Items.Add("orden compra", "ratas", "~/Content/NavBar/BO_Scheduler.png", "GridView");
+                   group.Items.Add("Orden Compra", "ratas", "~/Content/NavBar/BO_Scheduler.png", "/OrdenCompra");
                }
-               if (roleNeg.moduloAsigned(modulos, "requerimiento-aprobado"))
+               if (roleNeg.moduloAsigned(modulos, "requisicion-compra"))
                {
-                   group.Items.Add("requerimiento aprobado", "ratas", "~/Content/NavBar/BO_Scheduler.png", "GridView");
-               }
-               if (roleNeg.moduloAsigned(modulos, "requerimiento"))
-               {
-                   group.Items.Add("requerimiento", "ratas", "~/Content/NavBar/BO_Scheduler.png", "GridView");
+                   group.Items.Add("requisicion compra", "ratas", "~/Content/NavBar/BO_Scheduler.png", "/RequisionCompra");
                }
            });
            settings.Groups.Add(group =>

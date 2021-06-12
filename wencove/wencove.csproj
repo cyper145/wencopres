@@ -251,6 +251,11 @@
     <Content Include="Views\Role\GridViewDetailsPage.cshtml" />
     <Content Include="Views\GridView\GridViewRolPage.cshtml" />
     <Content Include="Views\GridView\GridViewEmpresaPage.cshtml" />
+    <Content Include="Views\Article\GridViewPartial.cshtml" />
+    <Content Include="Views\Proveedor\Index.cshtml" />
+    <Content Include="Views\Proveedor\GridViewPartial.cshtml" />
+    <Content Include="Views\OrdenCompra\Index.cshtml" />
+    <Content Include="Views\OrdenCompra\GridViewPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -269,21 +274,35 @@
     <Compile Include="conexion\model.dao\Conexion.cs" />
     <Compile Include="conexion\model.dao\EmpresaDao.cs" />
     <Compile Include="conexion\model.dao\Obligatorio.cs" />
+    <Compile Include="conexion\model.dao\PaisDao.cs" />
+    <Compile Include="conexion\model.dao\ProveedorDao.cs" />
     <Compile Include="conexion\model.dao\RoleDao.cs" />
     <Compile Include="conexion\model.dao\UserDao.cs" />
     <Compile Include="conexion\model.entity\Articulo.cs" />
     <Compile Include="conexion\model.entity\Empresa.cs" />
     <Compile Include="conexion\model.entity\Modulo.cs" />
+    <Compile Include="conexion\model.entity\Pais.cs" />
+    <Compile Include="conexion\model.entity\Proveedor.cs" />
     <Compile Include="conexion\model.entity\Role.cs" />
     <Compile Include="conexion\model.entity\User.cs" />
+    <Compile Include="conexion\model.neg\Area.cs" />
+    <Compile Include="conexion\model.neg\ArticuloNeg.cs" />
     <Compile Include="conexion\model.neg\EmpresaNeg.cs" />
+    <Compile Include="conexion\model.neg\OrdenCompra.cs" />
+    <Compile Include="conexion\model.neg\PaisNeg.cs" />
+    <Compile Include="conexion\model.neg\ProveedorNeg.cs" />
+    <Compile Include="conexion\model.neg\RequisicionCompra.cs" />
     <Compile Include="conexion\model.neg\RoleNeg.cs" />
     <Compile Include="conexion\model.neg\UserNeg.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AreaController.cs" />
     <Compile Include="Controllers\ArticleController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\GridViewController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\OrdenCompraController.cs" />
+    <Compile Include="Controllers\ProveedorController.cs" />
+    <Compile Include="Controllers\RequisionCompraController.cs" />
     <Compile Include="Controllers\RoleController.cs" />
     <Compile Include="Controllers\SchedulerController.cs" />
     <Compile Include="Filters\VerificarSession.cs" />
@@ -295,6 +314,10 @@
     <Compile Include="Models\Scheduler\SchedulerDataSource.cs" />
     <Compile Include="Models\Scheduler\SchedulerHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Views\Area\" />
+    <Folder Include="Views\RequisionCompra\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using System.Web.Mvc;
+using wencove.conexion.model.dao;
 using wencove.conexion.model.entity;
 using wencove.conexion.model.neg;
 using wencove.Model;
@@ -38,8 +40,11 @@ namespace wencove.Controllers
             User user = userNeg.login(model.UserName, model.Password, model.Empresa);
             if (user!=null)
             {
-                AuthHelper.SignIn(model.UserName, model.Password,user.rol_id, user.empresa, user.rol);
-                    return RedirectToAction("Index", "Home");
+                AuthHelper.SignIn(model.UserName, model.Password,user.rol_id, user.empresa, user.rol, model.Empresa);
+                ArticuloDao articuloDao = new ArticuloDao();
+                List<Articulo> nodeModules =  articuloDao.findAll();
+
+                return RedirectToAction("Index", "Home");
             }
                
             else

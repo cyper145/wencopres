@@ -67,8 +67,9 @@ namespace wencove.conexion.model.entity
         public string talla { get; set; }
         public string foto { get; set; }
         public string comenta { get; set; }
-        public string fstock { get; set; }
+        public string stock { get; set; }
         public int clasificacion { get; set; }
+        public string cuenta { get; set; }
 
 
     }

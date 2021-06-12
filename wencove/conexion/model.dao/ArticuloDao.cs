@@ -18,7 +18,7 @@ namespace wencove.conexion.model.dao
         {
             ApplicationUser user =   AuthHelper.GetLoggedInUserInfo();
 
-            objConexion = Conexion.saberEstado( user.Empresa+ "BDCOMUN");
+            objConexion = Conexion.saberEstado( user.codEmpresa+ "BDCOMUN");
         }
 
         public void create(Articulo obj)
@@ -59,7 +59,44 @@ namespace wencove.conexion.model.dao
 
         public List<Articulo> findAll()
         {
-            throw new NotImplementedException();
+            List<Articulo> listArticulos = new List<Articulo>();
+            string findAll = "Select ACODIGO,ADESCRI,AUNIDAD,AFSERIE,AFLOTE,ACODIGO2,AFAMILIA,AMODELO,AGRUPO,ATIPO,ACUENTA,AMARCA FROM MAEART ";
+
+            try
+            {
+                comando = new SqlCommand(findAll, objConexion.getCon());
+                objConexion.getCon().Open();
+                SqlDataReader read = comando.ExecuteReader();
+                while (read.Read())
+                {
+                    Articulo articulo = new Articulo();
+                    articulo.codigo = read[0].ToString();
+                    articulo.description = read[1].ToString();
+                    articulo.unidad = read[2].ToString();
+                    articulo.serie = read[3].ToString();
+                    articulo.lote = read[4].ToString();
+                    articulo.codigo2 = read[5].ToString();
+                    articulo.familia = read[6].ToString();
+                    articulo.modelo = read[7].ToString();
+                    articulo.grupo = read[8].ToString();
+                    articulo.tipo = read[9].ToString();
+                    articulo.cuenta = read[10].ToString();
+                    articulo.marca = read[11].ToString();                                 
+                    listArticulos.Add(articulo);
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            finally
+            {
+                objConexion.getCon().Close();
+                objConexion.cerrarConexion();
+            }
+            return listArticulos;
+
         }
 
         public void update(Articulo obj)

@@ -12,7 +12,9 @@ namespace wencove.conexion.model.dao
 
         public RoleDao()
         {
-            objConexion = Conexion.saberEstado();
+            
+            // solo en este caso
+            objConexion = Conexion.saberEstado("rol");
         }
         public void create(Role obj)
         {

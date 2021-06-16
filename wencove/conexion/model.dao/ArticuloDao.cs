@@ -16,9 +16,9 @@ namespace wencove.conexion.model.dao
 
         public ArticuloDao()
         {
-            ApplicationUser user =   AuthHelper.GetLoggedInUserInfo();
+           ApplicationUser user =   AuthHelper.GetLoggedInUserInfo();
 
-            objConexion = Conexion.saberEstado( user.codEmpresa+ "BDCOMUN");
+            objConexion = Conexion.saberEstado( user.codEmpresa+ "BDCOMUN");///014BDCOMUN
         }
 
         public void create(Articulo obj)
@@ -61,7 +61,6 @@ namespace wencove.conexion.model.dao
         {
             List<Articulo> listArticulos = new List<Articulo>();
             string findAll = "Select ACODIGO,ADESCRI,AUNIDAD,AFSERIE,AFLOTE,ACODIGO2,AFAMILIA,AMODELO,AGRUPO,ATIPO,ACUENTA,AMARCA FROM MAEART ";
-
             try
             {
                 comando = new SqlCommand(findAll, objConexion.getCon());

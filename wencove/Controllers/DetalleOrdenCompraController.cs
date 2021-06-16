@@ -1,53 +1,29 @@
-﻿using System;
+﻿using DevExpress.Web.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using wencove.conexion.model.neg;
 using wencove.conexion.model.entity;
-using DevExpress.Web.Mvc;
+using wencove.conexion.model.neg;
 using wencove.Models;
 
 namespace wencove.Controllers
 {
-    public class OrdenCompraController : Controller
+    public class DetalleOrdenCompraController : Controller
     {
-        // GET: OrdenCompra
-        private ProveedorNeg userNeg;
-        public OrdenCompraController()
+        // GET: DetalleOrdenCompra
+        private ProveedorNeg userNeg; // cambiar Proveedor po detalle de orden compra
+        // el mainmodel es el model de orden de compra
+        public DetalleOrdenCompraController()
         {
             userNeg = new ProveedorNeg();
         }
         public ActionResult Index()
         {
-            return View(userNeg.findAll());
+            return View(new Proveedor());
         }
         public ActionResult GridViewPartial()
-        {
-
-            return PartialView("GridViewPartial", userNeg.findAll());
-        }
-
-        public ActionResult ExternalEditFormPartial()
-        {
-            return PartialView("ExternalEditFormPartial", userNeg.findAll());
-        }
-
-        public ActionResult ExternalEditFormEdit(int id = -1)
-        {
-            Proveedor proveedor=null;
-           // EditableProduct editProduct = NorthwindDataProvider.GetEditableProduct(productID);
-            if (proveedor == null)
-            {
-                proveedor = new Proveedor();
-                proveedor.PRVCCODIGO = "-1";
-            }
-            return View( "EditingForm", proveedor);
-        }
-
-
-        /// para el grid 
-        public ActionResult EditPartialForm()
         {
 
             return PartialView(userNeg.findAll());
@@ -98,12 +74,5 @@ namespace wencove.Controllers
         {
             return View("Success");
         }
-
-
-        public ActionResult MultiSelectPartial()
-        {
-            return PartialView("MultiSelectPartial", userNeg.findAll());
-        }
-
     }
 }

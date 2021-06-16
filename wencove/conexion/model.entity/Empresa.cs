@@ -10,7 +10,5 @@ namespace wencove.conexion.model.entity
         public string codigoEmpresa { get; set; }
         public string RazonSocial { get; set; }
     }
-
-
-    
+   
 }

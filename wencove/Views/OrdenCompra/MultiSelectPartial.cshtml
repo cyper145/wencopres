@@ -1,0 +1,44 @@
+﻿@Html.DevExpress().GridLookup(settings =>
+{
+    settings.Properties.Caption = "Select tags:";
+    settings.Name = "gridLookup";
+    settings.GridViewProperties.CallbackRouteValues = new { Controller = "OrdenCompra", Action = "MultiSelectPartial" };
+
+    settings.KeyFieldName = "PRVCCODIGO";
+    settings.CommandColumn.Visible = true;
+    settings.CommandColumn.ShowSelectCheckbox = true;
+    settings.Columns.Add("PRVCCODIGO");
+    settings.Columns.Add("PRVCNOMBRE");
+    settings.Columns.Add("PRVCNOMBRE");
+    settings.Columns.Add("PRVCNOMBRE");
+    settings.Columns.Add("PRVCNOMBRE");
+    settings.Columns.Add("PRVCNOMBRE");
+
+    settings.Properties.SelectionMode = DevExpress.Web.GridLookupSelectionMode.Multiple;
+    settings.Properties.TextFormatString = "{0}";
+    settings.Properties.MultiTextSeparator = ", ";
+    settings.Properties.Width = 250;
+
+    settings.GridViewProperties.Settings.ShowFilterRow = true;
+    settings.GridViewProperties.Settings.ShowStatusBar = GridViewStatusBarMode.Visible;
+    settings.GridViewProperties.SettingsPager.EnableAdaptivity = true;
+    settings.GridViewProperties.SettingsPager.PageSize = 7;
+    settings.GridViewProperties.SetStatusBarTemplateContent(c =>
+    {
+        ViewContext.Writer.Write("<div style=\"padding: 2px 8px 2px 0; float: right\">");
+        Html.DevExpress().Button(btnSettings =>
+        {
+            btnSettings.Name = "btnClose";
+            btnSettings.UseSubmitBehavior = false;
+            btnSettings.Text = "Close";
+            btnSettings.ClientSideEvents.Click = "CloseGridLookup";
+        }).Render();
+        ViewContext.Writer.Write("</div>");
+    });
+
+    settings.DataBound = (sender, e) =>
+    {
+        var gridLookup = (MVCxGridLookup)sender;
+        gridLookup.GridView.Width = 250;
+    };
+}).BindList(Model).GetHtml()

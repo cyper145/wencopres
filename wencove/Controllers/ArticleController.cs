@@ -39,6 +39,7 @@ namespace wencove.Controllers
         {
             return UpdateModelWithDataValidation(issue, GridViewHelper.AddNewRecord);
         }
+
         [ValidateAntiForgeryToken]
         public ActionResult GridViewUpdatePartial(User issue)
         {

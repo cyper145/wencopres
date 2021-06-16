@@ -1,0 +1,63 @@
+﻿@using wencove.Model
+
+@Html.DevExpress().GridView(settings =>
+{
+    settings.Name = "gridView";
+    settings.KeyFieldName = "PRVCCODIGO";
+    settings.CallbackRouteValues = new { Controller = "Editing", Action = "ExternalEditFormPartial" };
+
+   
+    settings.Width = Unit.Percentage(100);
+
+    settings.Columns.Add(c =>
+    {
+        c.Caption = "#";
+        c.SetDataItemTemplateContent(tc =>
+        {
+            
+            ViewContext.Writer.Write(
+                Html.ActionLink("Edit", "ExternalEditFormEdit", new { ProductID = DataBinder.Eval(tc.DataItem, "PRVCCODIGO") }) + "&nbsp;" +
+                Html.ActionLink("Delete", "ExternalEditFormDelete", new { ProductID = DataBinder.Eval(tc.DataItem, "PRVCCODIGO") },
+                    new { onclick = "return confirm('Do you really want to delete this record?')" })
+            );
+        });
+        c.SetHeaderTemplateContent(tc =>
+        {
+            ViewContext.Writer.Write(
+                Html.ActionLink("New", "ExternalEditFormEdit", new { ProductID = -1 }).ToHtmlString()
+            );
+        });
+        c.Settings.AllowDragDrop = DefaultBoolean.False;
+        c.Settings.AllowSort = DefaultBoolean.False;
+        c.Width = 70;
+    });
+    settings.Columns.Add("PRVCCODIGO");
+    settings.Columns.Add(c =>
+    {
+
+        c.FieldName = "PRVCNOMBRE";
+        c.Caption = "nombre";
+        c.EditorProperties().ComboBox(cb =>
+        {
+            cb.DataSource = GridViewHelper.getEmpresas();
+            cb.TextField = "RazonSocial"; 
+            cb.ValueField = "codigoEmpresa";
+            cb.ValueType = typeof(int);
+        });
+    });
+    settings.Columns.Add("PRVCDIRECC");
+   
+
+    settings.ClientLayout = (s, e) =>
+    {
+        if (e.LayoutMode == ClientLayoutMode.Loading)
+        {
+            if (Session["GridState"] != null)
+                e.LayoutData = (string)Session["GridState"];
+        }
+        else
+            Session["GridState"] = e.LayoutData;
+    };
+
+   // DevExpress.Web.Demos.GridViewFeaturesHelper.SetupGlobalGridViewBehavior(settings);
+}).Bind(Model).GetHtml()

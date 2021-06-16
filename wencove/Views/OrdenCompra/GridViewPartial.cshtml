@@ -12,7 +12,7 @@
         gridViewSettings.CallbackRouteValues = new { Controller = "OrdenCompra", Action = "GridViewPartial" };
         gridViewSettings.CustomActionRouteValues = new { Controller = "OrdenCompra", Action = "GridViewCustomActionPartial" };
         gridViewSettings.SettingsEditing.AddNewRowRouteValues = new { Controller = "OrdenCompra", Action = "GridViewAddNewPartial" };
-        gridViewSettings.SettingsEditing.UpdateRowRouteValues = new { Controller = "OrdenCompra", Action = "GridViewUpdatePartial" };
+        gridViewSettings.SettingsEditing.UpdateRowRouteValues = new { Controller = "Proveedor", Action = "GridViewUpdatePartial" };
 
         gridViewSettings.EnablePagingGestures = AutoBoolean.False;
 
@@ -157,7 +157,7 @@ gridViewSettings.EditFormLayoutProperties.Items.Add(itemSettings =>
 
 
         gridViewSettings.ClientSideEvents.SelectionChanged = "onGridViewSelectionChanged";
-       // gridViewSettings.ClientSideEvents.BeginCallback = "onGridViewBeginCallback";
+        gridViewSettings.ClientSideEvents.BeginCallback = "onGridViewBeginCallback";
 
 
         gridViewSettings.CellEditorInitialize = (s, e) =>

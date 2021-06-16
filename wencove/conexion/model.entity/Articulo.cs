@@ -11,12 +11,9 @@ namespace wencove.conexion.model.entity
         [Required]
         [Display(Name = "Codigo ")]
         public string codigo { get; set; }
-
-
         [Required]
         [Display(Name = "Codigo 2")]
         public string codigo2 { get; set; }
-
         [Required]
         [Display(Name = "Descripcion")]
         public string description { get; set; }

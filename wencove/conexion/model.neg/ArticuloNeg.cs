@@ -119,6 +119,22 @@ namespace wencove.conexion.model.neg
             objUserDao.delete(obj);
             */
         }
+        public void delete(int id)
+        {
+            /*
+            bool verificacion;
+            User objUserAux = new User();
+            objUserAux.id = obj.id;
+            verificacion = objUserDao.find(objUserAux);
+            if (!verificacion)
+            {
+                obj.estado = 33;
+                return;
+            }
+            obj.estado = 99;
+            objUserDao.delete(obj);
+            */
+        }
 
         public void DeleteUser(List<int> ids)
         {

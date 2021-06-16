@@ -1,4 +1,7 @@
+@using wencove.Model
+
 @model List<wencove.conexion.model.entity.Articulo>
+
 
 @{
     ViewBag.Title = "Articulos";
@@ -16,6 +19,7 @@
 @section PageToolbar {
     @Html.DevExpress().Menu(menuSettings =>
 {
+
     menuSettings.Name = "pageToolbar";
 
     menuSettings.ItemAutoWidth = false;

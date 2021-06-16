@@ -434,3 +434,6 @@ form.asignation-form {
 .dxgvControl_Office365 .dxgvTable_Office365 .dxgvFocusedRow_Office365 a, .dxgvControl_Office365 .dxgvTable_Office365 .dxgvFocusedGroupRow_Office365 a:hover {
     color: white;
 }
+.dxgvEditFormDisplayRow_Office365 td.dxgv, .dxgvDetailCell_Office365 td.dxgv, .dxgvDataRow_Office365 td.dxgv, .dxgvDetailRow_Office365.dxgvADR td.dxgvAIC {
+    padding: 5px 10px 5px;
+}

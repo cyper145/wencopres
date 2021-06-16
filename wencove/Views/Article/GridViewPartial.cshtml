@@ -30,7 +30,7 @@
 
         gridViewSettings.SettingsSearchPanel.CustomEditorName = "searchButtonEdit";
 
-        gridViewSettings.SettingsEditing.Mode = GridViewEditingMode.EditForm;
+        gridViewSettings.SettingsEditing.Mode = GridViewEditingMode.PopupEditForm;
         gridViewSettings.SettingsEditing.EditFormColumnCount = 2;
 
         gridViewSettings.SettingsSearchPanel.CustomEditorName = "searchButtonEdit";
@@ -167,15 +167,15 @@
             columnSettings.Caption = "Codigo fabricacion";
             columnSettings.Width = Unit.Pixel(200);
             //columnSettings.Visible = false;
-            //columnSettings.ColumnType = MVCxGridViewColumnType.ComboBox;
-            /*
+            columnSettings.ColumnType = MVCxGridViewColumnType.ComboBox;
+            
             var comboBoxProperties = columnSettings.PropertiesEdit as ComboBoxProperties;
             comboBoxProperties.ValueField = "id";
             comboBoxProperties.TextField = "name";
             comboBoxProperties.ValueType = typeof(long);
             comboBoxProperties.ItemImage.Width = Unit.Pixel(32);
             comboBoxProperties.ItemImage.Height = Unit.Pixel(32);
-            comboBoxProperties.DataSource = RoleHelper.getroles();*/
+            comboBoxProperties.DataSource = RoleHelper.getroles();
 
         });
 

@@ -17,6 +17,8 @@ namespace wencove.Model
 
     public static class AuthHelper
     {
+
+
         public static bool SignIn(string userName, string password , int rol_id ,string empresa, string rol,string codEmpresa)
         {
             HttpContext.Current.Session["User"] = CreateDefualtUser(userName, empresa, rol, codEmpresa);

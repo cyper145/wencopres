@@ -27,6 +27,7 @@ namespace wencove.conexion.model.dao
         }
         public static Conexion saberEstado(string  nameBasedatos)
         {
+
             if (nameBasedatos == "rol")
             {
                 objConexion = new Conexion();

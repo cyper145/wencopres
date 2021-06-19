@@ -1,11 +1,86 @@
-﻿@Html.DevExpress().GridView(settings =>
+﻿
+@Html.DevExpress().Menu(menuSettings =>
 {
-    settings.Name = "gridView";
-    settings.KeyFieldName = "PRVCCODIGO";
+    menuSettings.Name = "pageToolbar";
 
-    settings.CallbackRouteValues = new { Controller = "Test1", Action = "GridViewPartial" };
-    settings.CustomActionRouteValues = new { Controller = "Test1", Action = "GridViewCustomActionUpdate" };
-    settings.SettingsEditing.BatchUpdateRouteValues = new { Controller = "Test1", Action = "BatchUpdatePartial" };
+    menuSettings.ItemAutoWidth = false;
+    menuSettings.AllowSelectItem = false;
+    menuSettings.ApplyItemStyleToTemplates = true;
+
+    menuSettings.SettingsAdaptivity.Enabled = true;
+    menuSettings.SettingsAdaptivity.EnableAutoHideRootItems = true;
+    menuSettings.SettingsAdaptivity.EnableCollapseRootItemsToIcons = true;
+    menuSettings.SettingsAdaptivity.CollapseRootItemsToIconsAtWindowInnerWidth = 600;
+
+    menuSettings.Width = Unit.Percentage(100);
+    menuSettings.ControlStyle.SeparatorWidth = Unit.Pixel(0);
+    menuSettings.ControlStyle.CssClass = "page-toolbar";
+
+    menuSettings.Styles.Item.CssClass = "item";
+    menuSettings.Styles.Item.VerticalAlign = VerticalAlign.Middle;
+    menuSettings.Styles.Item.HorizontalAlign = HorizontalAlign.Left;
+    menuSettings.Images.Item.Width = Unit.Pixel(16);
+    menuSettings.Images.Item.Height = Unit.Pixel(16);
+
+    menuSettings.Items.Add(item =>
+    {
+        item.Enabled = false;
+        item.SetTemplateContent(template => ViewContext.Writer.Write("<h1>Articulos</h1>"));
+    });
+    menuSettings.Items.Add(item =>
+    {
+        item.Name = "NewArticle";
+        item.Text = "New";
+        item.Alignment = MenuItemAlignment.Left;
+        item.AdaptivePriority = 2;
+        item.Image.Url = "Content/Images/add.svg";
+        item.VisibleIndex = 5;
+
+    });
+    menuSettings.Items.Add(item =>
+    {
+        item.Name = "Edit";
+        item.Text = "Edit";
+        item.Alignment = MenuItemAlignment.Left;
+        item.AdaptivePriority = 2;
+        item.Image.Url = "Content/Images/edit.svg";
+    });
+    menuSettings.Items.Add(item =>
+    {
+        item.Name = "Delete";
+        item.Text = "Delete";
+        item.Alignment = MenuItemAlignment.Left;
+        item.AdaptivePriority = 2;
+        item.Image.Url = "Content/Images/delete.svg";
+    });
+    menuSettings.Items.Add(item =>
+    {
+        item.Name = "Export";
+        item.Text = "Export";
+        item.Alignment = MenuItemAlignment.Left;
+        item.AdaptivePriority = 2;
+        item.Image.Url = "Content/Images/export.svg";
+    });
+    menuSettings.Items.Add(item =>
+    {
+        item.Name = "ToggleFilterPanel";
+        item.Text = "";
+        item.GroupName = "Filter";
+        item.Alignment = MenuItemAlignment.Left;
+        item.AdaptivePriority = 1;
+        item.Image.Url = "Content/Images/search.svg";
+        item.Image.UrlChecked = "Content/Images/search-selected.svg";
+    });
+    menuSettings.ClientSideEvents.ItemClick = "onPageToolbarItemClick";
+}).GetHtml()
+@Html.DevExpress().GridView(settings =>
+{
+    settings.Name = "gridViewd";
+    settings.KeyFieldName = "Codigo";
+
+    settings.CallbackRouteValues = new { Controller = "OrdenCompra", Action = "GridViewPartial" };
+    settings.CustomActionRouteValues = new { Controller = "OrdenCompra", Action = "GridViewCustomActionUpdate" };
+    settings.SettingsEditing.BatchUpdateRouteValues = new { Controller = "OrdenCompra", Action = "BatchUpdatePartial" };
     settings.SettingsEditing.Mode = GridViewEditingMode.Batch;
 
     settings.ClientSideEvents.BeginCallback = "OnBeginCallback";
@@ -17,59 +92,58 @@
 
     settings.Columns.Add(column =>
     {
-        column.FieldName = "PRVCCODIGO";
-        column.Caption = "codigo";
-        column.ColumnType = MVCxGridViewColumnType.SpinEdit;
+        column.FieldName = "oc_ccodpro";
+        column.Caption = "código";
+
         column.Width = 70;
     });
 
     settings.Columns.Add(column =>
     {
-        column.FieldName = "PRVCNOMBRE";
-        column.Width = Unit.Pixel(400);
-        column.ColumnType = MVCxGridViewColumnType.CheckBox;
-        column.Width = 30;
+        column.FieldName = "OC_CDESREF";
+        column.Caption = "Descripción";
+
     });
     settings.Columns.Add(column =>
     {
-        column.FieldName = "PRVCNOMBRE";
-        column.Width = Unit.Pixel(400);
-        column.ColumnType = MVCxGridViewColumnType.CheckBox;
-        column.Width = 30;
+        column.FieldName = "OC_GLOSA";
+        column.Caption = "glosa";
+
     });
     settings.Columns.Add(column =>
     {
-        column.FieldName = "PRVCNOMBRE";
-        column.Width = Unit.Pixel(400);
-        column.ColumnType = MVCxGridViewColumnType.CheckBox;
-        column.Width = 30;
+        column.FieldName = "OC_CUNIDAD";
+        column.Caption = "Uni";
+
     });
     settings.Columns.Add(column =>
     {
-        column.FieldName = "PRVCNOMBRE";
-        column.Width = Unit.Pixel(400);
-        column.ColumnType = MVCxGridViewColumnType.CheckBox;
-        column.Width = 30;
+        column.FieldName = "OC_NCANTID";
+        column.Caption = "Cantidad";
+
     });
     settings.Columns.Add(column =>
     {
-        column.FieldName = "PRVCNOMBRE";
-        column.Width = Unit.Pixel(400);
-       
+        column.FieldName = "OC_NPREUNI";
+        column.Caption = "Precio";
+
+
     });
     settings.Columns.Add(column =>
     {
-        column.FieldName = "PRVCNOMBRE";
-        column.Width = Unit.Pixel(400);
-     
+        column.FieldName = "OC_NDSCPOR";
+        column.Caption = "%Des";
+
+
     });
     settings.Columns.Add(column =>
     {
-        column.FieldName = "PRVCTELEF1";
-       // /column.ColumnType = MVCxGridViewColumnType.DateEdit;
-       // column.PropertiesEdit.DisplayFormatString = "MM/dd/yyyy";
-       // /((DateEditProperties)column.PropertiesEdit).EditFormat = EditFormat.Custom;
-       // ((DateEditProperties)column.PropertiesEdit).EditFormatString = "MM/dd/yyyy";
+        column.FieldName = "OC_NTOTVEN";
+        column.Caption = "total";
+        // /column.ColumnType = MVCxGridViewColumnType.DateEdit;
+        // column.PropertiesEdit.DisplayFormatString = "MM/dd/yyyy";
+        // /((DateEditProperties)column.PropertiesEdit).EditFormat = EditFormat.Custom;
+        // ((DateEditProperties)column.PropertiesEdit).EditFormatString = "MM/dd/yyyy";
     });
     settings.CellEditorInitialize = (s, e) =>
     {

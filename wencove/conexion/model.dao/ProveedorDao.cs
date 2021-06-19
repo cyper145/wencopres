@@ -18,8 +18,10 @@ namespace wencove.conexion.model.dao
         public ProveedorDao()
         {
             ApplicationUser user = AuthHelper.GetLoggedInUserInfo();
-
-            objConexion = Conexion.saberEstado(user.codEmpresa + "BDCOMUN");
+            if (user != null)
+            {
+                objConexion = Conexion.saberEstado(user.codEmpresa + "BDCOMUN");
+            }
         }
         public void create(Proveedor obj)
         {

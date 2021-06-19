@@ -1,7 +1,5 @@
 ﻿@using wencove.Model
-@model wencove.conexion.model.entity.Proveedor
-
-
+@model wencove.conexion.model.entity.OrdenCompra
 
 <style>
     .edit_form .editFormButton {
@@ -15,6 +13,10 @@
     function CloseGridLookup() {
         gridLookup.ConfirmCurrentSelection();
         gridLookup.HideDropDown();
+    }
+    function CloseGridLookupProveedor() {
+        gridLookupProveedor.ConfirmCurrentSelection();
+        gridLookupProveedor.HideDropDown();
     }
     function OnClick(s, e) {   
         if ($("#myForm").valid()) {
@@ -79,7 +81,7 @@
 }
 @using (Html.BeginForm("ExternalEditFormEdit", "Editing", FormMethod.Post, new { @class = "edit_form" }))
 {
-    @Html.Hidden("ProductID")
+    @Html.Hidden("OC_CNUMORD")
     @Html.DevExpress().FormLayout(s =>
 {
     s.Name = "formLayout";
@@ -90,12 +92,62 @@
 
     var groupItem = s.Items.AddGroupItem(groupSettings =>
     {
-        groupSettings.Caption = "informacion principal";
+
         groupSettings.ShowCaption = DefaultBoolean.True;
         groupSettings.GroupBoxDecoration = GroupBoxDecoration.Default;
         groupSettings.ColumnCount = 3;
     });
-    groupItem.Items.Add(m => m.PRVAPELMATERNO, i =>
+    groupItem.Items.Add(m => m.OC_CNUMORD, i =>
+    {
+        i.ColumnSpan = 2;
+        i.NestedExtension().TextBox(t =>
+        {
+            t.Properties.ValidationSettings.Display = Display.Dynamic;
+            t.ShowModelErrors = true;
+            t.Width = Unit.Percentage(25);
+        });
+    });
+    groupItem.Items.Add(m => m.EST_NOMBRE, i =>
+    {
+        i.ColumnSpan = 1;
+        i.NestedExtension().TextBox(t =>
+        {
+            t.Properties.ValidationSettings.Display = Display.Dynamic;
+            t.ShowModelErrors = true;
+        });
+    });
+
+
+    groupItem = s.Items.AddGroupItem(groupSettings =>
+    {
+        groupSettings.Caption = "informacion principal";
+        groupSettings.ShowCaption = DefaultBoolean.True;
+        groupSettings.GroupBoxDecoration = GroupBoxDecoration.Default;
+        groupSettings.ColumnCount = 12;
+    });
+
+
+    groupItem.Items.Add(itemSettings =>
+    {
+        itemSettings.ColumnSpan = 2;
+        itemSettings.ShowCaption = DefaultBoolean.False;
+        itemSettings.SetNestedContent(() =>
+        {
+            Html.RenderAction("MultiSelectProveedor");
+        });
+    });
+
+    groupItem.Items.Add(m => m.OC_CRAZSOC, i =>
+
+    {
+        i.ColumnSpan = 4;
+        i.NestedExtension().TextBox(t =>
+        {
+            t.Properties.ValidationSettings.Display = Display.Dynamic;
+            t.ShowModelErrors = true;
+        });
+    });
+    groupItem.Items.Add(m => m.OC_CDIRPRO, i =>
 
     {
         i.ColumnSpan = 2;
@@ -105,7 +157,28 @@
             t.ShowModelErrors = true;
         });
     });
-    groupItem.Items.Add(m => m.PRVAPELPATERNO, i =>
+    groupItem.Items.Add(m => m.OC_CDOCREF, i =>
+
+    {
+        i.ColumnSpan = 2;
+        i.NestedExtension().TextBox(t =>
+        {
+            t.Properties.ValidationSettings.Display = Display.Dynamic;
+            t.ShowModelErrors = true;
+        });
+    });
+    groupItem.Items.Add(m => m.OC_CNRODOCREF, i =>
+
+    {
+        i.ColumnSpan = 2;
+        i.Caption = "";
+        i.NestedExtension().TextBox(t =>
+        {
+            t.Properties.ValidationSettings.Display = Display.Dynamic;
+            t.ShowModelErrors = true;
+        });
+    });
+    groupItem.Items.Add(m => m.OC_CCODMON, i =>
     {
         i.Caption = "Category:";
 
@@ -114,18 +187,10 @@
             t.Properties.ValidationSettings.Display = Display.Dynamic;
             t.ShowModelErrors = true;
         });
-        // i.NestedExtension().ComboBox(cb =>
-        // {
-
-        //  cb.DataSource = GridViewHelper.getEmpresas();
-        //  cb.TextField = "RazonSocial";
-        //cb.ValueField = "codigoEmpresa";
-        //  cb.ShowModelErrors = true;
-        //cb.Properties.ValidationSettings.Display = Display.Dynamic;
-        // });
+        
     });
-    groupItem.Items.Add(m => m.PRVCCODIGO);
-    groupItem.Items.Add(m => m.PRVCGIROAC, i =>
+
+    groupItem.Items.Add(m => m.OC_CENTREG, i =>
     {
         i.NestedExtension().SpinEdit(sp =>
         {

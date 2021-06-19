@@ -18,5 +18,6 @@ namespace wencove.conexion.model.neg
         {
             return objUserDao.findAll();
         }
+        
     }
 }

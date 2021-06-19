@@ -10,6 +10,48 @@
     <script type="text/javascript" src="@Url.Content("~/Content/GridView.js")"></script>
     <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/SignInRegister.css")" />
     <script type="text/javascript" src="@Url.Content("~/Content/SignInRegister.js")"></script>
+    <style>
+        .edit_form .editFormButton {
+            width: calc(20% - 2px);
+        }
+
+        form.edit_form {
+            margin: 30px 20px
+        }
+    </style>
+    <script>
+
+    function CloseGridLookup() {
+        gridLookup.ConfirmCurrentSelection();
+        gridLookup.HideDropDown();
+    }
+    function CloseGridLookupProveedor() {
+        gridLookupProveedor.ConfirmCurrentSelection();
+        gridLookupProveedor.HideDropDown();
+    }
+    function OnClick(s, e) {
+        if ($("#myForm").valid()) {
+            if (GridView.batchEditApi.HasChanges())
+                GridView.UpdateEdit();
+            else
+                GridView.PerformCallback();
+        }
+    }
+    function OnEndCallback(s, e) {
+        if (s.cpSuccessFlag)
+        {
+            alert("All changes were saved");
+            window.location = "@Url.Action("Success","Test1")";
+        }
+    }
+    function OnBeginCallback(s, e) {
+    	if (e.command == "UPDATEEDIT" || e.command == "CUSTOMCALLBACK")
+    		e.customArgs = $.extend(e.customArgs, GetEditorValues());
+    }
+    function GetEditorValues() {
+    	return MVCxClientUtils.GetSerializedEditorValuesInContainer("myForm");
+    }
+    </script>
 }
 
 
@@ -40,7 +82,7 @@
     menuSettings.Items.Add(item =>
     {
         item.Enabled = false;
-        item.SetTemplateContent(template => ViewContext.Writer.Write("<h1>Usuarios</h1>"));
+        item.SetTemplateContent(template => ViewContext.Writer.Write("<h1>Ordenes de compra</h1>"));
     });
     menuSettings.Items.Add(item =>
     {
@@ -49,6 +91,7 @@
         item.Alignment = MenuItemAlignment.Left;
         item.AdaptivePriority = 2;
         item.Image.Url = "Content/Images/add.svg";
+
     });
     menuSettings.Items.Add(item =>
     {
@@ -129,5 +172,5 @@
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    @Html.Partial("ExternalEditFormPartial")
+    @Html.Partial("GridViewPartial")
 }

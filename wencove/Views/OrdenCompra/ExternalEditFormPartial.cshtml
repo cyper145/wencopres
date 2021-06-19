@@ -3,10 +3,10 @@
 @Html.DevExpress().GridView(settings =>
 {
     settings.Name = "gridView";
-    settings.KeyFieldName = "PRVCCODIGO";
+    settings.KeyFieldName = "OC_CNUMORD";
     settings.CallbackRouteValues = new { Controller = "Editing", Action = "ExternalEditFormPartial" };
 
-   
+
     settings.Width = Unit.Percentage(100);
 
     settings.Columns.Add(c =>
@@ -14,10 +14,10 @@
         c.Caption = "#";
         c.SetDataItemTemplateContent(tc =>
         {
-            
+
             ViewContext.Writer.Write(
-                Html.ActionLink("Edit", "ExternalEditFormEdit", new { ProductID = DataBinder.Eval(tc.DataItem, "PRVCCODIGO") }) + "&nbsp;" +
-                Html.ActionLink("Delete", "ExternalEditFormDelete", new { ProductID = DataBinder.Eval(tc.DataItem, "PRVCCODIGO") },
+                Html.ActionLink("Edit", "ExternalEditFormEdit", new { ProductID = DataBinder.Eval(tc.DataItem, "OC_CNUMORD") }) + "&nbsp;" +
+                Html.ActionLink("Delete", "ExternalEditFormDelete", new { ProductID = DataBinder.Eval(tc.DataItem, "OC_CNUMORD") },
                     new { onclick = "return confirm('Do you really want to delete this record?')" })
             );
         });
@@ -31,22 +31,55 @@
         c.Settings.AllowSort = DefaultBoolean.False;
         c.Width = 70;
     });
-    settings.Columns.Add("PRVCCODIGO");
-    settings.Columns.Add(c =>
+    settings.Columns.Add(columnSettings =>
     {
-
-        c.FieldName = "PRVCNOMBRE";
-        c.Caption = "nombre";
-        c.EditorProperties().ComboBox(cb =>
-        {
-            cb.DataSource = GridViewHelper.getEmpresas();
-            cb.TextField = "RazonSocial"; 
-            cb.ValueField = "codigoEmpresa";
-            cb.ValueType = typeof(int);
-        });
+        columnSettings.FieldName = "OC_CNUMORD";
+        columnSettings.Caption = "Nro de Orden Compra";
+        columnSettings.CellStyle.HorizontalAlign = HorizontalAlign.Left;
+        columnSettings.ExportCellStyle.HorizontalAlign = HorizontalAlign.Left;
+        columnSettings.Settings.FilterMode = ColumnFilterMode.DisplayText;
+        columnSettings.Settings.SortMode = DevExpress.XtraGrid.ColumnSortMode.DisplayText;
     });
-    settings.Columns.Add("PRVCDIRECC");
-   
+    settings.Columns.Add(columnSettings =>
+    {
+        columnSettings.FieldName = "oc_ccodpro";
+        columnSettings.Caption = "Código Prov";
+
+        columnSettings.Width = Unit.Pixel(400);
+    });
+    settings.Columns.Add(columnSettings =>
+    {
+        columnSettings.FieldName = "OC_CRAZSOC";
+        columnSettings.Caption = "Razón social";
+        columnSettings.Width = Unit.Pixel(300);
+    });
+
+
+    settings.Columns.Add(columnSettings =>
+    {
+        columnSettings.FieldName = "OC_DFECENT";
+        columnSettings.Caption = "Emisión";
+        columnSettings.Width = Unit.Pixel(200);
+    });
+    settings.Columns.Add(columnSettings =>
+    {
+        columnSettings.FieldName = "OC_CCODMON";
+        columnSettings.Caption = "Mo";
+        columnSettings.Width = Unit.Pixel(200);
+    });
+    settings.Columns.Add(columnSettings =>
+    {
+        columnSettings.FieldName = "OC_NIMPORT";
+        columnSettings.Caption = "Importe";
+
+    });
+    settings.Columns.Add(columnSettings =>
+    {
+        columnSettings.FieldName = "EST_NOMBRE";
+        columnSettings.Caption = "Estado";
+
+    });
+
 
     settings.ClientLayout = (s, e) =>
     {
@@ -59,5 +92,5 @@
             Session["GridState"] = e.LayoutData;
     };
 
-   // DevExpress.Web.Demos.GridViewFeaturesHelper.SetupGlobalGridViewBehavior(settings);
+    // DevExpress.Web.Demos.GridViewFeaturesHelper.SetupGlobalGridViewBehavior(settings);
 }).Bind(Model).GetHtml()

@@ -261,6 +261,8 @@
     <Content Include="Views\OrdenCompra\EditingForm.cshtml" />
     <Content Include="Views\OrdenCompra\EditPartialForm.cshtml" />
     <Content Include="Views\OrdenCompra\MultiSelectPartial.cshtml" />
+    <Content Include="Views\Article\dd.cshtml" />
+    <Content Include="Views\OrdenCompra\MultiSelectProveedor.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -279,6 +281,7 @@
     <Compile Include="conexion\model.dao\Conexion.cs" />
     <Compile Include="conexion\model.dao\EmpresaDao.cs" />
     <Compile Include="conexion\model.dao\Obligatorio.cs" />
+    <Compile Include="conexion\model.dao\OrdenCompraDao.cs" />
     <Compile Include="conexion\model.dao\PaisDao.cs" />
     <Compile Include="conexion\model.dao\ProveedorDao.cs" />
     <Compile Include="conexion\model.dao\RoleDao.cs" />
@@ -286,6 +289,7 @@
     <Compile Include="conexion\model.entity\Articulo.cs" />
     <Compile Include="conexion\model.entity\Empresa.cs" />
     <Compile Include="conexion\model.entity\Modulo.cs" />
+    <Compile Include="conexion\model.entity\OrdenCompra.cs" />
     <Compile Include="conexion\model.entity\Pais.cs" />
     <Compile Include="conexion\model.entity\Proveedor.cs" />
     <Compile Include="conexion\model.entity\Role.cs" />
@@ -293,7 +297,7 @@
     <Compile Include="conexion\model.neg\Area.cs" />
     <Compile Include="conexion\model.neg\ArticuloNeg.cs" />
     <Compile Include="conexion\model.neg\EmpresaNeg.cs" />
-    <Compile Include="conexion\model.neg\OrdenCompra.cs" />
+    <Compile Include="conexion\model.neg\OrdenCompraNeg.cs" />
     <Compile Include="conexion\model.neg\PaisNeg.cs" />
     <Compile Include="conexion\model.neg\ProveedorNeg.cs" />
     <Compile Include="conexion\model.neg\RequisicionCompra.cs" />

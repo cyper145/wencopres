@@ -1,4 +1,3 @@
-D:\ERP\wencove\wencove\obj\Debug\wencove.csprojAssemblyReference.cache
 D:\ERP\wencove\wencove\obj\Debug\wencove.csproj.CoreCompileInputs.cache
 D:\ERP\wencove\wencove\bin\wencove.dll.config
 D:\ERP\wencove\wencove\bin\wencove.dll
@@ -207,3 +206,4 @@ D:\ERP\wencove\wencove\bin\ru\DevExpress.Xpo.v20.1.resources.dll
 D:\ERP\wencove\wencove\obj\Debug\wencove.csproj.CopyComplete
 D:\ERP\wencove\wencove\obj\Debug\wencove.dll
 D:\ERP\wencove\wencove\obj\Debug\wencove.pdb
+D:\ERP\wencove\wencove\obj\Debug\wencove.csproj.AssemblyReference.cache

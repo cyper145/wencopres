@@ -1,0 +1,204 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Data.SqlClient;
+using System.Linq;
+using System.Web;
+using wencove.conexion.model.entity;
+using wencove.Model;
+
+namespace wencove.conexion.model.dao
+{
+    public class OrdenCompraDao : Obligatorio<OrdenCompra>
+    {
+        private Conexion objConexion;
+        private SqlCommand comando;
+
+
+         static List<OrdenCompra> OrdenCompras;
+        public OrdenCompraDao()
+        {
+            if (OrdenCompras == null)
+            {
+                    OrdenCompras = new List<OrdenCompra>();
+            }
+            
+            ApplicationUser user = AuthHelper.GetLoggedInUserInfo();
+            if (user != null)
+            {
+                objConexion = Conexion.saberEstado(user.codEmpresa + "BDCOMUN");
+            }
+        }
+        public void create(OrdenCompra obj)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void delete(OrdenCompra obj)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool find(OrdenCompra obj)
+        {
+            throw new NotImplementedException();
+        }
+        public OrdenCompra find(string codigo)
+        {
+           return OrdenCompras.Find(X => X.OC_CNUMORD == codigo);
+        }
+
+        public List<OrdenCompra> findAll()
+        {
+           
+
+            string findAll = "SELECT * FROM comovc, estado_oc WHERE comovc.oc_csitord = estado_oc.est_codigo";
+            try
+            {
+                comando = new SqlCommand(findAll, objConexion.getCon());
+                objConexion.getCon().Open();
+                SqlDataReader read = comando.ExecuteReader();
+                while (read.Read())
+                {
+                    OrdenCompra user = new OrdenCompra();
+                    user.OC_CNUMORD = read[0].ToString();
+                    user.OC_PRINCIPAL = read[1].ToString();
+                    user.OC_DFECDOC = DateTime.Parse( read[2].ToString());
+                    user.OC_LOTE = read[3].ToString();
+                    user.oc_ccodpro = read[4].ToString();
+                    user.OC_CRAZSOC = read[5].ToString();
+                    user.OC_CDIRPRO = read[6].ToString();
+                    user.OC_CCOTIZA = read[7].ToString();
+                    user.OC_CCODMON = read[8].ToString();
+                    user.OC_CFORPAG = read[9].ToString();
+                    user.OC_NTIPCAM = read[10].ToString();
+                    user.OC_DFECENT = DateTime.Parse(read[11].ToString());
+                    user.OC_COBSERV = read[12].ToString();
+                    user.OC_CSOLICT = read[13].ToString();
+                    user.OC_CTIPENV = read[14].ToString();
+                    user.OC_CENTREG = read[15].ToString();
+                    user.OC_CSITORD = read[16].ToString();
+                    user.OC_NIMPORT = ParseDecimal( read[17].ToString());
+                    user.OC_NDESCUE = ParseDecimal(read[18].ToString());
+                    user.OC_NIGV = ParseDecimal(read[19].ToString());
+                    user.OC_NVENTA = ParseDecimal(read[20].ToString());
+                    user.OC_DFECACT = DateTime.Parse(read[21].ToString());
+                    user.OC_CHORA = read[22].ToString();
+                    user.OC_CUSUARI = read[23].ToString();
+                    user.OC_CFECDOC = read[24].ToString();
+                    user.OC_CCONVER = read[25].ToString();
+                    user.OC_CFACNOMBRE = read[26].ToString();
+                    user.OC_CFACRUC = read[27].ToString();
+                    user.OC_CFACDIREC = read[28].ToString();
+                    user.OC_CDOCREF = read[29].ToString();
+                    user.OC_CNRODOCREF = read[30].ToString();
+                    user.OC_ORDFAB = read[31].ToString();
+                    user.OC_SOLICITA = read[32].ToString();
+                    user.OC_NFLETE = ParseDecimal(read[33].ToString());
+                    user.OC_NSEGURO = ParseDecimal(read[34].ToString());
+                    user.OC_CTIPOC = read[35].ToString();
+                    user.OC_DESPACHO = read[36].ToString();
+                    user.OC_TIPO = read[37].ToString();       
+                    user.EST_CODIGO = read[38].ToString();       
+                    user.EST_NOMBRE = read[39].ToString();
+
+
+                    OrdenCompras.Add(user);
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            finally
+            {
+                objConexion.getCon().Close();
+                objConexion.cerrarConexion();
+            }
+            return OrdenCompras;
+        }
+
+        public List<DetalleOrdenCompra> findAllDetail(string oc_cnumord )
+        {
+            List<DetalleOrdenCompra> listUsers = new List<DetalleOrdenCompra>();
+
+            OrdenCompra ordenCompra = OrdenCompras.Find(X => X.OC_CNUMORD == oc_cnumord);// ver si exite
+            string findAll = "SELECT * FROM comovd WHERE comovd.oc_cnumord = '" + oc_cnumord+"'";
+            try
+            {
+                comando = new SqlCommand(findAll, objConexion.getCon());
+                objConexion.getCon().Open();
+                SqlDataReader read = comando.ExecuteReader();
+                while (read.Read())
+                {
+                    DetalleOrdenCompra user = new DetalleOrdenCompra();
+                    user.OC_CNUMORD = read[0].ToString();
+                    user.oc_ccodpro = read[1].ToString();
+                    user.OC_DFECDOC = DateTime.Parse(read[2].ToString());
+                    user.OC_CITEM = read[3].ToString();
+                    user.oc_ccodigo = read[4].ToString();
+                    user.OC_CCODREF = read[5].ToString();
+                    user.OC_CDESREF = read[6].ToString();
+                    user.OC_CUNIDAD = read[7].ToString();
+                    user.OC_CUNIREF = read[8].ToString();
+                    user.OC_NFACTOR = ParseDecimal(read[9].ToString());
+                    user.OC_NCANTID = ParseDecimal(read[10].ToString());
+
+                    user.OC_NPREUNI = ParseDecimal(read[11].ToString());
+                    user.OC_NDSCPOR = ParseDecimal(read[12].ToString());
+                    user.OC_NDESCTO = ParseDecimal(read[13].ToString());
+                    user.OC_NIGV = ParseDecimal(read[14].ToString());
+                    user.OC_NIGVPOR = ParseDecimal(read[15].ToString());
+                    user.OC_NPRENET = ParseDecimal(read[16].ToString());
+                    user.OC_NTOTVEN = ParseDecimal(read[17].ToString());
+                    user.OC_NTOTNET = ParseDecimal(read[18].ToString());
+                    user.OC_NCANTEN = ParseDecimal(read[19].ToString());
+                    user.OC_NCANSAL = ParseDecimal(read[20].ToString());
+                    user.OC_ENTREGADO = ParseDecimal(read[21].ToString());
+                    user.OC_SALDO = ParseDecimal(read[22].ToString());
+                    user.OC_COMENTA = read[23].ToString();
+                    user.OC_CESTADO = read[24].ToString();
+                    user.OC_FUNICOM = read[25].ToString();
+                    user.OC_NRECIBI = ParseDecimal( read[26].ToString());
+                    user.OC_CCOMEN1 = read[27].ToString();
+                    user.OC_CCOMEN2 = read[28].ToString();
+                    user.OC_GLOSA = read[29].ToString();
+                    user.OC_PRECIOVEN = ParseDecimal( read[30].ToString());
+                    user.CENTCOST = read[31].ToString();
+                   
+
+
+                    listUsers.Add(user);
+                }
+                ordenCompra.detalles = listUsers;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            finally
+            {
+                objConexion.getCon().Close();
+                objConexion.cerrarConexion();
+            }
+            return listUsers;
+        }
+
+        public decimal ParseDecimal(string data)
+        {
+            if (data == "")
+            {
+                return 0;
+            }
+            else
+            {
+               return Decimal.Parse(data);
+            }
+        }
+        public void update(OrdenCompra obj)
+        {
+            throw new NotImplementedException();
+        }
+    }
+}

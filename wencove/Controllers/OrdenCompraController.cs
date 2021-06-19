@@ -13,10 +13,19 @@ namespace wencove.Controllers
     public class OrdenCompraController : Controller
     {
         // GET: OrdenCompra
-        private ProveedorNeg userNeg;
+        private OrdenCompraNeg userNeg;
+        private ProveedorNeg proveedorNeg;
+        private ArticuloNeg articuloNeg;
+         static OrdenCompra OrdeCurrent;
+
+
         public OrdenCompraController()
         {
-            userNeg = new ProveedorNeg();
+            userNeg = new OrdenCompraNeg();
+            articuloNeg= new ArticuloNeg();
+            proveedorNeg = new ProveedorNeg();
+            if (OrdeCurrent==null)
+                OrdeCurrent=new OrdenCompra();
         }
         public ActionResult Index()
         {
@@ -30,27 +39,38 @@ namespace wencove.Controllers
 
         public ActionResult ExternalEditFormPartial()
         {
+            
             return PartialView("ExternalEditFormPartial", userNeg.findAll());
         }
 
-        public ActionResult ExternalEditFormEdit(int id = -1)
+        public ActionResult ExternalEditFormEdit(   string id = "")
         {
-            Proveedor proveedor=null;
+
+            //solo para pruebas
+            string codigo = "0000000000001";
+
+
+            OrdeCurrent =   userNeg.find(codigo);
            // EditableProduct editProduct = NorthwindDataProvider.GetEditableProduct(productID);
-            if (proveedor == null)
+            if (OrdeCurrent == null)
             {
-                proveedor = new Proveedor();
-                proveedor.PRVCCODIGO = "-1";
+                OrdeCurrent = new OrdenCompra();
+                OrdeCurrent.OC_CNUMORD = "-1";
             }
-            return View( "EditingForm", proveedor);
+            return View( "EditingForm", OrdeCurrent);
         }
 
 
         /// para el grid 
-        public ActionResult EditPartialForm()
+        public ActionResult EditPartialForm( )
         {
 
-            return PartialView(userNeg.findAll());
+            //solo para pruebas
+            string codigo = "0000000000001";
+
+
+            OrdeCurrent = userNeg.find(codigo);
+            return PartialView(userNeg.findAllDetail (OrdeCurrent.OC_CNUMORD));
         }
         public ActionResult GridViewCustomActionUpdate(Proveedor mainModel)
         {
@@ -102,8 +122,15 @@ namespace wencove.Controllers
 
         public ActionResult MultiSelectPartial()
         {
-            return PartialView("MultiSelectPartial", userNeg.findAll());
+            return PartialView("MultiSelectPartial", articuloNeg.findAll());
         }
+        public ActionResult MultiSelectProveedor(string CurrentCategory)
+        {
 
+            ViewData["Proveedores"] = proveedorNeg.findAll();
+            if (CurrentCategory == null)
+                CurrentCategory = "";
+            return PartialView(new Proveedor() { PRVCCODIGO = CurrentCategory });    
+        }
     }
 }

@@ -18,7 +18,10 @@ namespace wencove.conexion.model.dao
         {
            ApplicationUser user =   AuthHelper.GetLoggedInUserInfo();
 
-            objConexion = Conexion.saberEstado( user.codEmpresa+ "BDCOMUN");///014BDCOMUN
+            if(user != null)
+            {
+                objConexion = Conexion.saberEstado(user.codEmpresa + "BDCOMUN");
+            }///014BDCOMUN
         }
 
         public void create(Articulo obj)

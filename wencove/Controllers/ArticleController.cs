@@ -10,7 +10,7 @@ namespace wencove.Controllers
     public class ArticleController : BaseController
     {
 
-
+       
         private ArticuloNeg userNeg;
         public ArticleController()
         {
@@ -21,7 +21,10 @@ namespace wencove.Controllers
         {
             return View(userNeg.findAll());
         }
-
+        public ActionResult dd()
+        {
+            return View(userNeg.findAll());
+        }
         public ActionResult GridViewPartial()
         {
            
@@ -37,12 +40,14 @@ namespace wencove.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult GridViewAddNewPartial(User issue)
         {
+           
             return UpdateModelWithDataValidation(issue, GridViewHelper.AddNewRecord);
         }
 
         [ValidateAntiForgeryToken]
         public ActionResult GridViewUpdatePartial(User issue)
         {
+            
             return UpdateModelWithDataValidation(issue, GridViewHelper.UpdateRecord);
         }
 

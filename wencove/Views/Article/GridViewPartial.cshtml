@@ -7,7 +7,7 @@
     var gridView = Html.DevExpress().GridView(gridViewSettings =>
     {
         gridViewSettings.Name = "gridView";
-        gridViewSettings.KeyFieldName = "codigo";
+        gridViewSettings.KeyFieldName = "codigo";// clave primaria
 
         gridViewSettings.CallbackRouteValues = new { Controller = "Article", Action = "GridViewPartial" };
         gridViewSettings.CustomActionRouteValues = new { Controller = "Article", Action = "GridViewCustomActionPartial" };
@@ -69,7 +69,7 @@
         gridViewSettings.EditFormLayoutProperties.Items.Add(itemSettings =>
         {
             itemSettings.ColumnName = "description";
-        }).RequiredMarkDisplayMode = FieldRequiredMarkMode.Required; ;
+        }).RequiredMarkDisplayMode = FieldRequiredMarkMode.Required; 
         gridViewSettings.EditFormLayoutProperties.Items.Add(itemSettings =>
         {
             itemSettings.ColumnName = "unidad";
@@ -127,7 +127,7 @@
         gridViewSettings.Columns.Add(columnSettings =>
         {
             columnSettings.FieldName = "codigo";
-            columnSettings.Caption = "codigo";
+            columnSettings.Caption = "Codigo articulo";
 
             columnSettings.Width = System.Web.UI.WebControls.Unit.Pixel(100);
             columnSettings.CellStyle.HorizontalAlign = HorizontalAlign.Left;

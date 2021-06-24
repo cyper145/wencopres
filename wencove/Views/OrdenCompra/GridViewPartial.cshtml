@@ -2,9 +2,9 @@
 @using wencove.conexion.model.entity;
 @using wencove.Code;
 @using wencove.Model;
-
+@model List<OrdenCompra>
 @{
-    var gridView = Html.DevExpress().GridView<OrdenCompra>(gridViewSettings =>
+    var gridView = Html.DevExpress().GridView(gridViewSettings =>
     {
         gridViewSettings.Name = "gridView";
         gridViewSettings.KeyFieldName = "OC_CNUMORD";
@@ -15,7 +15,7 @@
             Action = "GridViewPartial" };
         gridViewSettings.CustomActionRouteValues = new { Controller = "OrdenCompra", Action = "GridViewCustomActionPartial" };
         gridViewSettings.SettingsEditing.AddNewRowRouteValues = new { Controller = "OrdenCompra", Action = "GridViewAddNewPartial" };
-        gridViewSettings.SettingsEditing.UpdateRowRouteValues = new { Controller = "Proveedor", Action = "GridViewUpdatePartial" };
+        gridViewSettings.SettingsEditing.UpdateRowRouteValues = new { Controller = "OrdenCompra", Action = "GridViewUpdatePartial" };
 
         gridViewSettings.EnablePagingGestures = AutoBoolean.False;
 
@@ -75,6 +75,8 @@
                 layoutSetting.SettingsAdaptivity.SwitchToSingleColumnAtWindowInnerWidth = 700;
                 layoutSetting.UseDefaultPaddings = false;
 
+
+
                 var groupItem = layoutSetting.Items.AddGroupItem(groupSettings =>
                 {
 
@@ -86,17 +88,21 @@
                 {
 
                     i.FieldName = "OC_CNUMORD";
+                    i.Caption = "Número";
+
                     i.ColumnSpan = 2;
                     i.NestedExtension().TextBox(t =>
                     {
-                        t.Properties.ValidationSettings.Display = Display.Dynamic;
-                        t.ShowModelErrors = true;
+                        t.ReadOnly = true;
                         t.Width = Unit.Percentage(25);
+
+                        t.Properties.ClientSideEvents.Init = "onData";
                     });
                 });
                 groupItem.Items.Add( i =>
                 {
                     i.FieldName = "EST_NOMBRE";
+                    i.Caption = "Estado:";
                     i.ColumnSpan = 1;
                     i.NestedExtension().TextBox(t =>
                     {
@@ -117,33 +123,52 @@
                 groupItem.Items.Add(i =>
                 {
                     i.FieldName = "oc_ccodpro";
+                    i.Name = "datax";
+                    i.Caption = "Proveedor";
+                    i.ShowCaption = DefaultBoolean.False;
+
                     i.ColumnSpan = 3;
-                    i.NestedExtension().TextBox(t =>
+
+                    /*
+                    columnSettings.ColumnType = MVCxGridViewColumnType.ComboBox;
+                    ComboBoxProperties properties = columnSettings.PropertiesEdit as ComboBoxProperties;
+                    properties.TextField = "PRVCNOMBRE";
+                    properties.ValueField = "PRVCCODIGO";
+                    properties.DataSource = ViewData["Proveedores"];
+                    columnSettings.SetEditItemTemplateContent(container =>
                     {
-                        t.Properties.ValidationSettings.Display = Display.Dynamic;
-                        t.ShowModelErrors = true;
+                        Html.RenderAction("MultiSelectProveedor", new { CurrentCategory = DataBinder.Eval(container.DataItem, "oc_ccodpro") });
+                    });*/
+                    i.SetNestedContent(() =>
+                    {
+
+                        Html.RenderAction("MultiSelectProveedor");
                     });
                 });
                 groupItem.Items.Add( i =>
 
                 {
                     i.FieldName = "OC_CRAZSOC";
+                    i.ShowCaption = DefaultBoolean.False;
                     i.ColumnSpan = 4;
                     i.NestedExtension().TextBox(t =>
                     {
                         t.Properties.ValidationSettings.Display = Display.Dynamic;
                         t.ShowModelErrors = true;
+                        t.ReadOnly = true;
                     });
                 });
                 groupItem.Items.Add( i =>
 
                 {
-                    i.FieldName = "OC_CDIRPRO";
+                    i.FieldName = "RUC";
+                    i.Caption = "RUC:";
                     i.ColumnSpan = 2;
                     i.NestedExtension().TextBox(t =>
                     {
                         t.Properties.ValidationSettings.Display = Display.Dynamic;
                         t.ShowModelErrors = true;
+                        t.ReadOnly = true;
                     });
                 });
                 groupItem.Items.Add( i =>
@@ -151,8 +176,13 @@
                 {
                     i.FieldName = "OC_CDOCREF";
                     i.ColumnSpan = 2;
-                    i.NestedExtension().TextBox(t =>
+                    i.NestedExtension().ComboBox(t =>
                     {
+                        t.SelectedIndex = 0;
+                        t.Properties.ValueType = typeof(string);
+                        t.Properties.Items.Add("REQUISCIONES DE COMRA ", "RQ");
+                        t.Properties.Items.Add("sOLICITUD DE COTIZACIÓN ", "SC");
+
                         t.Properties.ValidationSettings.Display = Display.Dynamic;
                         t.ShowModelErrors = true;
                     });
@@ -163,8 +193,13 @@
                     i.FieldName = "OC_CNRODOCREF";
                     i.ColumnSpan = 1;
                     i.Caption = "";
-                    i.NestedExtension().TextBox(t =>
+                    i.NestedExtension().ComboBox(t =>
                     {
+                        t.SelectedIndex = 0;
+                        t.Properties.ValueType = typeof(string);
+                        t.Properties.Items.Add("REQUISCIONES DE COMRA ", "100001");
+                        t.Properties.Items.Add("sOLICITUD DE COTIZACIÓN ", "10002");
+
                         t.Properties.ValidationSettings.Display = Display.Dynamic;
                         t.ShowModelErrors = true;
                     });
@@ -200,8 +235,13 @@
                     i.FieldName = "OC_CCODMON";
                     i.ColumnSpan = 2;
                     i.Caption = "MONEDA";
-                    i.NestedExtension().TextBox(t =>
+                    i.NestedExtension().ComboBox(t =>
                     {
+                        t.SelectedIndex = 0;
+                        t.Properties.ValueType = typeof(string);
+                        t.Properties.Items.Add("DOLARES AMERICANOS ", "ME");
+                        t.Properties.Items.Add("NUEVOS SOLES ", "MN");
+
                         t.Properties.ValidationSettings.Display = Display.Dynamic;
                         t.ShowModelErrors = true;
                     });
@@ -212,10 +252,17 @@
                     i.FieldName = "COVMON_CODIGO";
                     i.ColumnSpan = 2;
                     i.Caption = "TIPO CAMBIO";
-                    i.NestedExtension().TextBox(t =>
+                    i.NestedExtension().ComboBox(t =>
                     {
                         t.Properties.ValidationSettings.Display = Display.Dynamic;
                         t.ShowModelErrors = true;
+                        t.SelectedIndex = 0;
+                        t.Properties.ValueType = typeof(string);
+                        t.Properties.Items.Add("T/C COMPRA", "COM");
+                        t.Properties.Items.Add("T/C ESPECIAL ", "ESP");
+                        t.Properties.Items.Add("T/C  OTRA FECHA ", "FEC");
+                        t.Properties.Items.Add("T/C VENTA ", "VTA");
+
                     });
                 });
                 groupItem.Items.Add(i =>
@@ -237,10 +284,15 @@
                     i.FieldName = "OC_CFORPAG";
                     i.ColumnSpan = 8;
                     i.Caption = "Forma de Pago";
-                    i.NestedExtension().TextBox(t =>
+                    i.NestedExtension().ComboBox(t =>
                     {
                         t.Properties.ValidationSettings.Display = Display.Dynamic;
                         t.ShowModelErrors = true;
+                        t.SelectedIndex = 0;
+                        t.Properties.ValueType = typeof(string);
+                        t.Properties.DataSource = ViewData["FormasPago"];
+                        t.Properties.ValueField = "COD_FP";
+                        t.Properties.TextField = "DES_FP";
                     });
                 });
 
@@ -277,15 +329,21 @@
                     i.FieldName = "OC_SOLICITA";
                     i.ColumnSpan = 4;
                     i.Caption = " Solicitado por";
-                    i.NestedExtension().TextBox(t =>
+                    i.NestedExtension().ComboBox(t =>
                     {
                         t.Properties.ValidationSettings.Display = Display.Dynamic;
                         t.ShowModelErrors = true;
+                        t.SelectedIndex = 0;
+                        t.Properties.ValueType = typeof(string);
+                        t.Properties.DataSource = ViewData["Solicitud"];
+                        t.Properties.ValueField = "TCLAVE";
+                        t.Properties.TextField = "TDESCRI";
                     });
+
                 });
 
 
-
+                /*
                 layoutSetting.Items.AddGroupItem(groupSettings =>
                 {
                     groupSettings.Caption = "Articulos";
@@ -293,23 +351,44 @@
                     groupSettings.ColumnCount = 12;
                     var groupItemd=groupSettings.Items.Add(itemSettings =>
                     {
-                        itemSettings.ColumnSpan = 6;
+                        itemSettings.ColumnSpan = 2;
+                        itemSettings.RowSpan = 2;
                         itemSettings.ShowCaption = DefaultBoolean.False;
                         itemSettings.SetNestedContent(() =>
                         {
+
                             Html.RenderAction("MultiSelectPartial");
                         });
                     });
                     groupSettings.Items.Add(i =>
 
                     {
+                        i.FieldName = "nameArticulo";
+                        i.ColumnSpan = 4;
+                        i.RowSpan = 2;
+                        i.ShowCaption = DefaultBoolean.False;
+                        i.NestedExtension().TextBox(t =>
+                        {
+                            t.ReadOnly = true;
+                            t.Enabled = false;
+                            t.Properties.ValidationSettings.Display = Display.Dynamic;
+                            t.ShowModelErrors = true;
+                        });
+                    });
+
+                    groupSettings.Items.Add(i =>
+
+                    {
                         i.FieldName = "precio";
                         i.ColumnSpan = 2;
+                        i.RowSpan = 2;
                         i.Caption = "Precio";
-                        i.NestedExtension().SpinEdit(t =>
+                        i.NestedExtension().TextBox(t =>
                         {
                             t.Properties.ValidationSettings.Display = Display.Dynamic;
                             t.ShowModelErrors = true;
+                            t.Properties.DisplayFormatString = "D";
+                            // t.Properties.DecimalPlaces = 2;
                         });
                     });
                     groupSettings.Items.Add(i =>
@@ -318,10 +397,24 @@
                         i.FieldName = "cantidad";
                         i.ColumnSpan = 2;
                         i.Caption = "Cantidad";
-                        i.NestedExtension().SpinEdit(t =>
+                        i.NestedExtension().TextBox(t =>
                         {
                             t.Properties.ValidationSettings.Display = Display.Dynamic;
                             t.ShowModelErrors = true;
+                            t.Properties.DisplayFormatString = "D";
+                        });
+                    });
+                    groupSettings.Items.Add(i =>
+
+                    {
+                        i.FieldName = "descuento";
+                        i.ColumnSpan = 2;
+                        i.Caption = "descuento";
+                        i.NestedExtension().TextBox(t =>
+                        {
+                            t.Properties.ValidationSettings.Display = Display.Dynamic;
+                            t.ShowModelErrors = true;
+                            t.Properties.DisplayFormatString = "D";
                         });
                     });
                     groupSettings.Items.Add(i =>
@@ -329,18 +422,21 @@
                     {
                         i.FieldName = "total";
                         i.ColumnSpan = 2;
+                        i.HorizontalAlign = FormLayoutHorizontalAlign.Right;
                         i.Caption = "Total";
-                        i.NestedExtension().SpinEdit(t =>
+                        i.NestedExtension().TextBox(t =>
                         {
                             t.Properties.ValidationSettings.Display = Display.Dynamic;
                             t.ShowModelErrors = true;
+                            t.Properties.DisplayFormatString = "D";
+
                         });
                     });
 
                 });
 
 
-
+                */
 
 
                 layoutSetting.Items.AddGroupItem(groupSettings =>
@@ -352,7 +448,7 @@
                         itemSettings.ShowCaption = DefaultBoolean.False;
                         itemSettings.SetNestedContent(() =>
                         {
-                            Html.RenderAction("EditPartialForm");
+                            Html.RenderAction("Toolbar" ,new { CurrentCategory = DataBinder.Eval(c.DataItem, "OC_CNUMORD") });
                         });
                     });
 
@@ -370,7 +466,7 @@
                         {
                             btnSettings.Name = "btnUpdate";
                             btnSettings.Text = "Update";
-                            btnSettings.ClientSideEvents.Click = "function(s, e){ GridView.UpdateEdit(); }";
+                            btnSettings.ClientSideEvents.Click = "function(s, e){ gridView.UpdateEdit(); }";
 
                             //I want to Hide Update Button when FirstName is "John"
 
@@ -382,7 +478,7 @@
                             btnSettings.Name = "btnCancel";
                             btnSettings.Text = "Cancel";
                             btnSettings.Style[HtmlTextWriterStyle.MarginLeft] = "5px";
-                            btnSettings.ClientSideEvents.Click = "function(s, e){ GridView.CancelEdit(); }";
+                            btnSettings.ClientSideEvents.Click = "function(s, e){ gridView.CancelEdit(); }";
                         }).Render();
                     ViewContext.Writer.Write("</div>");
                 });
@@ -491,15 +587,7 @@
 
             columnSettings.Width = Unit.Pixel(150);
 
-            columnSettings.ColumnType = MVCxGridViewColumnType.ComboBox;
-            ComboBoxProperties properties = columnSettings.PropertiesEdit as ComboBoxProperties;
-            properties.TextField = "PRVCNOMBRE";
-            properties.ValueField = "PRVCCODIGO";
-            properties.DataSource = ViewData["Proveedores"];
-            columnSettings.SetEditItemTemplateContent(container =>
-            {
-                Html.RenderAction("MultiSelectProveedor", new { CurrentCategory = DataBinder.Eval(container.DataItem, "oc_ccodpro") });
-            });
+
 
         });
         /*

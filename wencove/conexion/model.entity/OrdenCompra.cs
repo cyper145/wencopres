@@ -49,11 +49,14 @@ namespace wencove.conexion.model.entity
         public string EST_NOMBRE { get; set; }
        
         public string COVMON_CODIGO { get; set; }
+        public string nameArticulo { get; set; }
         public decimal precio { get; set; }
+        public decimal descuento { get; set; }
+
         public decimal cantidad { get; set; }
         public decimal total { get; set; }
         
-
+        public string RUC { get; set; }
 
 
         public List<DetalleOrdenCompra> detalles;

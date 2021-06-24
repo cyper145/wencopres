@@ -41,7 +41,7 @@ namespace wencove.conexion.model.dao
         public List<Proveedor> findAll()
         {
             List<Proveedor> listArticulos = new List<Proveedor>();
-            string findAll = "SELECT prvccodigo,prvcnombre,prvcdirecc,prvctelef1 FROM maeprov ";
+            string findAll = "SELECT prvccodigo,prvcnombre,prvcdirecc,prvctelef1,PRVCRUC FROM maeprov ";
             try
             {
                 comando = new SqlCommand(findAll, objConexion.getCon());
@@ -53,7 +53,8 @@ namespace wencove.conexion.model.dao
                     proveedor.PRVCCODIGO = read[0].ToString();
                     proveedor.PRVCNOMBRE = read[1].ToString();
                     proveedor.PRVCDIRECC = read[2].ToString();
-                    proveedor.PRVCTELEF1 = read[3].ToString();                          
+                    proveedor.PRVCTELEF1 = read[3].ToString(); 
+                    proveedor.PRVCRUC= read[4].ToString();
                     listArticulos.Add(proveedor);
                 }
             }

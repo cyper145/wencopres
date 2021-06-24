@@ -1,7 +1,11 @@
-﻿
+﻿@using wencove.conexion.model.entity
+
+
+
+
 @Html.DevExpress().Menu(menuSettings =>
 {
-    menuSettings.Name = "pageToolbar";
+    menuSettings.Name = "pageToolbarOrdenes";
 
     menuSettings.ItemAutoWidth = false;
     menuSettings.AllowSelectItem = false;
@@ -29,17 +33,16 @@
     });
     menuSettings.Items.Add(item =>
     {
-        item.Name = "NewArticle";
+        item.Name = "NewDetalles";
         item.Text = "New";
         item.Alignment = MenuItemAlignment.Left;
         item.AdaptivePriority = 2;
         item.Image.Url = "Content/Images/add.svg";
-        item.VisibleIndex = 5;
 
     });
     menuSettings.Items.Add(item =>
     {
-        item.Name = "Edit";
+        item.Name = "EditDetalles";
         item.Text = "Edit";
         item.Alignment = MenuItemAlignment.Left;
         item.AdaptivePriority = 2;
@@ -47,57 +50,68 @@
     });
     menuSettings.Items.Add(item =>
     {
-        item.Name = "Delete";
+        item.Name = "DeleteDetalles";
         item.Text = "Delete";
         item.Alignment = MenuItemAlignment.Left;
         item.AdaptivePriority = 2;
         item.Image.Url = "Content/Images/delete.svg";
     });
-    menuSettings.Items.Add(item =>
-    {
-        item.Name = "Export";
-        item.Text = "Export";
-        item.Alignment = MenuItemAlignment.Left;
-        item.AdaptivePriority = 2;
-        item.Image.Url = "Content/Images/export.svg";
-    });
-    menuSettings.Items.Add(item =>
-    {
-        item.Name = "ToggleFilterPanel";
-        item.Text = "";
-        item.GroupName = "Filter";
-        item.Alignment = MenuItemAlignment.Left;
-        item.AdaptivePriority = 1;
-        item.Image.Url = "Content/Images/search.svg";
-        item.Image.UrlChecked = "Content/Images/search-selected.svg";
-    });
-    menuSettings.ClientSideEvents.ItemClick = "onPageToolbarItemClick";
+    
+    menuSettings.ClientSideEvents.ItemClick = "onPageToolbarItemClickDetalles";
+
 }).GetHtml()
+
+
+
 @Html.DevExpress().GridView(settings =>
 {
     settings.Name = "gridViewd";
     settings.KeyFieldName = "Codigo";
+    settings.CallbackRouteValues = new { Controller = "OrdenCompra", Action = "EditPartialForm" };
+    settings.CustomActionRouteValues = new { Controller = "OrdenCompra", Action = "GridViewCustomActionPartial" };
+    settings.SettingsEditing.AddNewRowRouteValues = new { Controller = "OrdenCompra", Action = "GridViewAddNewPartial" };
+    settings.SettingsEditing.UpdateRowRouteValues = new { Controller = "OrdenCompra", Action = "GridViewUpdatePartial" };
+    settings.EnablePagingGestures = AutoBoolean.False;
+    settings.ControlStyle.CssClass = "grid-view";
+    settings.Width = Unit.Percentage(100);
+    settings.Styles.Cell.Wrap = DefaultBoolean.False;
+    settings.Styles.PagerBottomPanel.CssClass = "pager";
+    settings.Styles.FocusedRow.CssClass = "focused";
+    settings.SettingsBehavior.AllowFocusedRow = true;
+    settings.SettingsBehavior.AllowSelectByRowClick = true;
+    settings.SettingsBehavior.AllowEllipsisInText = true;
+    settings.SettingsBehavior.AllowDragDrop = false;
+    settings.SettingsEditing.Mode = GridViewEditingMode.PopupEditForm;
+    settings.SettingsEditing.EditFormColumnCount = 2;
+    settings.Settings.VerticalScrollBarMode = ScrollBarMode.Hidden;
+    settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Auto;
+    settings.Settings.ShowHeaderFilterButton = true;
+    settings.SettingsPager.PageSize = 15;
+    settings.SettingsPager.EnableAdaptivity = true;
+    settings.SettingsPager.PageSizeItemSettings.Visible = true;
+    settings.SettingsExport.EnableClientSideExportAPI = true;
+    settings.SettingsExport.ExportSelectedRowsOnly = true;
+    settings.SettingsPopup.EditForm.SettingsAdaptivity.MaxWidth = 500;
+    settings.SettingsPopup.EditForm.SettingsAdaptivity.Mode = PopupControlAdaptivityMode.Always;
+    settings.SettingsPopup.EditForm.SettingsAdaptivity.VerticalAlign = PopupAdaptiveVerticalAlign.WindowCenter;
+    settings.EditFormLayoutProperties.SettingsAdaptivity.AdaptivityMode = FormLayoutAdaptivityMode.SingleColumnWindowLimit;
+    settings.EditFormLayoutProperties.SettingsAdaptivity.SwitchToSingleColumnAtWindowInnerWidth = 600;
 
-    settings.CallbackRouteValues = new { Controller = "OrdenCompra", Action = "GridViewPartial" };
-    settings.CustomActionRouteValues = new { Controller = "OrdenCompra", Action = "GridViewCustomActionUpdate" };
-    settings.SettingsEditing.BatchUpdateRouteValues = new { Controller = "OrdenCompra", Action = "BatchUpdatePartial" };
-    settings.SettingsEditing.Mode = GridViewEditingMode.Batch;
-
-    settings.ClientSideEvents.BeginCallback = "OnBeginCallback";
-    settings.ClientSideEvents.EndCallback = "OnEndCallback";
-    settings.CommandColumn.Visible = true;
-    settings.CommandColumn.ShowDeleteButton = true;
-    settings.CommandColumn.ShowNewButtonInHeader = true;
-    settings.SettingsEditing.ShowModelErrorsForEditors = true;
+    settings.EditFormLayoutProperties.UseDefaultPaddings = false;
+    settings.EditFormLayoutProperties.SettingsItemCaptions.Location = LayoutItemCaptionLocation.Top;
+    settings.EditFormLayoutProperties.Styles.LayoutGroup.Cell.Paddings.Padding = Unit.Pixel(3);
+    settings.EditFormLayoutProperties.Styles.LayoutItem.Paddings.PaddingBottom = Unit.Pixel(8);
+    settings.EditFormLayoutProperties.Items.Add(itemSettings =>
+    {
+        itemSettings.ColumnName = "oc_ccodpro";
+    });
 
     settings.Columns.Add(column =>
     {
         column.FieldName = "oc_ccodpro";
         column.Caption = "código";
-
-        column.Width = 70;
+        column.Width = 100;
     });
-
     settings.Columns.Add(column =>
     {
         column.FieldName = "OC_CDESREF";
@@ -108,7 +122,7 @@
     {
         column.FieldName = "OC_GLOSA";
         column.Caption = "glosa";
-
+        column.Width = 400;
     });
     settings.Columns.Add(column =>
     {
@@ -150,6 +164,10 @@
         ASPxEdit editor = (ASPxEdit)e.Editor;
         editor.ValidationSettings.Display = Display.Dynamic;
     };
+
+    settings.ClientSideEvents.Init = "onGridViewInitDetalles";
+    settings.ClientSideEvents.SelectionChanged = "onGridViewSelectionChangedDetalles";
+    settings.ClientSideEvents.BeginCallback = "onGridViewBeginCallback";
     settings.CustomJSProperties = (s, e) =>
     {
         if (ViewData["SuccessFlag"] != null)
@@ -162,4 +180,6 @@
             e.Visible = false;
     };
 }).Bind(Model).GetHtml()
+
+
 

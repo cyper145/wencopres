@@ -51,7 +51,7 @@ namespace wencove.conexion.model.dao
         {
            
 
-            string findAll = "SELECT * FROM comovc, estado_oc WHERE comovc.oc_csitord = estado_oc.est_codigo";
+            string findAll = "SELECT TOP (20) * FROM comovc, estado_oc WHERE comovc.oc_csitord = estado_oc.est_codigo";
             try
             {
                 comando = new SqlCommand(findAll, objConexion.getCon());
@@ -185,6 +185,73 @@ namespace wencove.conexion.model.dao
             return listUsers;
         }
 
+        public List<FormaPago> findAllFormasPago()
+        {
+            List<FormaPago> listUsers = new List<FormaPago>();
+
+
+            string findAll = "SELECT COD_FP,DES_FP FROM FORMA_PAGO";
+            try
+            {
+                comando = new SqlCommand(findAll, objConexion.getCon());
+                objConexion.getCon().Open();
+                SqlDataReader read = comando.ExecuteReader();
+                while (read.Read())
+                {
+                    FormaPago user = new FormaPago();
+                    user.COD_FP = read[0].ToString();
+                    user.DES_FP = read[1].ToString();
+                   
+                    
+
+
+
+                    listUsers.Add(user);
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            finally
+            {
+                objConexion.getCon().Close();
+                objConexion.cerrarConexion();
+            }
+            return listUsers;
+        }
+        public List<Solicitud> findAllSolitud()
+        {
+            List<Solicitud> listUsers = new List<Solicitud>();
+
+
+            string findAll = "Select TCLAVE,TDESCRI from TABAYU  where TCOD= '12'";
+            try
+            {
+                comando = new SqlCommand(findAll, objConexion.getCon());
+                objConexion.getCon().Open();
+                SqlDataReader read = comando.ExecuteReader();
+                while (read.Read())
+                {
+                    Solicitud user = new Solicitud();
+                    user.TCLAVE = read[0].ToString();
+                    user.TDESCRI = read[1].ToString();
+                    listUsers.Add(user);
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            finally
+            {
+                objConexion.getCon().Close();
+                objConexion.cerrarConexion();
+            }
+            return listUsers;
+        }
         public decimal ParseDecimal(string data)
         {
             if (data == "")

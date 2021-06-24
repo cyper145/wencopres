@@ -23,7 +23,14 @@ namespace wencove.conexion.model.neg
         {
             return objUserDao.findAllDetail(OC_CNUMORD);
         }
-
+        public List<FormaPago> findAllFormasPago()
+        {
+            return objUserDao.findAllFormasPago();
+        }
+        public List<Solicitud> findAllSolicitud()
+        {
+            return objUserDao.findAllSolitud();
+        }
         public OrdenCompra find(string id)
         {
             return objUserDao.find(id);

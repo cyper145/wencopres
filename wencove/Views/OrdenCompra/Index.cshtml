@@ -23,12 +23,83 @@
 
     function CloseGridLookup() {
         gridLookup.ConfirmCurrentSelection();
+        console.log("dd")
+        console.log(datax)
         gridLookup.HideDropDown();
     }
-    function CloseGridLookupProveedor() {
+    function CloseGridLookupProveedor() {      
+        console.log(gridLookupProveedor);
         gridLookupProveedor.ConfirmCurrentSelection();
         gridLookupProveedor.HideDropDown();
-    }
+     }
+        function OnGridRowClick(s, e) {
+            console.log("dd")
+            var g = gridLookupProveedor.GetGridView();
+            g.GetRowValues(e.visibleIndex, 'PRVCNOMBRE;PRVCRUC', OnGetRowValues);
+       }
+        function OnGetRowValues(Value) {
+            OC_CRAZSOC.SetText(Value[0]);
+            RUC.SetText(Value[1]);
+        }
+        function OnGridArticuloRowClick(s, e) {
+            var g = gridLookup.GetGridView();
+            g.GetRowValues(e.visibleIndex, 'description;unidad', OnGetRowArticuloValues);
+        }
+        function OnGetRowArticuloValues(Value) {
+
+            var data = document.getElementById("grid_DXEFL_DXEditor1_I");
+            data.value = Value[0];
+            console.log(data);
+           // OC_CDESREF.SetText(Value[0]);
+        }
+        function changegCalcularPrecioCantidad(s, e) {
+            var data = document.getElementById("grid_DXEFL_DXEditor5_I");
+            let precioUnitario = 0;
+            let cantidad = 0;
+            
+            if (data.value == "" || data.value == NaN) {
+                precioUnitario = 0;
+            }
+            else {
+                precioUnitario = parseFloat(data.value);
+            }
+            if (s.GetText() == "") {
+                cantidad = 0;
+            }
+            else {
+                cantidad = parseFloat(s.GetText());
+            }
+            var PrecioTotal = document.getElementById("grid_DXEFL_DXEditor7_I");
+
+            PrecioTotal.value = precioUnitario * cantidad;
+
+        }
+        function changegCalcularPrecioPunitario(s, e) {
+
+            var data = document.getElementById("grid_DXEFL_DXEditor4_I");// cantidad
+            let precioUnitario=0;
+            let cantidad=0;
+            if (data.value == "" || data.value == NaN) {
+                cantidad = 0;
+            }
+            else {
+                cantidad = parseFloat(data.value);
+            }
+            if (s.GetText() == "") {
+                precioUnitario = 0;
+            }
+            else {
+                precioUnitario = parseFloat(s.GetText());
+            }
+         
+            var PrecioTotal = document.getElementById("grid_DXEFL_DXEditor7_I");
+
+            PrecioTotal.value = precioUnitario * cantidad;
+        }
+
+        function onData() {
+            OC_CNUMORD.SetText("0000000001514");
+        }
     function OnClick(s, e) {
         if ($("#myForm").valid()) {
             if (GridView.batchEditApi.HasChanges())

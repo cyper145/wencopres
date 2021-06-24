@@ -1,0 +1,165 @@
+﻿@using wencove.conexion.model.entity
+@using wencove.Model;
+@(Html.DevExpress().GridView<DetalleOrdenCompra>(settings => {
+    settings.Name = "grid";
+    settings.CallbackRouteValues = new { Controller = "OrdenCompra", Action = "ToolbarPartial", CurrentCategory = ViewData["codigoOrden"] };
+    settings.SettingsEditing.AddNewRowRouteValues = new { Controller = "OrdenCompra", Action = "ToolbarAddNewPartial" };
+    settings.SettingsEditing.UpdateRowRouteValues = new { Controller = "OrdenCompra", Action = "ToolbarUpdatePartial" };
+    settings.SettingsEditing.DeleteRowRouteValues = new { Controller = "OrdenCompra", Action = "ToolbarDeletePartial" };
+
+    settings.Toolbars.Add(tb => {
+        tb.Enabled = true;
+        tb.Position = GridToolbarPosition.Top;
+        tb.SettingsAdaptivity.Enabled = true;
+        tb.SettingsAdaptivity.EnableCollapseRootItemsToIcons = true;
+
+        tb.Items.Add(GridViewToolbarCommand.New);
+        tb.Items.Add(GridViewToolbarCommand.Edit);
+        tb.Items.Add(GridViewToolbarCommand.Delete);
+        tb.Items.Add(i => {
+            i.Command = GridViewToolbarCommand.Refresh;
+            i.BeginGroup = true;
+            i.AdaptivePriority = 2;
+        });
+
+    });
+
+    settings.ClientSideEvents.ToolbarItemClick = "OnToolbarItemClick";
+
+    settings.KeyFieldName = "Codigo";
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "oc_ccodigo";
+        column.Caption = "código";
+
+
+
+        column.ColumnType = MVCxGridViewColumnType.ComboBox;
+        ComboBoxProperties properties = column.PropertiesEdit as ComboBoxProperties;
+        properties.TextField = "codigo";
+        properties.ValueField = "codigo";
+        properties.DataSource = GridViewHelper.getArticulos();
+        column.SetEditItemTemplateContent(container =>
+        {
+            Html.RenderAction("MultiSelectPartial", new { CurrentCategory = DataBinder.Eval(container.DataItem, "oc_ccodpro") });
+        });
+
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "OC_CDESREF";
+        column.Caption = "Descripción";
+
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "OC_GLOSA";
+        column.Caption = "glosa";
+        column.Width = 400;
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "OC_CUNIDAD";
+        column.Caption = "Uni";
+
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "OC_NCANTID";
+        column.Caption = "Cantidad";
+
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        TextBoxProperties properties = column.PropertiesEdit as TextBoxProperties;
+        properties.ClientSideEvents.TextChanged = "changegCalcularPrecioCantidad";
+
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "OC_NPREUNI";
+        column.Caption = "Precio";
+
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        TextBoxProperties properties = column.PropertiesEdit as TextBoxProperties;
+        properties.ClientSideEvents.TextChanged = "changegCalcularPrecioPunitario";
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "OC_NDSCPOR";
+        column.Caption = "%Des";
+
+
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "OC_NTOTVEN";
+        column.Caption = "total";
+        // /column.ColumnType = MVCxGridViewColumnType.DateEdit;
+        // column.PropertiesEdit.DisplayFormatString = "MM/dd/yyyy";
+        // /((DateEditProperties)column.PropertiesEdit).EditFormat = EditFormat.Custom;
+        // ((DateEditProperties)column.PropertiesEdit).EditFormatString = "MM/dd/yyyy";
+    });
+
+
+    settings.EditFormLayoutProperties.ColCount = 12;
+    settings.EditFormLayoutProperties.ColumnCount = 12;
+
+    settings.EditFormLayoutProperties.Items.Add(i => {
+
+        i.ColumnName = "oc_ccodigo";
+        i.ColumnSpan = 2;
+        i.RowSpan = 2;
+        i.ShowCaption = DefaultBoolean.False;
+
+    } );
+    settings.EditFormLayoutProperties.Items.Add(i => {
+
+        i.ColumnName = "OC_CDESREF";
+        i.ShowCaption = DefaultBoolean.False;
+        i.ColumnSpan = 4;
+        i.RowSpan = 2;
+    });
+    // settings.EditFormLayoutProperties.Items.Add(i => i.OC_GLOSA);
+
+    settings.EditFormLayoutProperties.Items.Add(i => {
+
+        i.ColumnName = "OC_NCANTID";
+        i.ColumnSpan = 2;
+        i.RowSpan = 2;
+
+
+
+    } );
+    settings.EditFormLayoutProperties.Items.Add(i => {
+        i.ColumnName = "OC_NPREUNI";
+        i.ColumnSpan = 2;
+        i.RowSpan = 2;
+    });
+    settings.EditFormLayoutProperties.Items.Add(i => {
+        i.ColumnName = "OC_NDSCPOR";
+        i.ColumnSpan = 2;
+
+    });
+    settings.EditFormLayoutProperties.Items.Add(i => {
+        i.ColumnName = "OC_NTOTVEN";
+        i.ColumnSpan = 2;
+        i.RowSpan = 2;
+    });
+
+
+    settings.EditFormLayoutProperties.Items.AddCommandItem(i => {
+        i.ColumnSpan = 12;
+        i.RowSpan = 2;
+        i.HorizontalAlign = FormLayoutHorizontalAlign.Right;
+    });
+
+    settings.SettingsSearchPanel.CustomEditorName = "search";
+    settings.SettingsBehavior.AllowFocusedRow = true;
+
+    settings.SettingsExport.EnableClientSideExportAPI = true;
+    settings.SettingsExport.ExcelExportMode = DevExpress.Export.ExportType.DataAware;
+
+    settings.Width = Unit.Percentage(100);
+
+    //DevExpress.Web.Demos.GridViewFeaturesHelper.SetupGlobalGridViewBehavior(settings);
+}).Bind(Model).SetEditErrorText(ViewBag.EditError).GetHtml())

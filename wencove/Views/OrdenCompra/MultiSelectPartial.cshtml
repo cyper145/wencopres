@@ -1,20 +1,23 @@
-﻿@Html.DevExpress().GridLookup(settings =>
-{
-    settings.Properties.Caption = "Select tags:";
-    settings.Name = "gridLookup";
-    settings.GridViewProperties.CallbackRouteValues = new { Controller = "OrdenCompra", Action = "MultiSelectPartial" };
+﻿@using wencove.Model
 
-    settings.KeyFieldName = "Codigo";
-    settings.CommandColumn.Visible = true;
-    settings.CommandColumn.ShowSelectCheckbox = true;
-    settings.Columns.Add("codigo");
-    settings.Columns.Add("codigo2");
+
+@Html.DevExpress().GridLookup(settings =>
+{
+    settings.Properties.Caption = "Articulo:";
+    settings.Name = "gridLookup";
+    settings.GridViewProperties.CallbackRouteValues = new { Controller = "OrdenCompra", Action = "MultiSelectPartial", CurrentCategory = Model.codigo };
+
+    settings.KeyFieldName = "codigo";
+
+    // /settings.CommandColumn.Visible = true;
+    // settings.CommandColumn.ShowSelectCheckbox = false;
+    settings.Columns.Add("codigo").Visible = false;
+
     settings.Columns.Add("description");
     settings.Columns.Add("unidad");
-    settings.Columns.Add("stock");
-    settings.Columns.Add("marca");
+
     settings.Width = Unit.Percentage(100);
-    settings.Properties.SelectionMode = DevExpress.Web.GridLookupSelectionMode.Multiple;
+    settings.Properties.SelectionMode = DevExpress.Web.GridLookupSelectionMode.Single;
     settings.Properties.TextFormatString = "{0}";
     settings.Properties.MultiTextSeparator = ", ";
     settings.Properties.Width = 250;
@@ -23,6 +26,8 @@
     settings.GridViewProperties.Settings.ShowStatusBar = GridViewStatusBarMode.Visible;
     settings.GridViewProperties.SettingsPager.EnableAdaptivity = true;
     settings.GridViewProperties.SettingsPager.PageSize = 7;
+
+    settings.GridViewClientSideEvents.RowClick = "OnGridArticuloRowClick ";
     settings.GridViewProperties.SetStatusBarTemplateContent(c =>
     {
         ViewContext.Writer.Write("<div style=\"padding: 2px 8px 2px 0; float: right\">");
@@ -41,4 +46,4 @@
         var gridLookup = (MVCxGridLookup)sender;
         gridLookup.GridView.Width = 250;
     };
-}).BindList(Model).GetHtml()
+}).BindList(GridViewHelper.getArticulos()).Bind(Model.codigo).GetHtml()

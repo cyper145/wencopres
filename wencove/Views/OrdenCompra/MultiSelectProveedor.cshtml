@@ -10,19 +10,23 @@
 
     //settings.CommandColumn.Visible = true;
     // settings.CommandColumn.ShowSelectCheckbox = true;
-    settings.Columns.Add("PRVCCODIGO");
-    settings.Columns.Add("PRVCNOMBRE");
-    settings.Columns.Add("PRVCRUC");
+    settings.Columns.Add("PRVCCODIGO").Visible = false;
+    settings.Columns.Add("PRVCNOMBRE").Caption="Razon Social";
+    settings.Columns.Add("PRVCRUC").Caption= "RUC";
 
     settings.Properties.SelectionMode = DevExpress.Web.GridLookupSelectionMode.Single;
     settings.Properties.TextFormatString = "{0}";
     settings.Properties.MultiTextSeparator = ", ";
-    settings.Properties.Width = 250;
+    settings.Properties.Width = Unit.Percentage(100);
 
     settings.GridViewProperties.Settings.ShowFilterRow = true;
     settings.GridViewProperties.Settings.ShowStatusBar = GridViewStatusBarMode.Visible;
     settings.GridViewProperties.SettingsPager.EnableAdaptivity = true;
     settings.GridViewProperties.SettingsPager.PageSize = 7;
+
+    settings.GridViewClientSideEvents.RowClick = "OnGridRowClick";
+
+
     settings.GridViewProperties.SetStatusBarTemplateContent(c =>
     {
         ViewContext.Writer.Write("<div style=\"padding: 2px 8px 2px 0; float: right\">");

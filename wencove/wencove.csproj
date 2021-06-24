@@ -263,6 +263,9 @@
     <Content Include="Views\OrdenCompra\MultiSelectPartial.cshtml" />
     <Content Include="Views\Article\dd.cshtml" />
     <Content Include="Views\OrdenCompra\MultiSelectProveedor.cshtml" />
+    <Content Include="Views\OrdenCompra\viewDetallePartial.cshtml" />
+    <Content Include="Views\OrdenCompra\Toolbar.cshtml" />
+    <Content Include="Views\OrdenCompra\ToolbarPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -288,11 +291,14 @@
     <Compile Include="conexion\model.dao\UserDao.cs" />
     <Compile Include="conexion\model.entity\Articulo.cs" />
     <Compile Include="conexion\model.entity\Empresa.cs" />
+    <Compile Include="conexion\model.entity\FormaPago.cs" />
+    <Compile Include="conexion\model.entity\InsertOrder.cs" />
     <Compile Include="conexion\model.entity\Modulo.cs" />
     <Compile Include="conexion\model.entity\OrdenCompra.cs" />
     <Compile Include="conexion\model.entity\Pais.cs" />
     <Compile Include="conexion\model.entity\Proveedor.cs" />
     <Compile Include="conexion\model.entity\Role.cs" />
+    <Compile Include="conexion\model.entity\Solicitud.cs" />
     <Compile Include="conexion\model.entity\User.cs" />
     <Compile Include="conexion\model.neg\Area.cs" />
     <Compile Include="conexion\model.neg\ArticuloNeg.cs" />

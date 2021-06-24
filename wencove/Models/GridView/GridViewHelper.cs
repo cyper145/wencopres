@@ -11,7 +11,30 @@ namespace wencove.Model
     {
 
 
+       public  static List<DetalleOrdenCompra> detalles = new List<DetalleOrdenCompra>();
 
+        public static List<OrdenCompra> OrdenCompras = new List<OrdenCompra>();
+
+        public static void GetDetalles()
+        {
+            if (detalles == null)
+            {
+                detalles = new List<DetalleOrdenCompra>();
+            }
+
+        }
+        public static void ClearDetalles()
+        {
+           
+                detalles = new List<DetalleOrdenCompra>();    
+        }
+        public static void GetOrdenCompras()
+        {
+            if (OrdenCompras == null)
+            {
+                OrdenCompras = new List<OrdenCompra>();
+            }
+        }
         public static List<Issue> GetIssues()
         {
             UserNeg userNeg = new UserNeg();
@@ -32,6 +55,12 @@ namespace wencove.Model
         public static List<Proveedor> getProveedor()
         {
             ProveedorNeg userNeg = new ProveedorNeg();
+            return userNeg.findAll();
+        }
+
+        public static List<Articulo> getArticulos()
+        {
+            ArticuloNeg  userNeg = new ArticuloNeg();
             return userNeg.findAll();
         }
 

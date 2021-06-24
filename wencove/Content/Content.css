@@ -436,4 +436,5 @@ form.asignation-form {
 }
 .dxgvEditFormDisplayRow_Office365 td.dxgv, .dxgvDetailCell_Office365 td.dxgv, .dxgvDataRow_Office365 td.dxgv, .dxgvDetailRow_Office365.dxgvADR td.dxgvAIC {
     padding: 5px 10px 5px;
+    font-size: 12px;
 }

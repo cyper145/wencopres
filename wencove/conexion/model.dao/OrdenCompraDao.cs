@@ -252,6 +252,39 @@ namespace wencove.conexion.model.dao
             }
             return listUsers;
         }
+
+
+        public List<NumDocCompras> findAllDocRef()
+        {
+            List<NumDocCompras> listUsers = new List<NumDocCompras>();
+
+
+            string findAll = "SELECT CTNCODIGO, CTDESCRIP FROM NUM_DOCCOMPRAS WHERE CTNCODIGO = 'RQ' OR CTNCODIGO = 'SC'";
+            try
+            {
+                comando = new SqlCommand(findAll, objConexion.getCon());
+                objConexion.getCon().Open();
+                SqlDataReader read = comando.ExecuteReader();
+                while (read.Read())
+                {
+                    NumDocCompras user = new NumDocCompras();
+                    user.CTNCODIGO = read[0].ToString();
+                    user.CTDESCRIP = read[1].ToString();
+                    listUsers.Add(user);
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            finally
+            {
+                objConexion.getCon().Close();
+                objConexion.cerrarConexion();
+            }
+            return listUsers;
+        }
         public decimal ParseDecimal(string data)
         {
             if (data == "")

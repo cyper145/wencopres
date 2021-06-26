@@ -31,6 +31,10 @@ namespace wencove.conexion.model.neg
         {
             return objUserDao.findAllSolitud();
         }
+        public List<NumDocCompras> findAllDocRef()
+        {
+            return objUserDao.findAllDocRef();
+        }
         public OrdenCompra find(string id)
         {
             return objUserDao.find(id);

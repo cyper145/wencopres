@@ -14,7 +14,9 @@ namespace wencove.Model
        public  static List<DetalleOrdenCompra> detalles = new List<DetalleOrdenCompra>();
 
         public static List<OrdenCompra> OrdenCompras = new List<OrdenCompra>();
+        public static string OC_CDOCREF ="";
 
+      
         public static void GetDetalles()
         {
             if (detalles == null)

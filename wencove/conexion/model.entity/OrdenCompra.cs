@@ -66,6 +66,8 @@ namespace wencove.conexion.model.entity
         {
 
             detalles = new List<DetalleOrdenCompra>();
+            OC_DFECDOC = DateTime.Now;
+            OC_DFECENT = DateTime.Now;
         }
 
     }

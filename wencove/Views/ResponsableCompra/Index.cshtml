@@ -1,5 +1,5 @@
 ﻿@using wencove.conexion.model.entity
-@model List<Area>
+@model List<ResponsableCompra>
 
 
 @{
@@ -9,7 +9,7 @@
 @section PageToolbar {
     @Html.DevExpress().Menu(menuSettings =>
 {
-    menuSettings.Name = "pageToolbarAreas";
+    menuSettings.Name = "pageToolbarResponsable";
 
     menuSettings.ItemAutoWidth = false;
     menuSettings.AllowSelectItem = false;
@@ -33,7 +33,7 @@
     menuSettings.Items.Add(item =>
     {
         item.Enabled = false;
-        item.SetTemplateContent(template => ViewContext.Writer.Write("<h1>Areas</h1>"));
+        item.SetTemplateContent(template => ViewContext.Writer.Write("<h1>Responsable Compras</h1>"));
     });
 
 }).GetHtml()
@@ -67,8 +67,10 @@
     }
 </script>
 <div class="content master-grid">
-    @Html.Partial("AreasPartial", Model)
+    @Html.Partial("ResponsablePartial", Model)
 </div>
+
+
 
 
 

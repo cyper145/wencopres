@@ -37,7 +37,7 @@
 
         column.ColumnType = MVCxGridViewColumnType.ComboBox;
         ComboBoxProperties properties = column.PropertiesEdit as ComboBoxProperties;
-        properties.TextField = "codigo";
+        properties.TextField = "description";
         properties.ValueField = "codigo";
         properties.DataSource = GridViewHelper.getArticulos();
         column.SetEditItemTemplateContent(container =>
@@ -101,27 +101,35 @@
     });
 
 
-    settings.EditFormLayoutProperties.ColCount = 12;
-    settings.EditFormLayoutProperties.ColumnCount = 12;
+  
 
-    settings.EditFormLayoutProperties.Items.Add(i => {
+    var layout=  settings.EditFormLayoutProperties.Items.AddGroupItem(i => {
+
+        i.ShowCaption = DefaultBoolean.False;
+        i.GroupBoxDecoration = GroupBoxDecoration.Default;
+        i.ColumnCount = 12;
+    });
+
+
+    layout.Items.Add(i => {
 
         i.ColumnName = "oc_ccodigo";
-        i.ColumnSpan = 2;
+        i.ColumnSpan = 6;
         i.RowSpan = 2;
         i.ShowCaption = DefaultBoolean.False;
 
     } );
-    settings.EditFormLayoutProperties.Items.Add(i => {
+    layout.Items.Add(i => {
 
         i.ColumnName = "OC_CDESREF";
         i.ShowCaption = DefaultBoolean.False;
         i.ColumnSpan = 4;
         i.RowSpan = 2;
+        i.Visible = false;
     });
     // settings.EditFormLayoutProperties.Items.Add(i => i.OC_GLOSA);
 
-    settings.EditFormLayoutProperties.Items.Add(i => {
+    layout.Items.Add(i => {
 
         i.ColumnName = "OC_NCANTID";
         i.ColumnSpan = 2;
@@ -130,24 +138,24 @@
 
 
     } );
-    settings.EditFormLayoutProperties.Items.Add(i => {
+    layout.Items.Add(i => {
         i.ColumnName = "OC_NPREUNI";
         i.ColumnSpan = 2;
         i.RowSpan = 2;
     });
-    settings.EditFormLayoutProperties.Items.Add(i => {
+    layout.Items.Add(i => {
         i.ColumnName = "OC_NDSCPOR";
         i.ColumnSpan = 2;
 
     });
-    settings.EditFormLayoutProperties.Items.Add(i => {
+    layout.Items.Add(i => {
         i.ColumnName = "OC_NTOTVEN";
         i.ColumnSpan = 2;
         i.RowSpan = 2;
     });
 
 
-    settings.EditFormLayoutProperties.Items.AddCommandItem(i => {
+    layout.Items.AddCommandItem(i => {
         i.ColumnSpan = 12;
         i.RowSpan = 2;
         i.HorizontalAlign = FormLayoutHorizontalAlign.Right;

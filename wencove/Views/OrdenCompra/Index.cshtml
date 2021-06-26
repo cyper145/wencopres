@@ -121,7 +121,17 @@
     }
     function GetEditorValues() {
     	return MVCxClientUtils.GetSerializedEditorValuesInContainer("myForm");
-    }
+        }
+
+        function restartButtonClicked() {
+            gridView.FocusedRowIndex = -1;
+          
+            gridView.UnselectRows();
+            gridView.Refresh();
+        }
+
+
+
     </script>
 }
 

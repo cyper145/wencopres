@@ -3,8 +3,10 @@
 @using wencove.Code;
 @using wencove.Model;
 @model List<OrdenCompra>
+
 @{
-    var gridView = Html.DevExpress().GridView(gridViewSettings =>
+
+    var gridView = Html.DevExpress().GridView<OrdenCompra>(gridViewSettings =>
     {
         gridViewSettings.Name = "gridView";
         gridViewSettings.KeyFieldName = "OC_CNUMORD";
@@ -27,12 +29,15 @@
         gridViewSettings.Styles.FocusedRow.CssClass = "focused";
 
         gridViewSettings.SettingsBehavior.AllowFocusedRow = true;
-        gridViewSettings.SettingsBehavior.AllowSelectByRowClick = true;
+        //    gridViewSettings.SettingsBehavior.AllowSelectByRowClick = true;
         gridViewSettings.SettingsBehavior.AllowEllipsisInText = true;
         gridViewSettings.SettingsBehavior.AllowDragDrop = false;
 
         gridViewSettings.SettingsSearchPanel.CustomEditorName = "searchButtonEdit";
-
+        gridViewSettings.SearchPanelEditorCreate = (sender, e) =>
+        {
+            e.EditorProperties = new DateEditProperties();
+        };
         gridViewSettings.SettingsEditing.Mode = GridViewEditingMode.PopupEditForm;
         gridViewSettings.SettingsEditing.EditFormColumnCount = 2;
 
@@ -124,27 +129,19 @@
                 {
                     i.FieldName = "oc_ccodpro";
                     i.Name = "datax";
-                    i.Caption = "Proveedor";
+
                     i.ShowCaption = DefaultBoolean.False;
 
-                    i.ColumnSpan = 3;
-
-                    /*
-                    columnSettings.ColumnType = MVCxGridViewColumnType.ComboBox;
-                    ComboBoxProperties properties = columnSettings.PropertiesEdit as ComboBoxProperties;
-                    properties.TextField = "PRVCNOMBRE";
-                    properties.ValueField = "PRVCCODIGO";
-                    properties.DataSource = ViewData["Proveedores"];
-                    columnSettings.SetEditItemTemplateContent(container =>
-                    {
-                        Html.RenderAction("MultiSelectProveedor", new { CurrentCategory = DataBinder.Eval(container.DataItem, "oc_ccodpro") });
-                    });*/
+                    i.ColumnSpan = 8;
                     i.SetNestedContent(() =>
                     {
 
                         Html.RenderAction("MultiSelectProveedor");
                     });
                 });
+
+                #region
+                /*
                 groupItem.Items.Add( i =>
 
                 {
@@ -158,6 +155,7 @@
                         t.ReadOnly = true;
                     });
                 });
+
                 groupItem.Items.Add( i =>
 
                 {
@@ -171,20 +169,18 @@
                         t.ReadOnly = true;
                     });
                 });
+                */
+                #endregion
                 groupItem.Items.Add( i =>
 
                 {
                     i.FieldName = "OC_CDOCREF";
-                    i.ColumnSpan = 2;
-                    i.NestedExtension().ComboBox(t =>
+                    i.Caption="Doc Ref:";
+                    i.ColumnSpan = 3;
+                    i.SetNestedContent(() =>
                     {
-                        t.SelectedIndex = 0;
-                        t.Properties.ValueType = typeof(string);
-                        t.Properties.Items.Add("REQUISCIONES DE COMRA ", "RQ");
-                        t.Properties.Items.Add("sOLICITUD DE COTIZACIÓN ", "SC");
 
-                        t.Properties.ValidationSettings.Display = Display.Dynamic;
-                        t.ShowModelErrors = true;
+                        Html.RenderAction("MultiSelectDocRef", new { OC_CDOCREF = DataBinder.Eval(c.DataItem, "OC_CDOCREF") });
                     });
                 });
                 groupItem.Items.Add( i =>
@@ -211,10 +207,13 @@
                     i.FieldName = "OC_DFECDOC";
                     i.ColumnSpan = 3;
                     i.Caption = "Emisión";
+
                     i.NestedExtension().DateEdit(t =>
                     {
                         t.Properties.ValidationSettings.Display = Display.Dynamic;
                         t.ShowModelErrors = true;
+                        t.Date = DateTime.Now;
+
                     });
                 });
                 groupItem.Items.Add(i =>
@@ -223,10 +222,14 @@
                     i.FieldName = "OC_DFECENT";
                     i.ColumnSpan = 3;
                     i.Caption = "Entrega";
+
                     i.NestedExtension().DateEdit(t =>
                     {
-                        t.Properties.ValidationSettings.Display = Display.Dynamic;
-                        t.ShowModelErrors = true;
+
+
+                        t.Date = new DateTime(1984, 06, 14);
+                        t.Width = Unit.Percentage(100);
+
                     });
                 });
                 groupItem.Items.Add(i =>
@@ -342,102 +345,16 @@
 
                 });
 
-
-                /*
-                layoutSetting.Items.AddGroupItem(groupSettings =>
+                layoutSetting.Items.Add(itemSettings =>
                 {
-                    groupSettings.Caption = "Articulos";
-                    groupSettings.ShowCaption = DefaultBoolean.True;
-                    groupSettings.ColumnCount = 12;
-                    var groupItemd=groupSettings.Items.Add(itemSettings =>
+                    itemSettings.ShowCaption = DefaultBoolean.False;
+                    itemSettings.SetNestedContent(() =>
                     {
-                        itemSettings.ColumnSpan = 2;
-                        itemSettings.RowSpan = 2;
-                        itemSettings.ShowCaption = DefaultBoolean.False;
-                        itemSettings.SetNestedContent(() =>
-                        {
-
-                            Html.RenderAction("MultiSelectPartial");
-                        });
+                        Html.RenderAction("Toolbar", new { CurrentCategory = DataBinder.Eval(c.DataItem, "OC_CNUMORD") });
                     });
-                    groupSettings.Items.Add(i =>
-
-                    {
-                        i.FieldName = "nameArticulo";
-                        i.ColumnSpan = 4;
-                        i.RowSpan = 2;
-                        i.ShowCaption = DefaultBoolean.False;
-                        i.NestedExtension().TextBox(t =>
-                        {
-                            t.ReadOnly = true;
-                            t.Enabled = false;
-                            t.Properties.ValidationSettings.Display = Display.Dynamic;
-                            t.ShowModelErrors = true;
-                        });
-                    });
-
-                    groupSettings.Items.Add(i =>
-
-                    {
-                        i.FieldName = "precio";
-                        i.ColumnSpan = 2;
-                        i.RowSpan = 2;
-                        i.Caption = "Precio";
-                        i.NestedExtension().TextBox(t =>
-                        {
-                            t.Properties.ValidationSettings.Display = Display.Dynamic;
-                            t.ShowModelErrors = true;
-                            t.Properties.DisplayFormatString = "D";
-                            // t.Properties.DecimalPlaces = 2;
-                        });
-                    });
-                    groupSettings.Items.Add(i =>
-
-                    {
-                        i.FieldName = "cantidad";
-                        i.ColumnSpan = 2;
-                        i.Caption = "Cantidad";
-                        i.NestedExtension().TextBox(t =>
-                        {
-                            t.Properties.ValidationSettings.Display = Display.Dynamic;
-                            t.ShowModelErrors = true;
-                            t.Properties.DisplayFormatString = "D";
-                        });
-                    });
-                    groupSettings.Items.Add(i =>
-
-                    {
-                        i.FieldName = "descuento";
-                        i.ColumnSpan = 2;
-                        i.Caption = "descuento";
-                        i.NestedExtension().TextBox(t =>
-                        {
-                            t.Properties.ValidationSettings.Display = Display.Dynamic;
-                            t.ShowModelErrors = true;
-                            t.Properties.DisplayFormatString = "D";
-                        });
-                    });
-                    groupSettings.Items.Add(i =>
-
-                    {
-                        i.FieldName = "total";
-                        i.ColumnSpan = 2;
-                        i.HorizontalAlign = FormLayoutHorizontalAlign.Right;
-                        i.Caption = "Total";
-                        i.NestedExtension().TextBox(t =>
-                        {
-                            t.Properties.ValidationSettings.Display = Display.Dynamic;
-                            t.ShowModelErrors = true;
-                            t.Properties.DisplayFormatString = "D";
-
-                        });
-                    });
-
                 });
 
-
-                */
-
+                /*
 
                 layoutSetting.Items.AddGroupItem(groupSettings =>
                 {
@@ -453,7 +370,7 @@
                     });
 
                 });
-
+*/
 
                 layoutSetting.Items.Add(itemSettings =>
                 {
@@ -487,73 +404,7 @@
             }).Bind(ViewData["Object"] ?? c.DataItem).Render();
 
         });
-        /*
-        gridViewSettings.EditFormLayoutProperties.Items.Add(itemSettings =>
-        {
-            itemSettings.ColumnName = "oc_ccodpro";
 
-        }).RequiredMarkDisplayMode = FieldRequiredMarkMode.Required;
-
-        var groupItem = gridViewSettings.EditFormLayoutProperties.Items.AddGroupItem(groupSettings =>
-        {
-            groupSettings.ShowCaption = DefaultBoolean.True;
-            groupSettings.GroupBoxDecoration = GroupBoxDecoration.Default;
-            groupSettings.ColumnCount = 3;
-        });
-        groupItem.Items.Add(m => m.oc_ccodpro);*/
-
-
-
-        /* gridViewSettings.EditFormLayoutProperties.ColCount = 2;
-         gridViewSettings.EditFormLayoutProperties.Items.Add(itemSettings =>
-         {
-             itemSettings.ColumnName = "codigo";
-         }).RequiredMarkDisplayMode = FieldRequiredMarkMode.Required;
-
-         gridViewSettings.EditFormLayoutProperties.Items.Add(itemSettings =>
-         {
-             itemSettings.ColumnName = "description";
-         }).RequiredMarkDisplayMode = FieldRequiredMarkMode.Required; ;
-         gridViewSettings.EditFormLayoutProperties.Items.Add(itemSettings =>
-         {
-             itemSettings.ColumnName = "unidad";
-
-         });
-         gridViewSettings.EditFormLayoutProperties.Items.Add(itemSettings =>
-         {
-             itemSettings.ColumnName = "lote";
-         });
-
-         gridViewSettings.EditFormLayoutProperties.Items.Add(itemSettings =>
-         {
-             itemSettings.ColumnName = "codigo2";
-         }).RequiredMarkDisplayMode = FieldRequiredMarkMode.Required;
-         gridViewSettings.EditFormLayoutProperties.Items.Add(itemSettings =>
-         {
-             itemSettings.ColumnName = "familia";
-         }).RequiredMarkDisplayMode = FieldRequiredMarkMode.Required;
-         gridViewSettings.EditFormLayoutProperties.Items.Add(itemSettings =>
-         {
-             itemSettings.ColumnName = "modelo";
-         }).RequiredMarkDisplayMode = FieldRequiredMarkMode.Required;
-         gridViewSettings.EditFormLayoutProperties.Items.Add(itemSettings =>
-         {
-             itemSettings.ColumnName = "grupo";
-         }).RequiredMarkDisplayMode = FieldRequiredMarkMode.Required;
-         gridViewSettings.EditFormLayoutProperties.Items.Add(itemSettings =>
-         {
-             itemSettings.ColumnName = "tipo";
-         }).RequiredMarkDisplayMode = FieldRequiredMarkMode.Required;
-         gridViewSettings.EditFormLayoutProperties.Items.Add(itemSettings =>
-         {
-             itemSettings.ColumnName = "cuenta";
-         }).RequiredMarkDisplayMode = FieldRequiredMarkMode.Required;
-         gridViewSettings.EditFormLayoutProperties.Items.Add(itemSettings =>
-         {
-             itemSettings.ColumnName = "marca";
-         }).RequiredMarkDisplayMode = FieldRequiredMarkMode.Required;
-
-         */
 
         gridViewSettings.EditFormLayoutProperties.Items.AddCommandItem(itemSettings =>
         {
@@ -590,32 +441,18 @@
 
 
         });
-        /*
-        gridViewSettings.Columns.Add(columnSettings =>
-        {
-            columnSettings.FieldName = "detalles";
-            columnSettings.Visible = false;
 
-
-            columnSettings.Width = Unit.Pixel(150);
-
-            columnSettings.ColumnType = MVCxGridViewColumnType.Memo;
-            ComboBoxProperties properties = columnSettings.PropertiesEdit as ComboBoxProperties;
-            properties.TextField = "PRVCNOMBRE";
-            properties.ValueField = "PRVCCODIGO";
-            properties.DataSource = ViewData["Proveedores"];
-            columnSettings.SetEditItemTemplateContent(container =>
-            {
-                Html.RenderAction("MultiSelectProveedor", new { CurrentCategory = DataBinder.Eval(container.DataItem, "oc_ccodpro") });
-            });
-
-        });
-*/
         gridViewSettings.Columns.Add(columnSettings =>
         {
             columnSettings.FieldName = "OC_CRAZSOC";
             columnSettings.Caption = "Razón social";
             columnSettings.Width = Unit.Pixel(300);
+        });
+        gridViewSettings.Columns.Add(columnSettings =>
+        {
+            columnSettings.FieldName = "OC_DFECDOC";
+
+            columnSettings.Visible = false;
         });
 
 
@@ -644,6 +481,14 @@
             columnSettings.Caption = "Estado";
 
         });
+        gridViewSettings.Columns.Add(columnSettings =>
+        {
+            columnSettings.FieldName = "OC_CDOCREF";
+            columnSettings.Caption = "Doc Ref";
+            columnSettings.Visible = false;
+
+        });
+
 
 
         gridViewSettings.ClientSideEvents.SelectionChanged = "onGridViewSelectionChanged";

@@ -59,7 +59,7 @@
                }
                if (roleNeg.moduloAsigned(modulos, "areas"))
                {
-                   group.Items.Add("Areas", "ratas", "~/Content/NavBar/BO_Scheduler.png", "/Area");
+                   group.Items.Add("Areas", "ratas", "~/Content/NavBar/BO_Scheduler.png", "/Areas");
                }
                if (roleNeg.moduloAsigned(modulos, "orden-compra"))
                {
@@ -68,6 +68,10 @@
                if (roleNeg.moduloAsigned(modulos, "requisicion-compra"))
                {
                    group.Items.Add("requisicion compra", "ratas", "~/Content/NavBar/BO_Scheduler.png", "/RequisionCompra");
+               }
+               if (roleNeg.moduloAsigned(modulos, "responsable-compra"))
+               {
+                   group.Items.Add("Responsable Compra", "ratas", "~/Content/NavBar/BO_Scheduler.png", "/ResponsableCompra");
                }
            });
            settings.Groups.Add(group =>

@@ -2,7 +2,7 @@
 
 @Html.DevExpress().GridLookup(settings =>
 {
-    settings.Properties.Caption = "Proveedor:";
+    settings.Properties.Caption = "Proveedor:     ";
     settings.Name = "gridLookupProveedor";
     settings.GridViewProperties.CallbackRouteValues = new { Controller = "OrdenCompra", Action = "MultiSelectProveedor", CurrentCategory = Model.PRVCCODIGO };
 
@@ -11,38 +11,24 @@
     //settings.CommandColumn.Visible = true;
     // settings.CommandColumn.ShowSelectCheckbox = true;
     settings.Columns.Add("PRVCCODIGO").Visible = false;
-    settings.Columns.Add("PRVCNOMBRE").Caption="Razon Social";
-    settings.Columns.Add("PRVCRUC").Caption= "RUC";
+    settings.Columns.Add("PRVCRUC").Width = Unit.Percentage(10);
+    settings.Columns.Add("PRVCNOMBRE").Width= Unit.Percentage(90);
+    settings.Width = Unit.Percentage(100);
 
     settings.Properties.SelectionMode = DevExpress.Web.GridLookupSelectionMode.Single;
-    settings.Properties.TextFormatString = "{0}";
-    settings.Properties.MultiTextSeparator = ", ";
-    settings.Properties.Width = Unit.Percentage(100);
+    settings.Properties.TextFormatString = "{1} {2}";
 
     settings.GridViewProperties.Settings.ShowFilterRow = true;
-    settings.GridViewProperties.Settings.ShowStatusBar = GridViewStatusBarMode.Visible;
-    settings.GridViewProperties.SettingsPager.EnableAdaptivity = true;
+    settings.GridViewProperties.Settings.ShowColumnHeaders = false;
+    //settings.GridViewProperties.Settings.ShowStatusBar = GridViewStatusBarMode.Visible;
+    //settings.GridViewProperties.SettingsPager.EnableAdaptivity = true;
     settings.GridViewProperties.SettingsPager.PageSize = 7;
 
     settings.GridViewClientSideEvents.RowClick = "OnGridRowClick";
 
-
-    settings.GridViewProperties.SetStatusBarTemplateContent(c =>
-    {
-        ViewContext.Writer.Write("<div style=\"padding: 2px 8px 2px 0; float: right\">");
-        Html.DevExpress().Button(btnSettings =>
-        {
-            btnSettings.Name = "btnCloseProveedor";
-            btnSettings.UseSubmitBehavior = false;
-            btnSettings.Text = "Close";
-            btnSettings.ClientSideEvents.Click = "CloseGridLookupProveedor";
-        }).Render();
-        ViewContext.Writer.Write("</div>");
-    });
-
     settings.DataBound = (sender, e) =>
     {
         var gridLookup = (MVCxGridLookup)sender;
-        gridLookup.GridView.Width = 250;
+        gridLookup.GridView.Width = Unit.Percentage(100);
     };
 }).BindList(ViewData["Proveedores"]).Bind(Model.PRVCCODIGO).GetHtml()

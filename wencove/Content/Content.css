@@ -438,3 +438,10 @@ form.asignation-form {
     padding: 5px 10px 5px;
     font-size: 12px;
 }
+.content.master-grid {
+    padding:2%;
+}
+.dxeCaptionCell_Office365.dxeCLLSys, [dir='rtl'] .dxeCaptionCell_Office365.dxeCLRSys {
+    padding-left: 0px;
+    padding-right: 35px;
+}

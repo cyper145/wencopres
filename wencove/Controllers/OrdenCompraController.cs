@@ -31,6 +31,11 @@ namespace wencove.Controllers
         }
         public ActionResult Index()
         {
+            ViewData["Proveedores"] = proveedorNeg.findAll();
+            ViewData["FormasPago"] = userNeg.findAllFormasPago();
+            ViewData["Solicitud"] = userNeg.findAllSolicitud();
+            ViewData["DocRef"] = userNeg.findAllDocRef();
+
             if (GridViewHelper.OrdenCompras.Count == 0)
             {
                 GridViewHelper.OrdenCompras.AddRange(userNeg.findAll());
@@ -40,17 +45,19 @@ namespace wencove.Controllers
         }
         public ActionResult GridViewPartial()
         {
-            ViewData["Proveedores"] = proveedorNeg.findAll();
-            ViewData["FormasPago"] = userNeg.findAllFormasPago();
-            ViewData["Solicitud"] = userNeg.findAllSolicitud();
+          
+          //  Dictionary<string, Object> nodes = JsonConvert.DeserializeObject<Dictionary<string, Object>>(fecha);
+              
             if (GridViewHelper.OrdenCompras.Count == 0)
             {
                     GridViewHelper.OrdenCompras.AddRange(userNeg.findAll());
-                
+               
             }
            
             return PartialView("GridViewPartial", GridViewHelper.OrdenCompras);
         }
+
+
 
         public ActionResult ExternalEditFormPartial()
         {
@@ -328,8 +335,22 @@ namespace wencove.Controllers
             // crear la logica para agregar un producto
         }
 
-     
 
+        // parte 
+        public ActionResult MultiSelectDocRef(string OC_CDOCREF = "-1", FormCollection dataR=null)
+        {
+            if (dataR != null)
+            {
+                string v = dataR["gridLookupDocRef"];
+                GridViewHelper.OC_CDOCREF = v;
+            }
+          
+            ViewData["DocRef"] = userNeg.findAllDocRef();
+            if (OC_CDOCREF != "-1")
+                OC_CDOCREF = "";
+            return PartialView("MultiSelectDocRef", new  NumDocCompras () { CTNCODIGO = OC_CDOCREF });
+   
+        }
 
     }
 }

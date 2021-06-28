@@ -2,7 +2,7 @@
 
 @Html.DevExpress().GridLookup(settings =>
 {
-    settings.Properties.Caption = "Proveedor:     ";
+    settings.Properties.Caption = "Proveedor    ";
     settings.Name = "gridLookupProveedor";
     settings.GridViewProperties.CallbackRouteValues = new { Controller = "OrdenCompra", Action = "MultiSelectProveedor", CurrentCategory = Model.PRVCCODIGO };
 

@@ -58,18 +58,29 @@
             RUC.SetText(Value[1]);
         }
 
-
+        
         function OnGridArticuloRowClick(s, e) {
             var g = gridLookup.GetGridView();
             g.GetRowValues(e.visibleIndex, 'description;unidad', OnGetRowArticuloValues);
         }
         function OnGetRowArticuloValues(Value) {
 
-            var data = document.getElementById("grid_DXEFL_DXEditor1_I");
-            data.value = Value[0];
-            console.log(data);
-           // OC_CDESREF.SetText(Value[0]);
+            var data = document.getElementById("grid_DXEFL_DXEditor3_I");
+            data.value = Value[1];
+
+            var cantidad = document.getElementById("grid_DXEFL_DXEditor4_I");
+            var precio = document.getElementById("grid_DXEFL_DXEditor5_I");
+            var descuento = document.getElementById("grid_DXEFL_DXEditor6_I");
+
+            cantidad.Value = "0";
+            precio.Value = "0.00";
+            descuento.Value = "0.00";
+            var PrecioTotal = document.getElementById("grid_DXEFL_DXEditor7_I");
+
+            PrecioTotal.value = "0.00";
         }
+        
+
         function changegCalcularPrecioCantidad(s, e) {
             var data = document.getElementById("grid_DXEFL_DXEditor5_I");
             let precioUnitario = 0;

@@ -23,7 +23,8 @@
 
         gridViewSettings.ControlStyle.CssClass = "grid-view";
         gridViewSettings.Width = Unit.Percentage(100);
-
+        gridViewSettings.Height = Unit.Percentage(100);
+       
         gridViewSettings.Styles.Cell.Wrap = DefaultBoolean.False;
         gridViewSettings.Styles.PagerBottomPanel.CssClass = "pager";
         gridViewSettings.Styles.FocusedRow.CssClass = "focused";
@@ -47,7 +48,7 @@
         gridViewSettings.Settings.HorizontalScrollBarMode = ScrollBarMode.Auto;
         gridViewSettings.Settings.ShowHeaderFilterButton = true;
 
-        gridViewSettings.SettingsPager.PageSize = 15;
+        gridViewSettings.SettingsPager.PageSize = 50;
         gridViewSettings.SettingsPager.EnableAdaptivity = true;
         gridViewSettings.SettingsPager.PageSizeItemSettings.Visible = true;
 
@@ -137,7 +138,7 @@
                     i.SetNestedContent(() =>
                     {
 
-                        Html.RenderAction("MultiSelectProveedor");
+                        Html.RenderAction("MultiSelectProveedor" , new { CurrentCategory = DataBinder.Eval(c.DataItem, "oc_ccodpro") });
                     });
                 });
 
@@ -192,37 +193,6 @@
 
                 });
 
-                groupItem.Items.Add( i =>
-
-                {
-                    i.FieldName = "OC_CDOCREF";
-                    i.Caption="Doc Ref:";
-                    i.ShowCaption = DefaultBoolean.False;
-                    i.ColumnSpan = 2;
-                    i.SetNestedContent(() =>
-                    {
-
-                        Html.RenderAction("MultiSelectDocRef", new { OC_CDOCREF = DataBinder.Eval(c.DataItem, "OC_CDOCREF") });
-                    });
-                });
-                groupItem.Items.Add( i =>
-
-                {
-                    i.FieldName = "OC_CNRODOCREF";
-                    i.ColumnSpan = 2;
-                    i.Caption = "";
-                    i.NestedExtension().ComboBox(t =>
-                    {
-                        t.SelectedIndex = 0;
-                        t.Properties.ValueType = typeof(string);
-                        t.Properties.Items.Add("REQUISCIONES DE COMRA ", "100001");
-                        t.Properties.Items.Add("sOLICITUD DE COTIZACIÓN ", "10002");
-
-                        t.Properties.ValidationSettings.Display = Display.Dynamic;
-                        t.ShowModelErrors = true;
-                    });
-                });
-
                 groupItem.Items.Add(i =>
 
                 {
@@ -254,6 +224,40 @@
 
                     });
                 });
+
+
+                groupItem.Items.Add( i =>
+
+                {
+                    i.FieldName = "OC_CDOCREF";
+                    i.Caption="Doc Ref:";
+                    i.ShowCaption = DefaultBoolean.False;
+                    i.ColumnSpan = 2;
+                    i.SetNestedContent(() =>
+                    {
+
+                        Html.RenderAction("MultiSelectDocRef", new { OC_CDOCREF = DataBinder.Eval(c.DataItem, "OC_CDOCREF") });
+                    });
+                });
+                groupItem.Items.Add( i =>
+
+                {
+                    i.FieldName = "OC_CNRODOCREF";
+                    i.ColumnSpan = 2;
+                    i.ShowCaption = DefaultBoolean.False;
+                    i.NestedExtension().ComboBox(t =>
+                    {
+                        t.SelectedIndex = 0;
+                        t.Properties.ValueType = typeof(string);
+                        t.Properties.Items.Add("REQUISCIONES DE COMRA ", "100001");
+                        t.Properties.Items.Add("sOLICITUD DE COTIZACIÓN ", "10002");
+
+                        t.Properties.ValidationSettings.Display = Display.Dynamic;
+                        t.ShowModelErrors = true;
+                    });
+                });
+
+
                 groupItem.Items.Add(i =>
 
                 {
@@ -358,7 +362,7 @@
                     i.FieldName = "oc_csolict";
                     i.Caption = "Doc Ref:";
                     i.ShowCaption = DefaultBoolean.False;
-                    i.ColumnSpan = 6;
+                    i.ColumnSpan = 5;
                     i.SetNestedContent(() =>
                     {
                         Html.RenderAction("MultiSelectResponsable", new { OC_SOLICITA = DataBinder.Eval(c.DataItem, "OC_SOLICITA") });
@@ -368,7 +372,7 @@
 
                 {
                     i.FieldName = "RESPONSABLE_CODIGO";
-                    i.ColumnSpan = 2;
+                    i.ColumnSpan = 1;
                     i.Caption = "Cotizacion ";
                     i.ShowCaption = DefaultBoolean.False;
 
@@ -403,7 +407,7 @@
 
                 {
                     i.FieldName = "OC_PRINCIPAL";
-                    i.ColumnSpan = 2;
+                    i.ColumnSpan = 4;
                     i.Caption = "OC. Principal ";
 
 
@@ -507,6 +511,7 @@
 
 
         });
+
 
         gridViewSettings.Columns.Add(columnSettings =>
         {

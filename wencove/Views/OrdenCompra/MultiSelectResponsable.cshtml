@@ -2,7 +2,8 @@
 
 @Html.DevExpress().GridLookup(settings =>
 {
-    settings.Properties.Caption = "Responsable de Compra:";
+    settings.Properties.Caption = "Responsable:";
+    
     settings.Name = "gridLookupResponsable";
     settings.GridViewProperties.CallbackRouteValues = new { Controller = "OrdenCompra", Action = "MultiSelectResponsable", OC_SOLICITA = Model.RESPONSABLE_CODIGO };
 

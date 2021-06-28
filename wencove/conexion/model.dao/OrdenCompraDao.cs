@@ -51,7 +51,7 @@ namespace wencove.conexion.model.dao
         {
            
 
-            string findAll = "SELECT TOP (20) * FROM comovc, estado_oc WHERE comovc.oc_csitord = estado_oc.est_codigo";
+            string findAll = "SELECT TOP (100) * FROM comovc, estado_oc WHERE comovc.oc_csitord = estado_oc.est_codigo";
             try
             {
                 comando = new SqlCommand(findAll, objConexion.getCon());

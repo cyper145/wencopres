@@ -443,9 +443,20 @@ form.asignation-form {
 }
 .dxeCaptionCell_Office365.dxeCLLSys, [dir='rtl'] .dxeCaptionCell_Office365.dxeCLRSys {
     padding-left: 0px;
-    padding-right: 35px;
+    padding-right: 38px;
 }
 
 td#gridLookupDocRef_CapC {
-    padding-right: 60px;
+    padding-right: 50px;
+}
+
+td#gridLookupResponsable_CapC {
+    padding-right: 28px;
+}
+.dxgvControl_Office365 .dxgvCSD .dxgvTable_Office365 {
+    
+    height: calc(100vh - 12rem);
+}
+td#gridLookup_CapC {
+    padding: 6px 0;
 }

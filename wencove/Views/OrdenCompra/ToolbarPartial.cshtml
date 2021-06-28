@@ -2,7 +2,7 @@
 @using wencove.Model;
 @(Html.DevExpress().GridView<DetalleOrdenCompra>(settings => {
     settings.Name = "grid";
-    settings.CallbackRouteValues = new { Controller = "OrdenCompra", Action = "ToolbarPartial", CurrentCategory = ViewData["codigoOrden"] };
+    settings.CallbackRouteValues = new { Controller = "OrdenCompra", Action = "ToolbarPartial", codigoOrden = ViewData["codigoOrden"] };
     settings.SettingsEditing.AddNewRowRouteValues = new { Controller = "OrdenCompra", Action = "ToolbarAddNewPartial" };
     settings.SettingsEditing.UpdateRowRouteValues = new { Controller = "OrdenCompra", Action = "ToolbarUpdatePartial" };
     settings.SettingsEditing.DeleteRowRouteValues = new { Controller = "OrdenCompra", Action = "ToolbarDeletePartial" };
@@ -23,8 +23,46 @@
         });
 
     });
+    settings.EnablePagingGestures = AutoBoolean.False;
 
-    settings.ClientSideEvents.ToolbarItemClick = "OnToolbarItemClick";
+    settings.ControlStyle.CssClass = "grid-view";
+
+
+    settings.Styles.Cell.Wrap = DefaultBoolean.False;
+    settings.Styles.PagerBottomPanel.CssClass = "pager";
+    settings.Styles.FocusedRow.CssClass = "focused";
+
+    settings.SettingsBehavior.AllowFocusedRow = true;
+    //    gridViewSettings.SettingsBehavior.AllowSelectByRowClick = true;
+    settings.SettingsBehavior.AllowEllipsisInText = true;
+    settings.SettingsBehavior.AllowDragDrop = false;
+
+
+    settings.Settings.ShowHeaderFilterButton = true;
+
+    settings.SettingsPager.PageSize = 50;
+    settings.SettingsPager.EnableAdaptivity = true;
+    settings.SettingsPager.PageSizeItemSettings.Visible = true;
+
+    settings.SettingsExport.EnableClientSideExportAPI = true;
+    settings.SettingsExport.ExportSelectedRowsOnly = true;
+
+    settings.SettingsPopup.EditForm.SettingsAdaptivity.MaxWidth = 1200;
+    settings.SettingsPopup.EditForm.SettingsAdaptivity.Mode = PopupControlAdaptivityMode.Always;
+    settings.SettingsPopup.EditForm.SettingsAdaptivity.VerticalAlign = PopupAdaptiveVerticalAlign.WindowCenter;
+
+    settings.EditFormLayoutProperties.SettingsAdaptivity.AdaptivityMode = FormLayoutAdaptivityMode.SingleColumnWindowLimit;
+    settings.EditFormLayoutProperties.SettingsAdaptivity.SwitchToSingleColumnAtWindowInnerWidth = 1200;
+
+    settings.EditFormLayoutProperties.UseDefaultPaddings = false;
+
+    settings.EditFormLayoutProperties.SettingsItemCaptions.Location = LayoutItemCaptionLocation.Top;
+    settings.EditFormLayoutProperties.Styles.LayoutGroup.Cell.Paddings.Padding = Unit.Pixel(3);
+
+    settings.EditFormLayoutProperties.Styles.LayoutItem.Paddings.PaddingBottom = Unit.Pixel(8);
+
+
+
 
     settings.KeyFieldName = "Codigo";
 
@@ -32,17 +70,15 @@
     {
         column.FieldName = "oc_ccodigo";
         column.Caption = "código";
-
-
-
         column.ColumnType = MVCxGridViewColumnType.ComboBox;
         ComboBoxProperties properties = column.PropertiesEdit as ComboBoxProperties;
-        properties.TextField = "description";
+        properties.TextField = "codigo";
         properties.ValueField = "codigo";
+        properties.ValueType = typeof(string);
         properties.DataSource = GridViewHelper.getArticulos();
         column.SetEditItemTemplateContent(container =>
         {
-            Html.RenderAction("MultiSelectPartial", new { CurrentCategory = DataBinder.Eval(container.DataItem, "oc_ccodpro") });
+            Html.RenderAction("MultiSelectPartial", new { CurrentCategory = DataBinder.Eval(container.DataItem, "oc_ccodigo") });
         });
 
     });
@@ -88,15 +124,18 @@
         column.FieldName = "OC_NDSCPOR";
         column.Caption = "%Des";
 
-
     });
     settings.Columns.Add(column =>
     {
         column.FieldName = "OC_NTOTVEN";
         column.Caption = "total";
-        column.ColumnType = MVCxGridViewColumnType.TextBox;
-        TextBoxProperties properties = column.PropertiesEdit as TextBoxProperties;
-        column.ReadOnly = true;
+      
+
+        column.UnboundType = DevExpress.Data.UnboundColumnType.Decimal;
+        column.EditorProperties().TextBox(p =>
+        {
+            p.DisplayFormatString = "c";
+        });
     });
 
 
@@ -105,7 +144,7 @@
     var layout=  settings.EditFormLayoutProperties.Items.AddGroupItem(i => {
 
         i.ShowCaption = DefaultBoolean.False;
-        i.GroupBoxDecoration = GroupBoxDecoration.Default;
+        i.GroupBoxDecoration = GroupBoxDecoration.None;
         i.ColumnCount = 12;
     });
 
@@ -114,8 +153,9 @@
 
         i.ColumnName = "oc_ccodigo";
         i.ColumnSpan = 6;
-        i.RowSpan = 2;
+        i.RowSpan = 1;
         i.ShowCaption = DefaultBoolean.False;
+        i.CaptionSettings.Location = LayoutItemCaptionLocation.Top;
 
     } );
     layout.Items.Add(i => {
@@ -128,42 +168,48 @@
     });
     // settings.EditFormLayoutProperties.Items.Add(i => i.OC_GLOSA);
 
+
+    layout.Items.Add(i =>
+    {
+
+        i.ColumnName = "OC_CUNIDAD";
+        i.ColumnSpan = 1;
+
+    });
     layout.Items.Add(i => {
 
         i.ColumnName = "OC_NCANTID";
-        i.ColumnSpan = 2;
-        i.RowSpan = 2;
-
-
+        i.ColumnSpan = 1;
 
     } );
     layout.Items.Add(i => {
         i.ColumnName = "OC_NPREUNI";
-        i.ColumnSpan = 2;
-        i.RowSpan = 2;
+        i.ColumnSpan = 1;
+
     });
     layout.Items.Add(i => {
         i.ColumnName = "OC_NDSCPOR";
-        i.ColumnSpan = 2;
+        i.ColumnSpan = 1;
 
     });
     layout.Items.Add(i => {
         i.ColumnName = "OC_NTOTVEN";
         i.ColumnSpan = 2;
-        i.RowSpan = 2;
+
     });
 
 
     layout.Items.AddCommandItem(i => {
         i.ColumnSpan = 12;
-        i.RowSpan = 2;
+
         i.HorizontalAlign = FormLayoutHorizontalAlign.Right;
     });
     settings.Settings.ShowFooter = true;
     settings.SettingsBehavior.AutoExpandAllGroups = true;
-    settings.GroupSummary.Add(DevExpress.Data.SummaryItemType.Count, "OC_CDESREF");
-    settings.GroupSummary.Add(DevExpress.Data.SummaryItemType.Max, "OC_NDSCPOR").DisplayFormat = "Max Discount = {0:p0}";
-    settings.GroupSummary.Add(DevExpress.Data.SummaryItemType.Sum, "OC_NTOTVEN");
+
+    settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Count, "OC_CDESREF");
+    settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Max, "OC_NDSCPOR").DisplayFormat = "Max Discount = {0:p0}";
+    settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "OC_NTOTVEN");
 
     settings.SettingsSearchPanel.CustomEditorName = "search";
     settings.SettingsBehavior.AllowFocusedRow = true;

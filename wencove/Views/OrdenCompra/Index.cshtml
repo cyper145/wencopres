@@ -72,20 +72,25 @@
             var precio = document.getElementById("grid_DXEFL_DXEditor5_I");
             var descuento = document.getElementById("grid_DXEFL_DXEditor6_I");
 
-            cantidad.Value = "0";
-            precio.Value = "0.00";
-            descuento.Value = "0.00";
+            cantidad.Value = 0;
+            precio.Value = 0.00;
+            descuento.Value = 0.00;
             var PrecioTotal = document.getElementById("grid_DXEFL_DXEditor7_I");
 
-            PrecioTotal.value = "0.00";
+            PrecioTotal.value = 0.00;
         }
         
 
         function changegCalcularPrecioCantidad(s, e) {
             var data = document.getElementById("grid_DXEFL_DXEditor5_I");
+            let datadescuento = document.getElementById("grid_DXEFL_DXEditor6_I"); 
             let precioUnitario = 0;
             let cantidad = 0;
-            
+            let descuento = 0;
+
+            if (datadescuento.value != "") {
+                descuento = parseFloat(datadescuento.value);
+            }
             if (data.value == "" || data.value == NaN) {
                 precioUnitario = 0;
             }
@@ -100,11 +105,18 @@
             }
             var PrecioTotal = document.getElementById("grid_DXEFL_DXEditor7_I");
 
-            PrecioTotal.value = precioUnitario * cantidad;
+            PrecioTotal.value = precioUnitario * cantidad*(1-descuento/100);
 
         }
         function changegCalcularPrecioPunitario(s, e) {
 
+
+            let datadescuento = document.getElementById("grid_DXEFL_DXEditor6_I");
+            let descuento = 0;
+
+            if (datadescuento.value != "") {
+                descuento = parseFloat(datadescuento.value);
+            }
             var data = document.getElementById("grid_DXEFL_DXEditor4_I");// cantidad
             let precioUnitario=0;
             let cantidad=0;
@@ -123,11 +135,14 @@
          
             var PrecioTotal = document.getElementById("grid_DXEFL_DXEditor7_I");
 
-            PrecioTotal.value = precioUnitario * cantidad;
+            PrecioTotal.value = precioUnitario * cantidad * (1 - descuento / 100);
         }
 
         function onData() {
-            OC_CNUMORD.SetText("0000000001514");
+            if (OC_CNUMORD.GetText() == "") {
+                OC_CNUMORD.SetText("0000000001514");
+            }
+           
         }
     function OnClick(s, e) {
         if ($("#myForm").valid()) {
@@ -197,7 +212,7 @@
     menuSettings.Items.Add(item =>
     {
         item.Name = "New";
-        item.Text = "New";
+        item.Text = "Nuevo";
         item.Alignment = MenuItemAlignment.Left;
         item.AdaptivePriority = 2;
         item.Image.Url = "Content/Images/add.svg";
@@ -206,7 +221,7 @@
     menuSettings.Items.Add(item =>
     {
         item.Name = "Edit";
-        item.Text = "Edit";
+        item.Text = "Editar";
         item.Alignment = MenuItemAlignment.Left;
         item.AdaptivePriority = 2;
         item.Image.Url = "Content/Images/edit.svg";
@@ -214,7 +229,7 @@
     menuSettings.Items.Add(item =>
     {
         item.Name = "Delete";
-        item.Text = "Delete";
+        item.Text = "Eliminar";
         item.Alignment = MenuItemAlignment.Left;
         item.AdaptivePriority = 2;
         item.Image.Url = "Content/Images/delete.svg";

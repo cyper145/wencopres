@@ -367,6 +367,10 @@ namespace wencove.Controllers
 
         }
         
+        public JsonResult nroDera()
+        {
 
+            return Json(new { isSuccess = "dar" }, JsonRequestBehavior.AllowGet);
+        } 
     }
 }

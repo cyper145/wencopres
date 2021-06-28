@@ -42,14 +42,10 @@
 
     settings.SettingsPager.PageSize = 50;
     settings.SettingsPager.EnableAdaptivity = true;
-    settings.SettingsPager.PageSizeItemSettings.Visible = true;
 
-    settings.SettingsExport.EnableClientSideExportAPI = true;
-    settings.SettingsExport.ExportSelectedRowsOnly = true;
 
     settings.SettingsPopup.EditForm.SettingsAdaptivity.MaxWidth = 1200;
-    settings.SettingsPopup.EditForm.SettingsAdaptivity.Mode = PopupControlAdaptivityMode.Always;
-    settings.SettingsPopup.EditForm.SettingsAdaptivity.VerticalAlign = PopupAdaptiveVerticalAlign.WindowCenter;
+
 
     settings.EditFormLayoutProperties.SettingsAdaptivity.AdaptivityMode = FormLayoutAdaptivityMode.SingleColumnWindowLimit;
     settings.EditFormLayoutProperties.SettingsAdaptivity.SwitchToSingleColumnAtWindowInnerWidth = 1200;
@@ -123,13 +119,16 @@
     {
         column.FieldName = "OC_NDSCPOR";
         column.Caption = "%Des";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        TextBoxProperties properties = column.PropertiesEdit as TextBoxProperties;
+        properties.ValidationSettings.RequiredField.IsRequired = false;
 
     });
     settings.Columns.Add(column =>
     {
         column.FieldName = "OC_NTOTVEN";
         column.Caption = "total";
-      
+
 
         column.UnboundType = DevExpress.Data.UnboundColumnType.Decimal;
         column.EditorProperties().TextBox(p =>
@@ -146,6 +145,7 @@
         i.ShowCaption = DefaultBoolean.False;
         i.GroupBoxDecoration = GroupBoxDecoration.None;
         i.ColumnCount = 12;
+
     });
 
 
@@ -190,7 +190,7 @@
     layout.Items.Add(i => {
         i.ColumnName = "OC_NDSCPOR";
         i.ColumnSpan = 1;
-
+        i.RequiredMarkDisplayMode = FieldRequiredMarkMode.Hidden;
     });
     layout.Items.Add(i => {
         i.ColumnName = "OC_NTOTVEN";
@@ -215,7 +215,7 @@
     settings.SettingsBehavior.AllowFocusedRow = true;
 
     settings.SettingsExport.EnableClientSideExportAPI = true;
-    settings.SettingsExport.ExcelExportMode = DevExpress.Export.ExportType.DataAware;
+
 
     settings.Width = Unit.Percentage(100);
 

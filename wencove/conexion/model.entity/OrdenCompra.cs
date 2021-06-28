@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -75,9 +76,23 @@ namespace wencove.conexion.model.entity
 
     public class DetalleOrdenCompra
     {
+        private DateTime oC_DFECDOC;
+
         public string OC_CNUMORD { get; set; }
         public string oc_ccodpro { get; set; }
-        public DateTime OC_DFECDOC { get; set; }
+       
+
+        public DateTime OC_DFECDOC   // property
+        {
+            get {  if(oC_DFECDOC!=null) return oC_DFECDOC;
+                else
+                {
+                    return DateTime.Now;
+                }
+            }
+            set { oC_DFECDOC = value; }
+        }
+
         public string OC_CITEM { get; set; }
         public string oc_ccodigo { get; set; }
         public string OC_CCODREF { get; set; }
@@ -87,7 +102,8 @@ namespace wencove.conexion.model.entity
         public decimal OC_NFACTOR { get; set; }
         public decimal OC_NPREUNI { get; set; }
         public decimal OC_NCANTID { get; set; }
-        public decimal OC_NDSCPOR { get; set; }
+        //[Required]
+        public string OC_NDSCPOR { get; set; }
         public decimal OC_NDESCTO { get; set; }
         public decimal OC_NIGV { get; set; }
         public decimal OC_NIGVPOR { get; set; }

@@ -145,7 +145,8 @@ namespace wencove.conexion.model.dao
                     user.OC_NCANTID = ParseDecimal(read[10].ToString());
 
                     user.OC_NPREUNI = ParseDecimal(read[11].ToString());
-                    user.OC_NDSCPOR = ParseDecimal(read[12].ToString());
+                  //  user.OC_NDSCPOR = ParseDecimal(read[12].ToString());
+                    user.OC_NDSCPOR = read[12].ToString();
                     user.OC_NDESCTO = ParseDecimal(read[13].ToString());
                     user.OC_NIGV = ParseDecimal(read[14].ToString());
                     user.OC_NIGVPOR = ParseDecimal(read[15].ToString());

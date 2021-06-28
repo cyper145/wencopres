@@ -65,6 +65,16 @@ namespace wencove.Model
             ArticuloNeg  userNeg = new ArticuloNeg();
             return userNeg.findAll();
         }
+        public static List<Solicitud> GetSolitud()
+        {
+            OrdenCompraNeg userNeg = new OrdenCompraNeg();
+            return userNeg.findAllSolicitud();
+        }
+        public static List<FormaPago> GetFormaPago()
+        {
+            OrdenCompraNeg userNeg = new OrdenCompraNeg();
+            return userNeg.findAllFormasPago();
+        }
 
         public static List<Contact> GetCustomers()
         {

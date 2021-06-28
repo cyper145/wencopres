@@ -445,3 +445,7 @@ form.asignation-form {
     padding-left: 0px;
     padding-right: 35px;
 }
+
+td#gridLookupDocRef_CapC {
+    padding-right: 60px;
+}

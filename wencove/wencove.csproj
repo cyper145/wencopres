@@ -270,6 +270,7 @@
     <Content Include="Views\ResponsableCompra\Index.cshtml" />
     <Content Include="Views\ResponsableCompra\ResponsablePartial.cshtml" />
     <Content Include="Views\OrdenCompra\MultiSelectDocRef.cshtml" />
+    <Content Include="Views\OrdenCompra\MultiSelectResponsable.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

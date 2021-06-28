@@ -57,6 +57,7 @@ namespace wencove.conexion.model.entity
         public decimal total { get; set; }
         
         public string RUC { get; set; }
+        public string RESPONSABLE_CODIGO { get; set; }
 
 
         public List<DetalleOrdenCompra> detalles;

@@ -113,6 +113,7 @@
                     {
                         t.Properties.ValidationSettings.Display = Display.Dynamic;
                         t.ShowModelErrors = true;
+                        t.ReadOnly = true;
                     });
                 });
 
@@ -141,12 +142,29 @@
                 });
 
                 #region
-                /*
+
                 groupItem.Items.Add( i =>
 
                 {
                     i.FieldName = "OC_CRAZSOC";
                     i.ShowCaption = DefaultBoolean.False;
+                    i.ColumnSpan = 4;
+                    i.Visible = false;
+
+                    i.NestedExtension().TextBox(t =>
+                    {
+                        t.Properties.ValidationSettings.Display = Display.Dynamic;
+                        t.ShowModelErrors = true;
+                        t.ReadOnly = true;
+                    });
+                });
+
+                #endregion
+                groupItem.Items.Add( i =>
+
+                {
+                    i.FieldName = "RUC";
+                    i.Caption = "RUC:";
                     i.ColumnSpan = 4;
                     i.NestedExtension().TextBox(t =>
                     {
@@ -155,28 +173,32 @@
                         t.ReadOnly = true;
                     });
                 });
-
-                groupItem.Items.Add( i =>
+                groupItem.Items.Add(i =>
 
                 {
-                    i.FieldName = "RUC";
-                    i.Caption = "RUC:";
-                    i.ColumnSpan = 2;
-                    i.NestedExtension().TextBox(t =>
+                    i.FieldName = "OC_SOLICITA";
+                    i.ColumnSpan = 4;
+                    i.Caption = " Solicitado por";
+                    i.NestedExtension().ComboBox(t =>
                     {
                         t.Properties.ValidationSettings.Display = Display.Dynamic;
                         t.ShowModelErrors = true;
-                        t.ReadOnly = true;
+                        t.SelectedIndex = 0;
+                        t.Properties.ValueType = typeof(string);
+                        t.Properties.DataSource = GridViewHelper.GetSolitud();
+                        t.Properties.ValueField = "TCLAVE";
+                        t.Properties.TextField = "TDESCRI";
                     });
+
                 });
-                */
-                #endregion
+
                 groupItem.Items.Add( i =>
 
                 {
                     i.FieldName = "OC_CDOCREF";
                     i.Caption="Doc Ref:";
-                    i.ColumnSpan = 3;
+                    i.ShowCaption = DefaultBoolean.False;
+                    i.ColumnSpan = 2;
                     i.SetNestedContent(() =>
                     {
 
@@ -187,7 +209,7 @@
 
                 {
                     i.FieldName = "OC_CNRODOCREF";
-                    i.ColumnSpan = 1;
+                    i.ColumnSpan = 2;
                     i.Caption = "";
                     i.NestedExtension().ComboBox(t =>
                     {
@@ -205,7 +227,7 @@
 
                 {
                     i.FieldName = "OC_DFECDOC";
-                    i.ColumnSpan = 3;
+                    i.ColumnSpan = 2;
                     i.Caption = "Emisión";
 
                     i.NestedExtension().DateEdit(t =>
@@ -220,7 +242,7 @@
 
                 {
                     i.FieldName = "OC_DFECENT";
-                    i.ColumnSpan = 3;
+                    i.ColumnSpan = 2;
                     i.Caption = "Entrega";
 
                     i.NestedExtension().DateEdit(t =>
@@ -235,12 +257,30 @@
                 groupItem.Items.Add(i =>
 
                 {
+                    i.FieldName = "OC_CFORPAG";
+                    i.ColumnSpan = 6;
+                    i.Caption = "Forma de Pago";
+                    i.NestedExtension().ComboBox(t =>
+                    {
+                        t.Properties.ValidationSettings.Display = Display.Dynamic;
+                        t.ShowModelErrors = true;
+                        t.SelectedIndex = 0;
+                        t.Properties.ValueType = typeof(string);
+                        t.Properties.DataSource = GridViewHelper.GetFormaPago();
+                        t.Properties.ValueField = "COD_FP";
+                        t.Properties.TextField = "DES_FP";
+                    });
+                });
+                groupItem.Items.Add(i =>
+
+                {
                     i.FieldName = "OC_CCODMON";
                     i.ColumnSpan = 2;
-                    i.Caption = "MONEDA";
+                    i.Caption = "Moneda";
                     i.NestedExtension().ComboBox(t =>
                     {
                         t.SelectedIndex = 0;
+
                         t.Properties.ValueType = typeof(string);
                         t.Properties.Items.Add("DOLARES AMERICANOS ", "ME");
                         t.Properties.Items.Add("NUEVOS SOLES ", "MN");
@@ -254,7 +294,7 @@
                 {
                     i.FieldName = "COVMON_CODIGO";
                     i.ColumnSpan = 2;
-                    i.Caption = "TIPO CAMBIO";
+                    i.Caption = "T. Cambio";
                     i.NestedExtension().ComboBox(t =>
                     {
                         t.Properties.ValidationSettings.Display = Display.Dynamic;
@@ -265,6 +305,7 @@
                         t.Properties.Items.Add("T/C ESPECIAL ", "ESP");
                         t.Properties.Items.Add("T/C  OTRA FECHA ", "FEC");
                         t.Properties.Items.Add("T/C VENTA ", "VTA");
+                        t.Properties.ClientSideEvents.SelectedIndexChanged = "onchangeCambio";
 
                     });
                 });
@@ -273,45 +314,17 @@
                 {
                     i.FieldName = "OC_NTIPCAM";
                     i.ColumnSpan = 2;
-                    i.Caption = " ";
+                    i.Caption = "";
+                    i.ShowCaption = DefaultBoolean.False;
                     i.NestedExtension().TextBox(t =>
                     {
                         t.Properties.ValidationSettings.Display = Display.Dynamic;
                         t.ShowModelErrors = true;
-                    });
-                });
-
-                groupItem.Items.Add(i =>
-
-                {
-                    i.FieldName = "OC_CFORPAG";
-                    i.ColumnSpan = 8;
-                    i.Caption = "Forma de Pago";
-                    i.NestedExtension().ComboBox(t =>
-                    {
-                        t.Properties.ValidationSettings.Display = Display.Dynamic;
-                        t.ShowModelErrors = true;
-                        t.SelectedIndex = 0;
-                        t.Properties.ValueType = typeof(string);
-                        t.Properties.DataSource = ViewData["FormasPago"];
-                        t.Properties.ValueField = "COD_FP";
-                        t.Properties.TextField = "DES_FP";
+                        t.ReadOnly = true;
                     });
                 });
 
 
-                groupItem.Items.Add(i =>
-
-                {
-                    i.FieldName = "OC_CCOTIZA";
-                    i.ColumnSpan = 4;
-                    i.Caption = "Cotizacion ";
-                    i.NestedExtension().TextBox(t =>
-                    {
-                        t.Properties.ValidationSettings.Display = Display.Dynamic;
-                        t.ShowModelErrors = true;
-                    });
-                });
 
                 groupItem.Items.Add(i =>
 
@@ -325,24 +338,81 @@
                         t.ShowModelErrors = true;
                     });
                 });
+                groupItem.Items.Add(i =>
+
+                {
+                    i.FieldName = "OC_CCOTIZA";
+                    i.ColumnSpan = 4;
+                    i.Caption = "Cotizacion ";
+                    i.NestedExtension().TextBox(t =>
+                    {
+                        t.Properties.ValidationSettings.Display = Display.Dynamic;
+                        t.ShowModelErrors = true;
+                    });
+                });
+
 
                 groupItem.Items.Add(i =>
 
                 {
-                    i.FieldName = "OC_SOLICITA";
-                    i.ColumnSpan = 4;
-                    i.Caption = " Solicitado por";
-                    i.NestedExtension().ComboBox(t =>
+                    i.FieldName = "oc_csolict";
+                    i.Caption = "Doc Ref:";
+                    i.ShowCaption = DefaultBoolean.False;
+                    i.ColumnSpan = 6;
+                    i.SetNestedContent(() =>
+                    {
+                        Html.RenderAction("MultiSelectResponsable", new { OC_SOLICITA = DataBinder.Eval(c.DataItem, "OC_SOLICITA") });
+                    });
+                });
+                groupItem.Items.Add(i =>
+
+                {
+                    i.FieldName = "RESPONSABLE_CODIGO";
+                    i.ColumnSpan = 2;
+                    i.Caption = "Cotizacion ";
+                    i.ShowCaption = DefaultBoolean.False;
+
+                    i.NestedExtension().TextBox(t =>
                     {
                         t.Properties.ValidationSettings.Display = Display.Dynamic;
                         t.ShowModelErrors = true;
-                        t.SelectedIndex = 0;
-                        t.Properties.ValueType = typeof(string);
-                        t.Properties.DataSource = ViewData["Solicitud"];
-                        t.Properties.ValueField = "TCLAVE";
-                        t.Properties.TextField = "TDESCRI";
+                        t.ReadOnly = true;
                     });
+                });
+                groupItem.Items.Add(i =>
 
+                {
+                    i.FieldName = "OC_TIPO";
+                    i.ColumnSpan = 2;
+                    i.Caption = "Tipó";
+
+
+                    i.NestedExtension().ComboBox(t =>
+                    {
+
+                        t.Properties.ValidationSettings.Display = Display.Dynamic;
+                        t.ShowModelErrors = true;
+                        t.SelectedIndex = 0;
+                        t.Properties.ValueType = typeof(int);
+                        t.Properties.Items.Add("Compra",0);
+                        t.Properties.Items.Add("Servicio Fabric.",1);
+                    });
+                });
+
+                groupItem.Items.Add(i =>
+
+                {
+                    i.FieldName = "OC_PRINCIPAL";
+                    i.ColumnSpan = 2;
+                    i.Caption = "OC. Principal ";
+
+
+                    i.NestedExtension().TextBox(t =>
+                    {
+                        t.Properties.ValidationSettings.Display = Display.Dynamic;
+                        t.ShowModelErrors = true;
+
+                    });
                 });
 
                 layoutSetting.Items.Add(itemSettings =>
@@ -406,17 +476,13 @@
         });
 
 
-        gridViewSettings.EditFormLayoutProperties.Items.AddCommandItem(itemSettings =>
-        {
 
-            itemSettings.HorizontalAlign = FormLayoutHorizontalAlign.Right;
-        });
 
-        gridViewSettings.CommandColumn.Visible = true;
-        gridViewSettings.CommandColumn.ShowSelectCheckbox = true;
-        gridViewSettings.CommandColumn.SelectAllCheckboxMode = GridViewSelectAllCheckBoxMode.AllPages;
-        gridViewSettings.CommandColumn.VisibleIndex = 0;
-        gridViewSettings.CommandColumn.Width = Unit.Pixel(52);
+        // gridViewSettings.CommandColumn.Visible = true;
+        // gridViewSettings.CommandColumn.ShowSelectCheckbox = true;
+        // gridViewSettings.CommandColumn.SelectAllCheckboxMode = GridViewSelectAllCheckBoxMode.AllPages;
+        // gridViewSettings.CommandColumn.VisibleIndex = 0;
+        //gridViewSettings.CommandColumn.Width = Unit.Pixel(52);
 
 
         gridViewSettings.Columns.Add(columnSettings =>
@@ -488,8 +554,34 @@
             columnSettings.Visible = false;
 
         });
+        gridViewSettings.Columns.Add(columnSettings =>
+        {
+            columnSettings.FieldName = "oc_csolict";
+            columnSettings.Caption = "Doc Ref";
+            columnSettings.Visible = false;
 
+        });
+        gridViewSettings.Columns.Add(columnSettings =>
+        {
+            columnSettings.FieldName = "RESPONSABLE_CODIGO";
+            columnSettings.Caption = "Doc Ref";
+            columnSettings.Visible = false;
 
+        });
+        gridViewSettings.Columns.Add(columnSettings =>
+        {
+            columnSettings.FieldName = "OC_TIPO";
+
+            columnSettings.Visible = false;
+
+        });
+        gridViewSettings.Columns.Add(columnSettings =>
+        {
+            columnSettings.FieldName = "OC_PRINCIPAL";
+
+            columnSettings.Visible = false;
+
+        });
 
         gridViewSettings.ClientSideEvents.SelectionChanged = "onGridViewSelectionChanged";
         gridViewSettings.ClientSideEvents.BeginCallback = "onGridViewBeginCallback";

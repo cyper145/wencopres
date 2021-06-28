@@ -94,14 +94,13 @@
     {
         column.FieldName = "OC_NTOTVEN";
         column.Caption = "total";
-        // /column.ColumnType = MVCxGridViewColumnType.DateEdit;
-        // column.PropertiesEdit.DisplayFormatString = "MM/dd/yyyy";
-        // /((DateEditProperties)column.PropertiesEdit).EditFormat = EditFormat.Custom;
-        // ((DateEditProperties)column.PropertiesEdit).EditFormatString = "MM/dd/yyyy";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        TextBoxProperties properties = column.PropertiesEdit as TextBoxProperties;
+        column.ReadOnly = true;
     });
 
 
-  
+
 
     var layout=  settings.EditFormLayoutProperties.Items.AddGroupItem(i => {
 
@@ -160,6 +159,11 @@
         i.RowSpan = 2;
         i.HorizontalAlign = FormLayoutHorizontalAlign.Right;
     });
+    settings.Settings.ShowFooter = true;
+    settings.SettingsBehavior.AutoExpandAllGroups = true;
+    settings.GroupSummary.Add(DevExpress.Data.SummaryItemType.Count, "OC_CDESREF");
+    settings.GroupSummary.Add(DevExpress.Data.SummaryItemType.Max, "OC_NDSCPOR").DisplayFormat = "Max Discount = {0:p0}";
+    settings.GroupSummary.Add(DevExpress.Data.SummaryItemType.Sum, "OC_NTOTVEN");
 
     settings.SettingsSearchPanel.CustomEditorName = "search";
     settings.SettingsBehavior.AllowFocusedRow = true;

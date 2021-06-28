@@ -19,13 +19,14 @@ namespace wencove.Controllers
         private ProveedorNeg proveedorNeg;
         private ArticuloNeg articuloNeg;
         static OrdenCompra OrdeCurrent;
-
+        private ResponsableCmpNeg responsable;
 
         public OrdenCompraController()
         {
             userNeg = new OrdenCompraNeg();
             articuloNeg = new ArticuloNeg();
             proveedorNeg = new ProveedorNeg();
+            responsable = new ResponsableCmpNeg();
             if (OrdeCurrent == null)
                 OrdeCurrent = new OrdenCompra();
         }
@@ -351,6 +352,21 @@ namespace wencove.Controllers
             return PartialView("MultiSelectDocRef", new  NumDocCompras () { CTNCODIGO = OC_CDOCREF });
    
         }
+        public ActionResult MultiSelectResponsable(string OC_SOLICITA = "-1", FormCollection dataR = null)
+        {
+            if (dataR != null)
+            {
+                string v = dataR["gridLookupDocRef"];
+               // GridViewHelper.OC_SOLICITA = v;
+            }
+
+            ViewData["responsable"] = responsable.findAll();
+            if (OC_SOLICITA != "-1")
+                OC_SOLICITA = "";
+            return PartialView("MultiSelectResponsable", new ResponsableCompra() { RESPONSABLE_CODIGO = OC_SOLICITA });
+
+        }
+        
 
     }
 }

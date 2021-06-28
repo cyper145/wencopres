@@ -31,16 +31,34 @@
         console.log(gridLookupProveedor);
         gridLookupProveedor.ConfirmCurrentSelection();
         gridLookupProveedor.HideDropDown();
-     }
+        }
+        //onchangeCambio{}
+
+        function onchangeCambio(s, e) {
+
+            OC_NTIPCAM.SetText("3.120");
+        }
+        //OnGridRowResponsableClick
+        function OnGridRowResponsableClick(s, e) {
+            console.log("dd")
+            var g = gridLookupResponsable.GetGridView();
+            g.GetRowValues(e.visibleIndex, 'RESPONSABLE_CODIGO;RESPONSABLE_NOMBRE', OnGetRowResponsableValues);
+        }
+        function OnGetRowResponsableValues(Value) {
+            //  OC_CRAZSOC.SetText(Value[0]);
+            RESPONSABLE_CODIGO.SetText(Value[1]);
+        }
         function OnGridRowClick(s, e) {
             console.log("dd")
             var g = gridLookupProveedor.GetGridView();
             g.GetRowValues(e.visibleIndex, 'PRVCNOMBRE;PRVCRUC', OnGetRowValues);
        }
         function OnGetRowValues(Value) {
-            OC_CRAZSOC.SetText(Value[0]);
+          //  OC_CRAZSOC.SetText(Value[0]);
             RUC.SetText(Value[1]);
         }
+
+
         function OnGridArticuloRowClick(s, e) {
             var g = gridLookup.GetGridView();
             g.GetRowValues(e.visibleIndex, 'description;unidad', OnGetRowArticuloValues);

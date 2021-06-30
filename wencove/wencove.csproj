@@ -271,6 +271,7 @@
     <Content Include="Views\ResponsableCompra\ResponsablePartial.cshtml" />
     <Content Include="Views\OrdenCompra\MultiSelectDocRef.cshtml" />
     <Content Include="Views\OrdenCompra\MultiSelectResponsable.cshtml" />
+    <Content Include="Views\OrdenCompra\DateRangePicker.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

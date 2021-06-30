@@ -85,7 +85,7 @@
                 layoutSetting.SettingsAdaptivity.SwitchToSingleColumnAtWindowInnerWidth = 700;
                 layoutSetting.UseDefaultPaddings = false;
 
-                
+
 
                 var groupItem = layoutSetting.Items.AddGroupItem(groupSettings =>
                 {
@@ -105,7 +105,6 @@
                     {
                         t.ReadOnly = true;
                         t.Width = Unit.Percentage(25);
-
                         t.Properties.ClientSideEvents.Init = "onData";
                     });
                 });
@@ -144,7 +143,7 @@
 
                         Html.RenderAction("MultiSelectProveedor" , new { CurrentCategory = DataBinder.Eval(c.DataItem, "oc_ccodpro") });
                     });
-                });              
+                });
                 groupItem.Items.Add( i =>
 
                 {
@@ -159,7 +158,7 @@
                         t.ShowModelErrors = true;
                         t.ReadOnly = true;
                     });
-                });               
+                });
                 groupItem.Items.Add( i =>
 
                 {
@@ -204,7 +203,7 @@
                         t.Properties.ValidationSettings.Display = Display.Dynamic;
                         t.ShowModelErrors = true;
                         t.Date = DateTime.Now;
-
+                        t.Properties.ClientSideEvents.Init = "DateEmision";
                     });
                 });
                 groupItem.Items.Add(i =>

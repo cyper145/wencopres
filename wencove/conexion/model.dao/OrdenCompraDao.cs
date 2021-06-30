@@ -14,7 +14,7 @@ namespace wencove.conexion.model.dao
         private SqlCommand comando;
 
 
-         static List<OrdenCompra> OrdenCompras;
+        List<OrdenCompra> OrdenCompras;
         public OrdenCompraDao()
         {
             if (OrdenCompras == null)
@@ -49,9 +49,79 @@ namespace wencove.conexion.model.dao
 
         public List<OrdenCompra> findAll()
         {
-           
 
-            string findAll = "SELECT TOP (100) * FROM comovc, estado_oc WHERE comovc.oc_csitord = estado_oc.est_codigo";
+
+            string findAll = "SELECT TOP (100) * FROM comovc, estado_oc WHERE comovc.oc_csitord = estado_oc.est_codigo ";
+            try
+            {
+                comando = new SqlCommand(findAll, objConexion.getCon());
+                objConexion.getCon().Open();
+                SqlDataReader read = comando.ExecuteReader();
+                while (read.Read())
+                {
+                    OrdenCompra user = new OrdenCompra();
+                    user.OC_CNUMORD = read[0].ToString();
+                    user.OC_PRINCIPAL = read[1].ToString();
+                    user.OC_DFECDOC = DateTime.Parse(read[2].ToString());
+                    user.OC_LOTE = read[3].ToString();
+                    user.oc_ccodpro = read[4].ToString();
+                    user.OC_CRAZSOC = read[5].ToString();
+                    user.OC_CDIRPRO = read[6].ToString();
+                    user.OC_CCOTIZA = read[7].ToString();
+                    user.OC_CCODMON = read[8].ToString();
+                    user.OC_CFORPAG = read[9].ToString();
+                    user.OC_NTIPCAM = read[10].ToString();
+                    user.OC_DFECENT = DateTime.Parse(read[11].ToString());
+                    user.OC_COBSERV = read[12].ToString();
+                    user.OC_CSOLICT = read[13].ToString();
+                    user.OC_CTIPENV = read[14].ToString();
+                    user.OC_CENTREG = read[15].ToString();
+                    user.OC_CSITORD = read[16].ToString();
+                    user.OC_NIMPORT = ParseDecimal(read[17].ToString());
+                    user.OC_NDESCUE = ParseDecimal(read[18].ToString());
+                    user.OC_NIGV = ParseDecimal(read[19].ToString());
+                    user.OC_NVENTA = ParseDecimal(read[20].ToString());
+                    user.OC_DFECACT = DateTime.Parse(read[21].ToString());
+                    user.OC_CHORA = read[22].ToString();
+                    user.OC_CUSUARI = read[23].ToString();
+                    user.OC_CFECDOC = read[24].ToString();
+                    user.OC_CCONVER = read[25].ToString();
+                    user.OC_CFACNOMBRE = read[26].ToString();
+                    user.OC_CFACRUC = read[27].ToString();
+                    user.OC_CFACDIREC = read[28].ToString();
+                    user.OC_CDOCREF = read[29].ToString();
+                    user.OC_CNRODOCREF = read[30].ToString();
+                    user.OC_ORDFAB = read[31].ToString();
+                    user.OC_SOLICITA = read[32].ToString();
+                    user.OC_NFLETE = ParseDecimal(read[33].ToString());
+                    user.OC_NSEGURO = ParseDecimal(read[34].ToString());
+                    user.OC_CTIPOC = read[35].ToString();
+                    user.OC_DESPACHO = read[36].ToString();
+                    user.OC_TIPO = read[37].ToString();
+                    user.EST_CODIGO = read[38].ToString();
+                    user.EST_NOMBRE = read[39].ToString();
+
+
+                    OrdenCompras.Add(user);
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            finally
+            {
+                objConexion.getCon().Close();
+                objConexion.cerrarConexion();
+            }
+            return OrdenCompras;
+        }
+        public List<OrdenCompra> findAll(DateRangePickerModel dateRange)
+        {
+
+            
+            string findAll = "SELECT * FROM comovc, estado_oc WHERE comovc.oc_csitord = estado_oc.est_codigo and OC_DFECDOC Between '"+ dateRange.Start.ToString("yyyy-MM-ddTHH:mm:ss") + "' and '"+ dateRange.End.ToString("yyyy-MM-ddTHH:mm:ss") + "'";
             try
             {
                 comando = new SqlCommand(findAll, objConexion.getCon());
@@ -100,8 +170,6 @@ namespace wencove.conexion.model.dao
                     user.OC_TIPO = read[37].ToString();       
                     user.EST_CODIGO = read[38].ToString();       
                     user.EST_NOMBRE = read[39].ToString();
-
-
                     OrdenCompras.Add(user);
                 }
             }
@@ -286,6 +354,35 @@ namespace wencove.conexion.model.dao
             }
             return listUsers;
         }
+
+        public string findLastDocRef()
+        {
+            string findAll = "SELECT ctnnumero FROM num_doccompras WHERE ctncodigo='OC'";
+            NumDocCompras user = new NumDocCompras();
+            try
+            {               
+                comando = new SqlCommand(findAll, objConexion.getCon());
+                objConexion.getCon().Open();
+                SqlDataReader read = comando.ExecuteReader();
+                if (read.Read())
+                {                 
+                    user.CTNNUMERO = read[0].ToString();                               
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            finally
+            {
+                objConexion.getCon().Close();
+                objConexion.cerrarConexion();
+            }
+            return user.CTNNUMERO;
+        }
+
+       
         public decimal ParseDecimal(string data)
         {
             if (data == "")

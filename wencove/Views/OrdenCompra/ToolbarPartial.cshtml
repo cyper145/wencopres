@@ -38,7 +38,7 @@
     settings.SettingsBehavior.AllowDragDrop = false;
 
 
-    settings.Settings.ShowHeaderFilterButton = true;
+    settings.Settings.ShowHeaderFilterButton = false;
 
     settings.SettingsPager.PageSize = 50;
     settings.SettingsPager.EnableAdaptivity = true;
@@ -72,6 +72,7 @@
         properties.ValueField = "codigo";
         properties.ValueType = typeof(string);
         properties.DataSource = GridViewHelper.getArticulos();
+        column.Width =Unit.Percentage(10);
         column.SetEditItemTemplateContent(container =>
         {
             Html.RenderAction("MultiSelectPartial", new { CurrentCategory = DataBinder.Eval(container.DataItem, "oc_ccodigo") });
@@ -82,25 +83,36 @@
     {
         column.FieldName = "OC_CDESREF";
         column.Caption = "Descripción";
+        column.Width = Unit.Percentage(35);
 
     });
     settings.Columns.Add(column =>
     {
         column.FieldName = "OC_GLOSA";
         column.Caption = "glosa";
-        column.Width = 400;
+        column.CellRowSpan = 2;
+        column.Width = Unit.Percentage(15);
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        TextBoxProperties properties = column.PropertiesEdit as TextBoxProperties;
+        column.ReadOnly = true;
+
     });
     settings.Columns.Add(column =>
     {
         column.FieldName = "OC_CUNIDAD";
         column.Caption = "Uni";
+        column.CellRowSpan = 1;
+        column.Width = Unit.Percentage(10);
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        TextBoxProperties properties = column.PropertiesEdit as TextBoxProperties;
+        column.ReadOnly = true;
 
     });
     settings.Columns.Add(column =>
     {
         column.FieldName = "OC_NCANTID";
         column.Caption = "Cantidad";
-
+        column.Width = Unit.Percentage(10);
         column.ColumnType = MVCxGridViewColumnType.TextBox;
         TextBoxProperties properties = column.PropertiesEdit as TextBoxProperties;
         properties.ClientSideEvents.TextChanged = "changegCalcularPrecioCantidad";
@@ -110,7 +122,7 @@
     {
         column.FieldName = "OC_NPREUNI";
         column.Caption = "Precio";
-
+        column.Width = Unit.Percentage(10);
         column.ColumnType = MVCxGridViewColumnType.TextBox;
         TextBoxProperties properties = column.PropertiesEdit as TextBoxProperties;
         properties.ClientSideEvents.TextChanged = "changegCalcularPrecioPunitario";
@@ -122,14 +134,14 @@
         column.ColumnType = MVCxGridViewColumnType.TextBox;
         TextBoxProperties properties = column.PropertiesEdit as TextBoxProperties;
         properties.ValidationSettings.RequiredField.IsRequired = false;
-
+        column.Width = Unit.Percentage(10);
     });
     settings.Columns.Add(column =>
     {
         column.FieldName = "OC_NTOTVEN";
         column.Caption = "total";
 
-
+        column.Width = Unit.Percentage(10);
         column.UnboundType = DevExpress.Data.UnboundColumnType.Decimal;
         column.EditorProperties().TextBox(p =>
         {
@@ -152,10 +164,11 @@
     layout.Items.Add(i => {
 
         i.ColumnName = "oc_ccodigo";
-        i.ColumnSpan = 6;
-        i.RowSpan = 1;
+        i.ColumnSpan = 5;
+
         i.ShowCaption = DefaultBoolean.False;
         i.CaptionSettings.Location = LayoutItemCaptionLocation.Top;
+        i.Index = 1;
 
     } );
     layout.Items.Add(i => {
@@ -165,10 +178,17 @@
         i.ColumnSpan = 4;
         i.RowSpan = 2;
         i.Visible = false;
+        i.Index = 1;
     });
     // settings.EditFormLayoutProperties.Items.Add(i => i.OC_GLOSA);
 
+    layout.Items.Add(i =>
+    {
 
+        i.ColumnName = "OC_GLOSA";
+        i.ColumnSpan = 2;
+
+    });
     layout.Items.Add(i =>
     {
 
@@ -194,7 +214,7 @@
     });
     layout.Items.Add(i => {
         i.ColumnName = "OC_NTOTVEN";
-        i.ColumnSpan = 2;
+        i.ColumnSpan = 1;
 
     });
 
@@ -207,10 +227,9 @@
     settings.Settings.ShowFooter = true;
     settings.SettingsBehavior.AutoExpandAllGroups = true;
 
-    settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Count, "OC_CDESREF");
-    settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Max, "OC_NDSCPOR").DisplayFormat = "Max Discount = {0:p0}";
-    settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "OC_NTOTVEN");
-
+    settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Count, "OC_CDESREF").DisplayFormat = "Articulos = {0}";
+    var suma=settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "OC_NTOTVEN").DisplayFormat = "c";
+    //suma.DisplayFormat = "c";
     settings.SettingsSearchPanel.CustomEditorName = "search";
     settings.SettingsBehavior.AllowFocusedRow = true;
 

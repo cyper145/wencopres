@@ -9,6 +9,7 @@ using DevExpress.Web.Mvc;
 using wencove.Models;
 using wencove.Model;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace wencove.Controllers
 {
@@ -36,25 +37,14 @@ namespace wencove.Controllers
             ViewData["FormasPago"] = userNeg.findAllFormasPago();
             ViewData["Solicitud"] = userNeg.findAllSolicitud();
             ViewData["DocRef"] = userNeg.findAllDocRef();
-
-            if (GridViewHelper.OrdenCompras.Count == 0)
-            {
-                GridViewHelper.OrdenCompras.AddRange(userNeg.findAll());
-
-            }
+            GridViewHelper.OrdenCompras = userNeg.findAll(GridViewHelper.dateRange);
             return View(GridViewHelper.OrdenCompras);
         }
         public ActionResult GridViewPartial()
         {
           
           //  Dictionary<string, Object> nodes = JsonConvert.DeserializeObject<Dictionary<string, Object>>(fecha);
-              
-            if (GridViewHelper.OrdenCompras.Count == 0)
-            {
-                    GridViewHelper.OrdenCompras.AddRange(userNeg.findAll());
-               
-            }
-           
+                  
             return PartialView("GridViewPartial", GridViewHelper.OrdenCompras);
         }
 
@@ -63,7 +53,7 @@ namespace wencove.Controllers
         public ActionResult ExternalEditFormPartial()
         {
 
-            return PartialView("ExternalEditFormPartial", userNeg.findAll());
+            return PartialView("ExternalEditFormPartial", GridViewHelper.OrdenCompras);
         }
 
         public ActionResult ExternalEditFormEdit(string id = "")
@@ -98,7 +88,7 @@ namespace wencove.Controllers
         public ActionResult GridViewCustomActionUpdate(Proveedor mainModel)
         {
             ViewData["SuccessFlag"] = UpdateAllValues(null, mainModel);
-            return PartialView("GridViewPartial", userNeg.findAll());
+            return PartialView("GridViewPartial", userNeg.findAll(GridViewHelper.dateRange));
         }
         /* save all changes to a data base in this action */
         public bool UpdateAllValues(MVCxGridViewBatchUpdateValues<GridDataItem, int> batchValues, Proveedor mainModel)
@@ -280,8 +270,17 @@ namespace wencove.Controllers
         {
 
             // obtener  codarticulo
-            var codArticulo = dataForm["gridLookup"];
-            product.oc_ccodigo = codArticulo.ToString();
+
+             
+            var codArticulodata = dataForm["DXMVCEditorsValues"];
+            Dictionary<string, object> nodes = JsonConvert.DeserializeObject<Dictionary<string, object>>(codArticulodata);
+            var codArticulo = nodes["gridLookup"];
+
+            JArray array =(JArray) codArticulo ;
+            
+            var description = dataForm["gridLookup"];
+            product.oc_ccodigo = array.First.ToString();
+            product.OC_CDESREF = description.ToString();
             if (ModelState.IsValid)
                 SafeExecute(() => InsertProduct(product));
             else
@@ -370,7 +369,26 @@ namespace wencove.Controllers
         public JsonResult nroDera()
         {
 
-            return Json(new { isSuccess = "dar" }, JsonRequestBehavior.AllowGet);
-        } 
+            return Json(new { document = userNeg.nextNroDocument() }, JsonRequestBehavior.AllowGet);
+        }
+
+        // controlor de filtro
+        public ActionResult DateRangePicker()
+        {
+            return PartialView("DateRangePicker");
+        }
+        [HttpPost]
+        public ActionResult DateRangePicker(FormCollection data)
+        {
+            if (Request.Params["Submit"] == null)
+                ModelState.Clear();
+            else
+            {
+                GridViewHelper.dateRange.End =DateTime.Parse(  Request.Params["End"]);
+                GridViewHelper.dateRange.Start= DateTime.Parse(Request.Params["Start"]);
+            }
+               
+            return RedirectToAction("index");
+        }
     }
 }

@@ -453,9 +453,12 @@ td#gridLookupDocRef_CapC {
 td#gridLookupResponsable_CapC {
     padding-right: 28px;
 }
-.dxgvControl_Office365 .dxgvCSD .dxgvTable_Office365 {
-    
+.dxgvRBB .dxgvEmptyDataRow_Office365.dxgvLVR > td.dxgv {
     height: calc(100vh - 12rem);
+    
+}
+#grid_DXMainTable td.dxgv {
+    height: auto;
 }
 td#gridLookup_CapC {
     padding: 6px 0;

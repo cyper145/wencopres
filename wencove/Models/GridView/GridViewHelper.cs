@@ -16,7 +16,7 @@ namespace wencove.Model
         public static List<OrdenCompra> OrdenCompras = new List<OrdenCompra>();
         public static string OC_CDOCREF ="";
 
-      
+        public static DateRangePickerModel dateRange = new DateRangePickerModel();
         public static void GetDetalles()
         {
             if (detalles == null)

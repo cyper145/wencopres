@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DevExpress.Web.Mvc;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -6,6 +7,11 @@ using System.Web;
 
 namespace wencove.conexion.model.entity
 {
+    public class DataOrdenCompra{
+        public List<OrdenCompra> ordens { get; set; }
+
+        public DateRangePickerModel dateRange { get; set; }
+    }
     public class OrdenCompra
     {
         public string OC_CNUMORD { get; set; }
@@ -131,4 +137,24 @@ namespace wencove.conexion.model.entity
             
         }
     }
+
+    public class DateRangePickerModel
+    {
+        [Display(Name = "Start Date")]
+        public DateTime Start { get; set; }
+
+        [Display(Name = "End Date")]
+        [DateRange(StartDateEditFieldName = "Start", MinDayCount = 1, MaxDayCount = 30)]
+        public DateTime End { get; set; }
+
+
+        public DateRangePickerModel()
+        {
+            DateTime end = DateTime.Now;       
+            DateTime start = end.AddDays(-30); 
+            Start = start;
+            End = end;
+        }
+    }
+
 }

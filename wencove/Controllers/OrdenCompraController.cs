@@ -241,6 +241,7 @@ namespace wencove.Controllers
             }
             ViewData["codigoOrden"] = CurrentCategory;
             OrdeCurrent = userNeg.find(CurrentCategory);
+            GridViewHelper.ClearDetalles();
             if (OrdeCurrent == null)
             {
                 ViewData["codigoOrden"] = CurrentCategory;
@@ -255,14 +256,15 @@ namespace wencove.Controllers
             string codigo = "0000000000001";
             ViewData["codigoOrden"] = codigoOrden;
             OrdeCurrent = userNeg.find(codigoOrden);
+           
             if (OrdeCurrent == null)
             {
                 GridViewHelper.GetDetalles();
                 return PartialView("ToolbarPartial", GridViewHelper.detalles);
             }
 
-            ViewData["Detalles"] = userNeg.findAllDetail(OrdeCurrent.OC_CNUMORD);
-            return PartialView("ToolbarPartial", ViewData["Detalles"]);
+           GridViewHelper.detalles = userNeg.findAllDetail(OrdeCurrent.OC_CNUMORD);
+            return PartialView("ToolbarPartial", GridViewHelper.detalles);
         }
 
         [ValidateInput(false)]
@@ -301,8 +303,19 @@ namespace wencove.Controllers
 
 
         [ValidateInput(false)]
-        public ActionResult ToolbarUpdatePartial(DetalleOrdenCompra product)
+        public ActionResult ToolbarUpdatePartial(DetalleOrdenCompra product, FormCollection dataForm)
         {
+
+
+            var codArticulodata = dataForm["DXMVCEditorsValues"];
+            Dictionary<string, object> nodes = JsonConvert.DeserializeObject<Dictionary<string, object>>(codArticulodata);
+            var codArticulo = nodes["gridLookup"];
+
+            JArray array = (JArray)codArticulo;
+            var description = dataForm["gridLookup"];
+            product.oc_ccodigo = array.First.ToString();
+            product.OC_CDESREF = description.ToString();
+            //Request.Params
             if (ModelState.IsValid)
                 SafeExecute(() => UpdateProduct(product));
             else
@@ -319,19 +332,33 @@ namespace wencove.Controllers
 
         public void UpdateProduct(DetalleOrdenCompra product)
         {
+
+            DetalleOrdenCompra detalleOrdenCompra= GridViewHelper.detalles.Find(element=> element.oc_ccodigo== product.oc_ccodigo);
+            detalleOrdenCompra.OC_GLOSA = product.OC_GLOSA;
+            detalleOrdenCompra.OC_NCANTID = product.OC_NCANTID;
+            detalleOrdenCompra.OC_NPREUNI= product.OC_NPREUNI;
+            detalleOrdenCompra.OC_NDSCPOR= product.OC_NDSCPOR;
+            detalleOrdenCompra.OC_NTOTVEN= product.OC_NTOTVEN;
+
             // crear la logica para agregar un producto
         }
 
         [ValidateInput(false)]
-        public ActionResult ToolbarDeletePartial(string codigo = "")
+        public ActionResult ToolbarDeletePartial(string oc_ccodigo = "")
         {
-            if (codigo != "")
-                SafeExecute(() => DeleteProduct(codigo));
+            if (oc_ccodigo != "")
+                SafeExecute(() => DeleteProduct(oc_ccodigo));
+            var data = ViewData["codigoOrden"];
+            if (data == null)
+            {
+                return ToolbarPartial("-1");
+            }
             return ToolbarPartial(ViewData["codigoOrden"].ToString());
         }
 
         public void DeleteProduct(string product)
         {
+            GridViewHelper.detalles.Remove( GridViewHelper.detalles.Find(element => element.oc_ccodigo == product));
             // crear la logica para agregar un producto
         }
 
@@ -351,7 +378,7 @@ namespace wencove.Controllers
             return PartialView("MultiSelectDocRef", new  NumDocCompras () { CTNCODIGO = OC_CDOCREF });
    
         }
-        public ActionResult MultiSelectResponsable(string OC_SOLICITA = "-1", FormCollection dataR = null)
+        public ActionResult MultiSelectResponsable(string oc_csolict = "-1", FormCollection dataR = null)
         {
             if (dataR != null)
             {
@@ -360,9 +387,9 @@ namespace wencove.Controllers
             }
 
             ViewData["responsable"] = responsable.findAll();
-            if (OC_SOLICITA != "-1")
-                OC_SOLICITA = "";
-            return PartialView("MultiSelectResponsable", new ResponsableCompra() { RESPONSABLE_CODIGO = OC_SOLICITA });
+            if (oc_csolict == "-1")
+                oc_csolict = "";
+            return PartialView("MultiSelectResponsable", new ResponsableCompra() { RESPONSABLE_CODIGO = oc_csolict });
 
         }
         

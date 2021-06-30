@@ -182,7 +182,7 @@
                     {
                         t.Properties.ValidationSettings.Display = Display.Dynamic;
                         t.ShowModelErrors = true;
-                        t.SelectedIndex = 0;
+                       
                         t.Properties.ValueType = typeof(string);
                         t.Properties.DataSource = GridViewHelper.GetSolitud();
                         t.Properties.ValueField = "TCLAVE";
@@ -356,7 +356,7 @@
                     i.ColumnSpan = 5;
                     i.SetNestedContent(() =>
                     {
-                        Html.RenderAction("MultiSelectResponsable", new { OC_SOLICITA = DataBinder.Eval(c.DataItem, "OC_SOLICITA") });
+                        Html.RenderAction("MultiSelectResponsable", new { oc_csolict = DataBinder.Eval(c.DataItem, "oc_csolict") });
                     });
                 });
                 groupItem.Items.Add(i =>

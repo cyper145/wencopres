@@ -40,13 +40,13 @@
         }
         //OnGridRowResponsableClick
         function OnGridRowResponsableClick(s, e) {
-            console.log("dd")
+            
             var g = gridLookupResponsable.GetGridView();
             g.GetRowValues(e.visibleIndex, 'RESPONSABLE_CODIGO;RESPONSABLE_NOMBRE', OnGetRowResponsableValues);
         }
         function OnGetRowResponsableValues(Value) {
             //  OC_CRAZSOC.SetText(Value[0]);
-            RESPONSABLE_CODIGO.SetText(Value[1]);
+            RESPONSABLE_CODIGO.SetText(Value[0]);
         }
         function OnGridRowClick(s, e) {
             console.log("dd")

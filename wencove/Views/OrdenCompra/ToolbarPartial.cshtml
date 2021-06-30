@@ -60,7 +60,7 @@
 
 
 
-    settings.KeyFieldName = "Codigo";
+    settings.KeyFieldName = "oc_ccodigo";
 
     settings.Columns.Add(column =>
     {
@@ -68,6 +68,7 @@
         column.Caption = "código";
         column.ColumnType = MVCxGridViewColumnType.ComboBox;
         ComboBoxProperties properties = column.PropertiesEdit as ComboBoxProperties;
+
         properties.TextField = "codigo";
         properties.ValueField = "codigo";
         properties.ValueType = typeof(string);
@@ -94,7 +95,7 @@
         column.Width = Unit.Percentage(15);
         column.ColumnType = MVCxGridViewColumnType.TextBox;
         TextBoxProperties properties = column.PropertiesEdit as TextBoxProperties;
-        column.ReadOnly = true;
+
 
     });
     settings.Columns.Add(column =>
@@ -151,7 +152,7 @@
 
 
 
-
+    
     var layout=  settings.EditFormLayoutProperties.Items.AddGroupItem(i => {
 
         i.ShowCaption = DefaultBoolean.False;
@@ -168,7 +169,7 @@
 
         i.ShowCaption = DefaultBoolean.False;
         i.CaptionSettings.Location = LayoutItemCaptionLocation.Top;
-        i.Index = 1;
+
 
     } );
     layout.Items.Add(i => {
@@ -194,6 +195,7 @@
 
         i.ColumnName = "OC_CUNIDAD";
         i.ColumnSpan = 1;
+        i.CssClass = "PONERENABLE";
 
     });
     layout.Items.Add(i => {

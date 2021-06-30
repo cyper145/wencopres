@@ -457,9 +457,14 @@ td#gridLookupResponsable_CapC {
     height: calc(100vh - 12rem);
     
 }
+
 #grid_DXMainTable td.dxgv {
     height: auto;
 }
 td#gridLookup_CapC {
     padding: 6px 0;
+}
+
+.PONERENABLE .dxflNestedControlCell_Office365.dxflNotFloatedElSys {
+    OPACITY: 0.5;
 }

@@ -12,7 +12,7 @@
 
     //settings.CommandColumn.Visible = true;
     // settings.CommandColumn.ShowSelectCheckbox = true;
-   
+
     settings.Columns.Add("TCLAVE").Width = Unit.Percentage(10);
     settings.Columns.Add("TDESCRI").Width = Unit.Percentage(90);
 
@@ -20,12 +20,13 @@
 
     settings.Properties.SelectionMode = DevExpress.Web.GridLookupSelectionMode.Single;
     settings.Properties.TextFormatString = "{1}";
+    settings.Properties.Width = 250;
 
     settings.GridViewProperties.Settings.ShowFilterRow = false;
     settings.GridViewProperties.Settings.ShowColumnHeaders = false;
     settings.GridViewProperties.SettingsBehavior.EnableRowHotTrack = true;
     //settings.GridViewProperties.Settings.ShowStatusBar = GridViewStatusBarMode.Visible;
-    //settings.GridViewProperties.SettingsPager.EnableAdaptivity = true;
+    settings.GridViewProperties.SettingsPager.EnableAdaptivity = true;
     settings.GridViewProperties.SettingsPager.PageSize = 7;
 
     //settings.GridViewClientSideEvents.RowClick = "OnGridRowResponsableClick";

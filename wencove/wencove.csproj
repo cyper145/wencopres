@@ -323,6 +323,7 @@
     <Compile Include="conexion\model.entity\RequisicionCompra.cs" />
     <Compile Include="conexion\model.entity\ResponsableCompra.cs" />
     <Compile Include="conexion\model.entity\Role.cs" />
+    <Compile Include="conexion\model.entity\Root.cs" />
     <Compile Include="conexion\model.entity\Solicitud.cs" />
     <Compile Include="conexion\model.entity\User.cs" />
     <Compile Include="conexion\model.neg\AreaNeg.cs" />

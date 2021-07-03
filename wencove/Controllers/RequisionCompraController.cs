@@ -161,14 +161,22 @@ namespace wencove.Controllers
         {
             // obtener  codarticulo             
             var codArticulodata = dataForm["DXMVCEditorsValues"];
+
+            string[] words = codArticulodata.Split(',');
+            string codCostos = codArticulodata[0] + words[10] + codArticulodata[codArticulodata.Length - 1];
+            codArticulodata = words[0] +","+ words[10]+ codArticulodata[codArticulodata.Length-1];
+          
             Dictionary<string, object> nodes = JsonConvert.DeserializeObject<Dictionary<string, object>>(codArticulodata);
             var codArticulo = nodes["gridLookup"];
+            var codCosto = nodes["gridLookupCostos"];
 
             JArray array = (JArray)codArticulo;
+            JArray arraycosto = (JArray)codCosto;
 
             var description = dataForm["gridLookup"];
             product.codpro = array.First.ToString();
             product.DESCPRO = description.ToString();
+            product.CENCOST = arraycosto.First.ToString();
             if (ModelState.IsValid)
                 SafeExecute(() => InsertProduct(product));
             else
@@ -247,7 +255,7 @@ namespace wencove.Controllers
             return PartialView("MultiSelectCentroCostos", new CentroCosto() { CENCOST_CODIGO = CENCOST_CODIGO });
 
         }
-        public ActionResult MultiSelectPartial(string CurrentCategory)
+        public ActionResult MultiSelectPartial(string CurrentCategory="")
         {
             if (CurrentCategory == null)
                 CurrentCategory = "";

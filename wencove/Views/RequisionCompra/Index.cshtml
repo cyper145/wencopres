@@ -1,6 +1,33 @@
 ﻿@using wencove.conexion.model.entity
 @model List<RequisicionCompra>
 
+@section Head {
+    <script>
+
+        function OnGridArticuloRowClick(s, e) {
+            var g = gridLookup.GetGridView();
+            g.GetRowValues(e.visibleIndex, 'description;unidad', OnGetRowArticuloValues);
+        }
+        function OnGetRowArticuloValues(Value) {
+            console.log(Value[0]);
+            var data = document.getElementById("grid_DXEFL_DXEditor2_I");
+            data.value = Value[1];
+
+        }
+
+        function DateEmision() {
+           
+            if (FECREQUI.GetText() == "") {
+                let f = new Date();
+                FECREQUI.SetText(f.getDate() + "/" + (f.getMonth() + 1) + "/" + f.getFullYear());            
+            }
+
+
+        }
+    </script>
+
+}
+    
 
 @{
     ViewBag.Title = "GridView";

@@ -112,7 +112,7 @@
     });
     settings.Columns.Add(column =>
     {
-        column.FieldName = "stock";
+        column.FieldName = "SALDO";
         column.Caption = "stock";
         column.Visible = false;
         column.Width = Unit.Percentage(10);
@@ -195,17 +195,7 @@
 
 
     });
-    layout.Items.Add(i =>
-    {
-
-        i.ColumnName = "DESCPRO";
-        i.ColumnSpan = 5;
-
-
-        i.CaptionSettings.Location = LayoutItemCaptionLocation.Top;
-
-
-    });
+    
     layout.Items.Add(i =>
     {
 
@@ -249,7 +239,7 @@
     {
 
         i.ColumnName = "CENCOST";
-        i.ColumnSpan = 3;
+        i.ColumnSpan = 2;
 
     });
     layout.Items.Add(i =>
@@ -263,10 +253,16 @@
     {
 
         i.ColumnName = "ESPTECNICA";
-        i.ColumnSpan = 12;
+        i.ColumnSpan = 10;
 
     });
 
+    layout.Items.AddCommandItem(i =>
+    {
+        i.ColumnSpan = 12;
+
+        i.HorizontalAlign = FormLayoutHorizontalAlign.Right;
+    });
     settings.Settings.ShowFooter = true;
     settings.SettingsBehavior.AutoExpandAllGroups = true;
 

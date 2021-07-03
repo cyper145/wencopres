@@ -28,6 +28,10 @@
 
     settings.EditFormLayoutProperties.Styles.LayoutItem.Paddings.PaddingBottom = Unit.Pixel(8);
 
+    settings.Settings.ShowFilterRow = true;
+    settings.Settings.ShowFilterRowMenu = true;
+    
+
     settings.Toolbars.Add(tb => {
         tb.Enabled = true;
         tb.Position = GridToolbarPosition.Top;
@@ -87,6 +91,7 @@
     {
         column.FieldName = "FECREQUI";
         column.Caption = "Fecha Req.";
+        column.ColumnType = MVCxGridViewColumnType.DateEdit;
     });
     settings.Columns.Add(column =>
     {
@@ -140,7 +145,9 @@
                 {
                     t.Properties.ValidationSettings.Display = Display.Dynamic;
                     t.ShowModelErrors = true;
-                   
+                    t.Properties.ClientSideEvents.Init = "DateEmision";
+
+
                 });
             });
 
@@ -224,7 +231,7 @@
 
                 });
             });
-            
+
             layoutSetting.Items.Add(itemSettings =>
             {
 

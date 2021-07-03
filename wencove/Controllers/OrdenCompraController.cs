@@ -30,6 +30,7 @@ namespace wencove.Controllers
             responsable = new ResponsableCmpNeg();
             if (OrdeCurrent == null)
                 OrdeCurrent = new OrdenCompra();
+
         }
         public ActionResult Index()
         {
@@ -270,10 +271,7 @@ namespace wencove.Controllers
         [ValidateInput(false)]
         public ActionResult ToolbarAddNewPartial(DetalleOrdenCompra product, FormCollection dataForm)
         {
-
-            // obtener  codarticulo
-
-             
+            // obtener  codarticulo             
             var codArticulodata = dataForm["DXMVCEditorsValues"];
             Dictionary<string, object> nodes = JsonConvert.DeserializeObject<Dictionary<string, object>>(codArticulodata);
             var codArticulo = nodes["gridLookup"];
@@ -305,8 +303,6 @@ namespace wencove.Controllers
         [ValidateInput(false)]
         public ActionResult ToolbarUpdatePartial(DetalleOrdenCompra product, FormCollection dataForm)
         {
-
-
             var codArticulodata = dataForm["DXMVCEditorsValues"];
             Dictionary<string, object> nodes = JsonConvert.DeserializeObject<Dictionary<string, object>>(codArticulodata);
             var codArticulo = nodes["gridLookup"];

@@ -11,9 +11,12 @@ namespace wencove.Model
     {
 
 
-       public  static List<DetalleOrdenCompra> detalles = new List<DetalleOrdenCompra>();
+        public  static List<DetalleOrdenCompra> detalles = new List<DetalleOrdenCompra>();
 
         public static List<OrdenCompra> OrdenCompras = new List<OrdenCompra>();
+
+        public static List<DetalleRequisicion> detalleRequisicions = new List<DetalleRequisicion>();
+        public static List<RequisicionCompra> requisicionCompras = new List<RequisicionCompra>();
         public static string OC_CDOCREF ="";
 
         public static DateRangePickerModel dateRange = new DateRangePickerModel();
@@ -36,6 +39,38 @@ namespace wencove.Model
             {
                 OrdenCompras = new List<OrdenCompra>();
             }
+        }
+
+        public static void GetDetallesRequision()
+        {
+            if (detalleRequisicions == null)
+            {
+                detalleRequisicions = new List<DetalleRequisicion>();
+            }
+
+        }
+        public static void ClearDetallesRequision()
+        {
+
+            detalleRequisicions = new List<DetalleRequisicion>();
+        }
+        public static void GetRequisionComprasObjetc()
+        {
+            if (requisicionCompras == null)
+            {
+                requisicionCompras = new List<RequisicionCompra>();
+            }
+        }
+
+        public static List<RequisicionCompra> GetRequisionCompras()
+        {
+            RequisicionCompraNeg userNeg = new RequisicionCompraNeg();
+            return userNeg.findAll();
+        }
+        public static List<CentroCosto> GetCentroCostos()
+        {
+            RequisicionCompraNeg userNeg = new RequisicionCompraNeg();
+            return userNeg.findAllCentroCostos();
         }
         public static List<Issue> GetIssues()
         {

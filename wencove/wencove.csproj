@@ -272,6 +272,14 @@
     <Content Include="Views\OrdenCompra\MultiSelectDocRef.cshtml" />
     <Content Include="Views\OrdenCompra\MultiSelectResponsable.cshtml" />
     <Content Include="Views\OrdenCompra\DateRangePicker.cshtml" />
+    <Content Include="Views\RequisionCompra\Index.cshtml" />
+    <Content Include="Views\RequisionCompra\DataRequisicionPartial.cshtml" />
+    <Content Include="Views\RequisionCompra\MultiSelectSolicitante.cshtml" />
+    <Content Include="Views\RequisionCompra\DetailRequestPartial.cshtml" />
+    <Content Include="Views\RequisionCompra\Detail.cshtml" />
+    <Content Include="Views\RequisionCompra\MultiSelectArea.cshtml" />
+    <Content Include="Views\RequisionCompra\MultiSelectPartial.cshtml" />
+    <Content Include="Views\RequisionCompra\MultiSelectCentroCostos.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -285,6 +293,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Code\AuthHelper.cs" />
     <Compile Include="Code\DBContext.cs" />
+    <Compile Include="Code\Helpers\GridViewExportHelper.cs" />
     <Compile Include="Code\Helpers\GridViewFeaturesHelper.cs" />
     <Compile Include="Code\Helpers\GridViewToolbarHelper.cs" />
     <Compile Include="Code\RoleHelper.cs" />
@@ -296,11 +305,13 @@
     <Compile Include="conexion\model.dao\OrdenCompraDao.cs" />
     <Compile Include="conexion\model.dao\PaisDao.cs" />
     <Compile Include="conexion\model.dao\ProveedorDao.cs" />
+    <Compile Include="conexion\model.dao\RequisicionCompraDao.cs" />
     <Compile Include="conexion\model.dao\ResponsableCompraDao.cs" />
     <Compile Include="conexion\model.dao\RoleDao.cs" />
     <Compile Include="conexion\model.dao\UserDao.cs" />
     <Compile Include="conexion\model.entity\Area.cs" />
     <Compile Include="conexion\model.entity\Articulo.cs" />
+    <Compile Include="conexion\model.entity\CentroCosto.cs" />
     <Compile Include="conexion\model.entity\Empresa.cs" />
     <Compile Include="conexion\model.entity\FormaPago.cs" />
     <Compile Include="conexion\model.entity\InsertOrder.cs" />
@@ -309,6 +320,7 @@
     <Compile Include="conexion\model.entity\OrdenCompra.cs" />
     <Compile Include="conexion\model.entity\Pais.cs" />
     <Compile Include="conexion\model.entity\Proveedor.cs" />
+    <Compile Include="conexion\model.entity\RequisicionCompra.cs" />
     <Compile Include="conexion\model.entity\ResponsableCompra.cs" />
     <Compile Include="conexion\model.entity\Role.cs" />
     <Compile Include="conexion\model.entity\Solicitud.cs" />
@@ -319,7 +331,7 @@
     <Compile Include="conexion\model.neg\OrdenCompraNeg.cs" />
     <Compile Include="conexion\model.neg\PaisNeg.cs" />
     <Compile Include="conexion\model.neg\ProveedorNeg.cs" />
-    <Compile Include="conexion\model.neg\RequisicionCompra.cs" />
+    <Compile Include="conexion\model.neg\RequisicionCompraNeg.cs" />
     <Compile Include="conexion\model.neg\ResponsableCmpNeg.cs" />
     <Compile Include="conexion\model.neg\RoleNeg.cs" />
     <Compile Include="conexion\model.neg\UserNeg.cs" />
@@ -351,7 +363,7 @@
   <ItemGroup>
     <Folder Include="Views\Area\" />
     <Folder Include="Views\DetalleOrdenCompra\" />
-    <Folder Include="Views\RequisionCompra\" />
+    <Folder Include="Views\Requisiciones\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-
+using System.ComponentModel.DataAnnotations;
 namespace wencove.conexion.model.entity
 {
     public class RequisicionCompra
@@ -20,6 +20,8 @@ namespace wencove.conexion.model.entity
         public int IndAutorizado { get; set; }
         public string UsrAutoriza { get; set; }
         public string comrechazo { get; set; }
+
+        public List<DetalleRequisicion> detalles { get; set; }
     }
 
     public class DetalleRequisicion

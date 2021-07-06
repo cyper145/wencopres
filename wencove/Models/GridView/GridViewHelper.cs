@@ -18,6 +18,7 @@ namespace wencove.Model
         public static List<DetalleRequisicion> detalleRequisicions = new List<DetalleRequisicion>();
         public static List<RequisicionCompra> requisicionCompras = new List<RequisicionCompra>();
         public static string OC_CDOCREF ="";
+        public static string NROREQUI = "";
 
         public static DateRangePickerModel dateRange = new DateRangePickerModel();
         public static void GetDetalles()

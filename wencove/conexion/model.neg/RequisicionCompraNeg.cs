@@ -24,6 +24,11 @@ namespace wencove.conexion.model.neg
             return objUserDao.findAllDetail(NROREQUI);
 
         }
+        public List<RequisicionCompra> findAllPendientes()
+        {
+            return objUserDao.findAllPendientes();
+        }
+
         public RequisicionCompra find(string codigo)
         {
             return objUserDao.find(codigo);
@@ -32,6 +37,25 @@ namespace wencove.conexion.model.neg
         public List<CentroCosto> findAllCentroCostos()
         {
             return objUserDao.findAllCentroCostos();
+        }
+        public string nextNroDocument()
+        {
+            string last = objUserDao.newNroRequerimiento();
+            int nextDocumet = 0;
+            if (last != "")
+            {
+                nextDocumet = int.Parse(last) + 1;
+            }
+            string fmt = "0000000000.##";
+            string next = nextDocumet.ToString(fmt);
+            return next;
+        }
+
+        public void create(RequisicionCompra objUser)
+        {
+            objUserDao.updateNroRequerimiento(objUser.NROREQUI);
+            objUserDao.create(objUser);
+            objUserDao.createDetail(objUser);
         }
     }
 }

@@ -30,7 +30,7 @@
 
     settings.Settings.ShowFilterRow = true;
     settings.Settings.ShowFilterRowMenu = true;
-    
+
 
     settings.Toolbars.Add(tb => {
         tb.Enabled = true;
@@ -91,7 +91,8 @@
     {
         column.FieldName = "FECREQUI";
         column.Caption = "Fecha Req.";
-        column.ColumnType = MVCxGridViewColumnType.DateEdit;
+       // column.ColumnType = MVCxGridViewColumnType.DateEdit;
+        
     });
     settings.Columns.Add(column =>
     {
@@ -209,11 +210,13 @@
                 i.FieldName = "FecEntrega";
                 i.ColumnSpan = 3;
                 i.Caption = "Fecha Probable Entrega";
-
+                i.RequiredMarkDisplayMode = FieldRequiredMarkMode.Hidden;
                 i.NestedExtension().DateEdit(t =>
                 {
                     t.Properties.ValidationSettings.Display = Display.Dynamic;
                     t.ShowModelErrors = true;
+                   // t.Properties.ValidationSettings= ValidationSettings
+                  //  t.Properties.AllowNull = true;
                 });
             });
             groupItem.Items.Add(i =>

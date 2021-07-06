@@ -61,6 +61,12 @@ namespace wencove.conexion.model.dao
         }
 
         public List<Articulo> findAll()
+
+
+
+
+
+
         {
             List<Articulo> listArticulos = new List<Articulo>();
             string findAll = "Select ACODIGO,ADESCRI,AUNIDAD,AFSERIE,AFLOTE,ACODIGO2,AFAMILIA,AMODELO,AGRUPO,ATIPO,ACUENTA,AMARCA FROM MAEART ";

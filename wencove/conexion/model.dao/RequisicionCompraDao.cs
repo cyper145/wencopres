@@ -30,9 +30,90 @@ namespace wencove.conexion.model.dao
         }
         public void create(RequisicionCompra obj)
         {
-            throw new NotImplementedException();
+            string SQLC = "INSERT INTO requisc (nrorequi,tiporequi,codsolic,fecrequi,";
+            SQLC += "glosa,area, estrequi,prioridad,FecEntrega) VALUES ('" + obj.NROREQUI + "','RQ','" + obj.CODSOLIC + "','";
+            SQLC += obj.FECREQUI.ToString("yyyy-MM-dd") + "','";
+            SQLC += obj.GLOSA + "','" + obj.AREA + "','P'," + obj.prioridad+"," +  verDate(obj.FecEntrega) + ")";
+            try
+            {
+                comando = new SqlCommand(SQLC, objConexion.getCon());
+                objConexion.getCon().Open();
+                comando.ExecuteNonQuery();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                objConexion.getCon().Close();
+                objConexion.cerrarConexion();
+            }
+        }
+        public void createDetail(RequisicionCompra obj)
+        {
+            int nextDocumet = 0;
+            string item = "";
+            item += "INSERT INTO REQUISD (nrorequi,tiporequi,codpro,cantid,";
+            item += "estrequi,fecreque,descpro,unipro,reqitem, cencost, remaq, saldo,ESPTECNICA) VALUES";
+            obj.detalles.ForEach(element => {
+                ++nextDocumet;
+
+                item += "('" + obj.NROREQUI + "',";
+                item += " 'RQ','" + element.codpro + "'," + element.CANTID + ",'P',";
+                item += "'" + obj.FECREQUI.ToString("yyyy-MM-dd") + "','" + element.DESCPRO + "'";
+                item += ",'" + element.UNIPRO + "'," + nextDocumet + ",'" + obj.CODSOLIC + "', '" + element.REMAQ + "',";
+                item +=  "" + element.SALDO + ",'" +element.ESPTECNICA+ "'),";             
+            });
+            item=item.Remove(item.Length - 1);
+            try
+            {
+                comando = new SqlCommand(item, objConexion.getCon());
+                objConexion.getCon().Open();
+                comando.ExecuteNonQuery();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                objConexion.getCon().Close();
+                objConexion.cerrarConexion();
+            }
+
         }
 
+
+        public string verDate(DateTime date)
+        {
+            string datec = "null";
+            if (date != DateTime.MinValue)
+            {
+                datec= "'"+date.ToShortDateString()+"'";
+            }
+            return datec;
+        }
+        public void updateNroRequerimiento(string nroRequerimiento)
+        {
+            string updateNumCompras = "UPDATE num_doccompras SET ctnnumero='" + nroRequerimiento + "' WHERE ctncodigo='RQ'";
+            try
+            {
+                comando = new SqlCommand(updateNumCompras, objConexion.getCon());
+                objConexion.getCon().Open();
+                comando.ExecuteNonQuery();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                objConexion.getCon().Close();
+                objConexion.cerrarConexion();
+            }
+
+        }
         public void delete(RequisicionCompra obj)
         {
             throw new NotImplementedException();
@@ -55,18 +136,19 @@ namespace wencove.conexion.model.dao
                 {
                     user = new RequisicionCompra();
                     user.NROREQUI = read[0].ToString();
-                    user.FECREQUI = DateTime.Parse(read[1].ToString());
-                    user.GLOSA = read[2].ToString();
-                    user.AREA = read[3].ToString();
-                    user.ESTREQUI = read[4].ToString();
-                    user.TIPOREQUI = read[5].ToString();
-                    user.prioridad = int.Parse(read[6].ToString());
-                    user.FecEntrega = ParseDateTime(read[7].ToString());
-                    user.flgCerrado = int.Parse(read[8].ToString());
-                    user.IndAutorizado = int.Parse(read[9].ToString());
-                    user.UsrAutoriza = read[10].ToString();
-                    user.comrechazo = read[11].ToString();
-                 
+                    user.CODSOLIC = read[1].ToString();
+                    user.FECREQUI = DateTime.Parse(read[2].ToString());
+                    user.GLOSA = read[3].ToString();
+                    user.AREA = read[4].ToString();
+                    user.ESTREQUI = read[5].ToString();
+                    user.TIPOREQUI = read[6].ToString();
+                    user.prioridad = int.Parse(read[7].ToString());
+                    user.FecEntrega = ParseDateTime(read[8].ToString());
+                    user.flgCerrado = int.Parse(read[9].ToString());
+                    user.IndAutorizado = int.Parse(read[10].ToString());
+                    user.UsrAutoriza = read[11].ToString();
+                    user.comrechazo = read[12].ToString();
+
 
                 }
             }
@@ -97,7 +179,6 @@ namespace wencove.conexion.model.dao
                     user.NROREQUI = read[0].ToString();
                     user.CODSOLIC = read[1].ToString();                   
                     user.FECREQUI = DateTime.Parse(read[2].ToString());                   
-
                     user.GLOSA = read[3].ToString();
                     user.AREA = read[4].ToString();
                     user.ESTREQUI = read[5].ToString();
@@ -124,12 +205,55 @@ namespace wencove.conexion.model.dao
             }
             return OrdenCompras;
         }
+
+
+        public List<RequisicionCompra> findAllPendientes()
+        {
+
+            string findAll = "SELECT * FROM requisc where tiporequi = 'RQ' and ESTREQUI='P'";
+            try
+            {
+                comando = new SqlCommand(findAll, objConexion.getCon());
+                objConexion.getCon().Open();
+                SqlDataReader read = comando.ExecuteReader();
+                while (read.Read())
+                {
+                    RequisicionCompra user = new RequisicionCompra();
+                    user.NROREQUI = read[0].ToString();
+                    user.CODSOLIC = read[1].ToString();
+                    user.FECREQUI = DateTime.Parse(read[2].ToString());
+                    user.GLOSA = read[3].ToString();
+                    user.AREA = read[4].ToString();
+                    user.ESTREQUI = read[5].ToString();
+                    user.TIPOREQUI = read[6].ToString();
+                    user.prioridad = int.Parse(read[7].ToString());
+                    user.FecEntrega = ParseDateTime(read[8].ToString());
+                    user.flgCerrado = int.Parse(read[9].ToString());
+                    user.IndAutorizado = int.Parse(read[10].ToString());
+                    user.UsrAutoriza = read[11].ToString();
+                    user.comrechazo = read[12].ToString();
+                    OrdenCompras.Add(user);
+
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            finally
+            {
+                objConexion.getCon().Close();
+                objConexion.cerrarConexion();
+            }
+            return OrdenCompras;
+        }
         public List<DetalleRequisicion> findAllDetail(string NROREQUI)
         {
             List<DetalleRequisicion> listUsers = new List<DetalleRequisicion>();
 
            // OrdenCompra ordenCompra = OrdenCompras.Find(X => X.OC_CNUMORD == oc_cnumord);// ver si exite
-            string findAll = "SELECT * FROM REQUISD WHERE REQUISD.NROREQUI = '" + NROREQUI + "'";
+            string findAll = "SELECT * FROM REQUISD WHERE tiporequi='RQ' AND REQUISD.NROREQUI = '" + NROREQUI + "'";
             try
             {
                 comando = new SqlCommand(findAll, objConexion.getCon());
@@ -204,6 +328,34 @@ namespace wencove.conexion.model.dao
         public void update(RequisicionCompra obj)
         {
             throw new NotImplementedException();
+        }
+
+
+        public string newNroRequerimiento()
+        {
+            string findAll = "SELECT ctnnumero FROM num_doccompras WHERE ctncodigo='RQ'";
+            NumDocCompras user = new NumDocCompras();
+            try
+            {
+                comando = new SqlCommand(findAll, objConexion.getCon());
+                objConexion.getCon().Open();
+                SqlDataReader read = comando.ExecuteReader();
+                if (read.Read())
+                {
+                    user.CTNNUMERO = read[0].ToString();
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            finally
+            {
+                objConexion.getCon().Close();
+                objConexion.cerrarConexion();
+            }
+            return user.CTNNUMERO;
         }
         public decimal ParseDecimal(string data)
         {

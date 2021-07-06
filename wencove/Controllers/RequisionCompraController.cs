@@ -37,24 +37,52 @@ namespace wencove.Controllers
         {
             return View(GridViewHelper.GetRequisionCompras());
         }
-        public ActionResult DataRequisicionPartial()
+        public ActionResult DataRequisicionPartial( )
         {
+            GridViewHelper.ClearDetallesRequision();
             return PartialView("DataRequisicionPartial", GridViewHelper.GetRequisionCompras());
         }
 
         [ValidateInput(false)]
-        public ActionResult RequisicionAddNewPartial(RequisicionCompra product)
+        public ActionResult RequisicionAddNewPartial(RequisicionCompra product, FormCollection dataForm)
         {
+            // obtener  codarticulo             
+            var codArticulodata = dataForm["DXMVCEditorsValues"];
+
+            string [] word = codArticulodata.Split(',');
+            string dataRequisicion = codArticulodata[0]+word[11]+","+ word[14] + codArticulodata[codArticulodata.Length-1];
+            Dictionary<string, JArray> nodes = JsonConvert.DeserializeObject<Dictionary<string, JArray>>(dataRequisicion);
+            JArray solicitante = nodes["gridLookupSolicitante"];
+            JArray area = nodes["gridLookupArea"];
+            product.CODSOLIC = solicitante.First.ToString();
+            product.AREA = area.First.ToString();
+            product.TIPOREQUI = "RQ";
+            product.NROREQUI = requisicionNeg.nextNroDocument();
+
+            product.detalles = GridViewHelper.detalleRequisicions;
+
+            ModelState.Remove("FecEntrega");
             if (ModelState.IsValid)
                 SafeExecute(() => InsertProduct(product));
             else
-                ViewData["EditError"] = "Please, correct all errors.";
+            {
+                if(!ModelState.IsValidField("FecEntrega") && ModelState.Count == 1)
+                 {
+                  
+                    SafeExecute(() => InsertProduct(product));
+                 }
+                else
+                {
+                    ViewData["EditError"] = "Please, correct all errors.";
+                }
+             
+            }
             return DataRequisicionPartial();
         }
-
+        
         public void InsertProduct(RequisicionCompra product)
         {
-
+            requisicionNeg.create(product);
         }
 
         [ValidateInput(false)]
@@ -162,21 +190,19 @@ namespace wencove.Controllers
             // obtener  codarticulo             
             var codArticulodata = dataForm["DXMVCEditorsValues"];
 
-            string[] words = codArticulodata.Split(',');
-            string codCostos = codArticulodata[0] + words[10] + codArticulodata[codArticulodata.Length - 1];
-            codArticulodata = words[0] +","+ words[10]+ codArticulodata[codArticulodata.Length-1];
+           
           
             Dictionary<string, object> nodes = JsonConvert.DeserializeObject<Dictionary<string, object>>(codArticulodata);
             var codArticulo = nodes["gridLookup"];
-            var codCosto = nodes["gridLookupCostos"];
+            //var codCosto = nodes["gridLookupCostos"];
 
             JArray array = (JArray)codArticulo;
-            JArray arraycosto = (JArray)codCosto;
+           // JArray arraycosto = (JArray)codCosto;
 
             var description = dataForm["gridLookup"];
             product.codpro = array.First.ToString();
             product.DESCPRO = description.ToString();
-            product.CENCOST = arraycosto.First.ToString();
+           // product.CENCOST = arraycosto.First.ToString();
             if (ModelState.IsValid)
                 SafeExecute(() => InsertProduct(product));
             else

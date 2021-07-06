@@ -16,13 +16,21 @@
         }
 
         function DateEmision() {
-           
+
+
+
             if (FECREQUI.GetText() == "") {
                 let f = new Date();
                 FECREQUI.SetText(f.getDate() + "/" + (f.getMonth() + 1) + "/" + f.getFullYear());            
             }
 
 
+        }
+        function dateInit() {                  
+            var data = document.getElementById("grid_DXEFL_DXEditor5_I");
+            if (data.value == "") {
+                data.value = FECREQUI.GetText();
+            }  
         }
     </script>
 

@@ -17,6 +17,7 @@ namespace wencove.Controllers
     {
         // GET: OrdenCompra
         private OrdenCompraNeg userNeg;
+        private RequisicionCompraNeg requisionNeg;
         private ProveedorNeg proveedorNeg;
         private ArticuloNeg articuloNeg;
         static OrdenCompra OrdeCurrent;
@@ -24,6 +25,7 @@ namespace wencove.Controllers
 
         public OrdenCompraController()
         {
+            requisionNeg = new RequisicionCompraNeg();
             userNeg = new OrdenCompraNeg();
             articuloNeg = new ArticuloNeg();
             proveedorNeg = new ProveedorNeg();
@@ -254,6 +256,7 @@ namespace wencove.Controllers
         }
         public ActionResult ToolbarPartial(string codigoOrden)
         {
+
             string codigo = "0000000000001";
             ViewData["codigoOrden"] = codigoOrden;
             OrdeCurrent = userNeg.find(codigoOrden);
@@ -261,11 +264,26 @@ namespace wencove.Controllers
             if (OrdeCurrent == null)
             {
                 GridViewHelper.GetDetalles();
+                if (GridViewHelper.NROREQUI != "")
+                {
+                    cargar(requisionNeg.findAllDetail(GridViewHelper.NROREQUI));
+                }           
                 return PartialView("ToolbarPartial", GridViewHelper.detalles);
             }
 
            GridViewHelper.detalles = userNeg.findAllDetail(OrdeCurrent.OC_CNUMORD);
             return PartialView("ToolbarPartial", GridViewHelper.detalles);
+        }
+
+        public void cargar(List<DetalleRequisicion> detalles)
+        {
+            detalles.ForEach(element =>
+            {
+                DetalleOrdenCompra temp = new DetalleOrdenCompra();
+                temp.oc_ccodpro = element.codpro;
+                temp.OC_NCANTID = element.CANTID;
+                GridViewHelper.detalles.Add(temp);
+            });
         }
 
         [ValidateInput(false)]
@@ -372,8 +390,34 @@ namespace wencove.Controllers
             if (OC_CDOCREF != "-1")
                 OC_CDOCREF = "";
             return PartialView("MultiSelectDocRef", new  NumDocCompras () { CTNCODIGO = OC_CDOCREF });
+            
    
         }
+        public ActionResult MultiSelectNroRef(string  NROREQUI  = "-1", FormCollection dataR = null)
+        {
+            if (dataR != null)
+            {
+                string v = dataR["gridLookupNroRef"];
+                if (v != null && v!="")
+                {
+                    GridViewHelper.NROREQUI = v;
+                    
+                }
+               
+            }
+
+            // VER QUE EENTO PUEDE VER ESTE DETALLE POR EL MOMENTO SOLO SE NECESITA RQ
+            if (GridViewHelper.OC_CDOCREF== "RQ") {
+                ViewData["NroRef"] = requisionNeg.findAllPendientes();
+            }
+            ViewData["NroRef"] = requisionNeg.findAllPendientes();
+            if (NROREQUI != "-1")
+                NROREQUI = "";
+            return PartialView("MultiSelectNroRef", new RequisicionCompra() { NROREQUI = NROREQUI });
+
+        }
+
+     
         public ActionResult MultiSelectResponsable(string oc_csolict = "-1", FormCollection dataR = null)
         {
             if (dataR != null)

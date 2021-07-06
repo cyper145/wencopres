@@ -128,6 +128,9 @@
         DateEditProperties properties = column.PropertiesEdit as DateEditProperties;
         properties.ValidationSettings.RequiredField.IsRequired = false;
         column.Width = Unit.Percentage(10);
+        properties.ClientSideEvents.Init = "dateInit";
+
+
     });
     settings.Columns.Add(column =>
     {
@@ -170,12 +173,6 @@
         //   properties.ClientSideEvents.TextChanged = "changegCalcularPrecioCantidad";
 
     });
-
-
-
-
-
-
     var layout=  settings.EditFormLayoutProperties.Items.AddGroupItem(i => {
 
         i.ShowCaption = DefaultBoolean.False;
@@ -188,14 +185,14 @@
     {
 
         i.ColumnName = "codpro";
-        i.ColumnSpan = 5;
+        i.ColumnSpan = 6;
 
         i.ShowCaption = DefaultBoolean.False;
         i.CaptionSettings.Location = LayoutItemCaptionLocation.Top;
 
 
     });
-    
+
     layout.Items.Add(i =>
     {
 
@@ -211,11 +208,12 @@
     {
 
         i.ColumnName = "CANTID";
-        i.ColumnSpan = 1;
+        i.ColumnSpan = 2;
         i.CaptionSettings.Location = LayoutItemCaptionLocation.Top;
 
 
     });
+    /*
     layout.Items.Add(i =>
     {
 
@@ -224,7 +222,8 @@
         i.CaptionSettings.Location = LayoutItemCaptionLocation.Top;
 
 
-    });
+    });*/
+    /*
     layout.Items.Add(i =>
     {
 
@@ -232,9 +231,12 @@
 
         i.CaptionSettings.Location = LayoutItemCaptionLocation.Top;
         i.ColumnSpan = 2;
+        i.VisibleIndex = 0;
+
 
     });
-
+    */
+    /*
     layout.Items.Add(i =>
     {
 
@@ -242,18 +244,19 @@
         i.ColumnSpan = 2;
 
     });
+    */
     layout.Items.Add(i =>
     {
 
         i.ColumnName = "REMAQ";
-        i.ColumnSpan = 2;
+        i.ColumnSpan = 3;
 
     });
     layout.Items.Add(i =>
     {
 
         i.ColumnName = "ESPTECNICA";
-        i.ColumnSpan = 10;
+        i.ColumnSpan = 12;
 
     });
 

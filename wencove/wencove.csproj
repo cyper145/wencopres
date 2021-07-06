@@ -280,6 +280,7 @@
     <Content Include="Views\RequisionCompra\MultiSelectArea.cshtml" />
     <Content Include="Views\RequisionCompra\MultiSelectPartial.cshtml" />
     <Content Include="Views\RequisionCompra\MultiSelectCentroCostos.cshtml" />
+    <Content Include="Views\OrdenCompra\MultiSelectNroRef.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

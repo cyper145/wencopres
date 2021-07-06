@@ -6,252 +6,248 @@
 
 @{
 
-    var gridView = Html.DevExpress().GridView<OrdenCompra>(gridViewSettings =>
-    {
-        gridViewSettings.Name = "gridView";
-        gridViewSettings.KeyFieldName = "OC_CNUMORD";
-
-        gridViewSettings.CallbackRouteValues = new
+        var gridView = Html.DevExpress().GridView<OrdenCompra>(gridViewSettings =>
         {
-            Controller = "OrdenCompra",
-            Action = "GridViewPartial" };
-        gridViewSettings.CustomActionRouteValues = new { Controller = "OrdenCompra", Action = "GridViewCustomActionPartial" };
-        gridViewSettings.SettingsEditing.AddNewRowRouteValues = new { Controller = "OrdenCompra", Action = "GridViewAddNewPartial" };
-        gridViewSettings.SettingsEditing.UpdateRowRouteValues = new { Controller = "OrdenCompra", Action = "GridViewUpdatePartial" };
+            gridViewSettings.Name = "gridView";
+            gridViewSettings.KeyFieldName = "OC_CNUMORD";
 
-        gridViewSettings.EnablePagingGestures = AutoBoolean.False;
-
-        gridViewSettings.ControlStyle.CssClass = "grid-view";
-        gridViewSettings.Width = Unit.Percentage(100);
-        gridViewSettings.Height = Unit.Percentage(100);
-
-        gridViewSettings.Styles.Cell.Wrap = DefaultBoolean.False;
-        gridViewSettings.Styles.PagerBottomPanel.CssClass = "pager";
-        gridViewSettings.Styles.FocusedRow.CssClass = "focused";
-
-        gridViewSettings.SettingsBehavior.AllowFocusedRow = true;
-        //    gridViewSettings.SettingsBehavior.AllowSelectByRowClick = true;
-        gridViewSettings.SettingsBehavior.AllowEllipsisInText = true;
-        gridViewSettings.SettingsBehavior.AllowDragDrop = false;
-
-        gridViewSettings.SettingsSearchPanel.CustomEditorName = "searchButtonEdit";
-        gridViewSettings.SearchPanelEditorCreate = (sender, e) =>
-        {
-            e.EditorProperties = new DateEditProperties();
-        };
-        gridViewSettings.SettingsEditing.Mode = GridViewEditingMode.PopupEditForm;
-        gridViewSettings.SettingsEditing.EditFormColumnCount = 2;
-
-        gridViewSettings.SettingsSearchPanel.CustomEditorName = "searchButtonEdit";
-
-        gridViewSettings.Settings.VerticalScrollBarMode = ScrollBarMode.Hidden;
-        gridViewSettings.Settings.HorizontalScrollBarMode = ScrollBarMode.Auto;
-        gridViewSettings.Settings.ShowHeaderFilterButton = true;
-
-        gridViewSettings.SettingsPager.PageSize = 50;
-        gridViewSettings.SettingsPager.EnableAdaptivity = true;
-        gridViewSettings.SettingsPager.PageSizeItemSettings.Visible = true;
-
-        gridViewSettings.SettingsExport.EnableClientSideExportAPI = true;
-        gridViewSettings.SettingsExport.ExportSelectedRowsOnly = true;
-
-        gridViewSettings.SettingsPopup.EditForm.SettingsAdaptivity.MaxWidth = 1200;
-        gridViewSettings.SettingsPopup.EditForm.SettingsAdaptivity.Mode = PopupControlAdaptivityMode.Always;
-        gridViewSettings.SettingsPopup.EditForm.SettingsAdaptivity.VerticalAlign = PopupAdaptiveVerticalAlign.WindowCenter;
-
-        gridViewSettings.EditFormLayoutProperties.SettingsAdaptivity.AdaptivityMode = FormLayoutAdaptivityMode.SingleColumnWindowLimit;
-        gridViewSettings.EditFormLayoutProperties.SettingsAdaptivity.SwitchToSingleColumnAtWindowInnerWidth = 1200;
-
-        gridViewSettings.EditFormLayoutProperties.UseDefaultPaddings = false;
-
-        gridViewSettings.EditFormLayoutProperties.SettingsItemCaptions.Location = LayoutItemCaptionLocation.Top;
-
-        gridViewSettings.EditFormLayoutProperties.Styles.LayoutGroup.Cell.Paddings.Padding = Unit.Pixel(3);
-
-        gridViewSettings.EditFormLayoutProperties.Styles.LayoutItem.Paddings.PaddingBottom = Unit.Pixel(8);
-
-
-
-        gridViewSettings.SetEditFormTemplateContent(c=> {
-
-
-            Html.DevExpress().FormLayout(layoutSetting =>
+            gridViewSettings.CallbackRouteValues = new
             {
-                layoutSetting.Name = "FormLayoutSetting";
+                Controller = "OrdenCompra",
+                Action = "GridViewPartial" };
+            gridViewSettings.CustomActionRouteValues = new { Controller = "OrdenCompra", Action = "GridViewCustomActionPartial" };
+            gridViewSettings.SettingsEditing.AddNewRowRouteValues = new { Controller = "OrdenCompra", Action = "GridViewAddNewPartial" };
+            gridViewSettings.SettingsEditing.UpdateRowRouteValues = new { Controller = "OrdenCompra", Action = "GridViewUpdatePartial" };
 
-                layoutSetting.Width = Unit.Percentage(100);
+            gridViewSettings.EnablePagingGestures = AutoBoolean.False;
 
-                layoutSetting.SettingsAdaptivity.AdaptivityMode = FormLayoutAdaptivityMode.SingleColumnWindowLimit;
-                layoutSetting.SettingsAdaptivity.SwitchToSingleColumnAtWindowInnerWidth = 700;
-                layoutSetting.UseDefaultPaddings = false;
+            gridViewSettings.ControlStyle.CssClass = "grid-view";
+            gridViewSettings.Width = Unit.Percentage(100);
+            gridViewSettings.Height = Unit.Percentage(100);
+
+            gridViewSettings.Styles.Cell.Wrap = DefaultBoolean.False;
+            gridViewSettings.Styles.PagerBottomPanel.CssClass = "pager";
+            gridViewSettings.Styles.FocusedRow.CssClass = "focused";
+
+            gridViewSettings.SettingsBehavior.AllowFocusedRow = true;
+            //    gridViewSettings.SettingsBehavior.AllowSelectByRowClick = true;
+            gridViewSettings.SettingsBehavior.AllowEllipsisInText = true;
+            gridViewSettings.SettingsBehavior.AllowDragDrop = false;
+
+            gridViewSettings.SettingsSearchPanel.CustomEditorName = "searchButtonEdit";
+            gridViewSettings.SearchPanelEditorCreate = (sender, e) =>
+            {
+                e.EditorProperties = new DateEditProperties();
+            };
+            gridViewSettings.SettingsEditing.Mode = GridViewEditingMode.PopupEditForm;
+            gridViewSettings.SettingsEditing.EditFormColumnCount = 2;
+
+            gridViewSettings.SettingsSearchPanel.CustomEditorName = "searchButtonEdit";
+
+            gridViewSettings.Settings.VerticalScrollBarMode = ScrollBarMode.Hidden;
+            gridViewSettings.Settings.HorizontalScrollBarMode = ScrollBarMode.Auto;
+            gridViewSettings.Settings.ShowHeaderFilterButton = true;
+
+            gridViewSettings.SettingsPager.PageSize = 50;
+            gridViewSettings.SettingsPager.EnableAdaptivity = true;
+            gridViewSettings.SettingsPager.PageSizeItemSettings.Visible = true;
+
+            gridViewSettings.SettingsExport.EnableClientSideExportAPI = true;
+            gridViewSettings.SettingsExport.ExportSelectedRowsOnly = true;
+
+            gridViewSettings.SettingsPopup.EditForm.SettingsAdaptivity.MaxWidth = 1200;
+            gridViewSettings.SettingsPopup.EditForm.SettingsAdaptivity.Mode = PopupControlAdaptivityMode.Always;
+            gridViewSettings.SettingsPopup.EditForm.SettingsAdaptivity.VerticalAlign = PopupAdaptiveVerticalAlign.WindowCenter;
+
+            gridViewSettings.EditFormLayoutProperties.SettingsAdaptivity.AdaptivityMode = FormLayoutAdaptivityMode.SingleColumnWindowLimit;
+            gridViewSettings.EditFormLayoutProperties.SettingsAdaptivity.SwitchToSingleColumnAtWindowInnerWidth = 1200;
+
+            gridViewSettings.EditFormLayoutProperties.UseDefaultPaddings = false;
+
+            gridViewSettings.EditFormLayoutProperties.SettingsItemCaptions.Location = LayoutItemCaptionLocation.Top;
+
+            gridViewSettings.EditFormLayoutProperties.Styles.LayoutGroup.Cell.Paddings.Padding = Unit.Pixel(3);
+
+            gridViewSettings.EditFormLayoutProperties.Styles.LayoutItem.Paddings.PaddingBottom = Unit.Pixel(8);
 
 
 
-                var groupItem = layoutSetting.Items.AddGroupItem(groupSettings =>
+            gridViewSettings.SetEditFormTemplateContent(c=> {
+
+
+                Html.DevExpress().FormLayout(layoutSetting =>
                 {
+                    layoutSetting.Name = "FormLayoutSetting";
 
-                    groupSettings.ShowCaption = DefaultBoolean.False;
-                    groupSettings.GroupBoxDecoration = GroupBoxDecoration.Default;
-                    groupSettings.ColumnCount = 3;
-                });
-                groupItem.Items.Add( i =>
-                {
+                    layoutSetting.Width = Unit.Percentage(100);
 
-                    i.FieldName = "OC_CNUMORD";
-                    i.Caption = "Número";
+                    layoutSetting.SettingsAdaptivity.AdaptivityMode = FormLayoutAdaptivityMode.SingleColumnWindowLimit;
+                    layoutSetting.SettingsAdaptivity.SwitchToSingleColumnAtWindowInnerWidth = 700;
+                    layoutSetting.UseDefaultPaddings = false;
 
-                    i.ColumnSpan = 2;
-                    i.NestedExtension().TextBox(t =>
+
+
+                    var groupItem = layoutSetting.Items.AddGroupItem(groupSettings =>
                     {
-                        t.ReadOnly = true;
-                        t.Width = Unit.Percentage(25);
-                        t.Properties.ClientSideEvents.Init = "onData";
+
+                        groupSettings.ShowCaption = DefaultBoolean.False;
+                        groupSettings.GroupBoxDecoration = GroupBoxDecoration.Default;
+                        groupSettings.ColumnCount = 3;
                     });
-                });
-                groupItem.Items.Add( i =>
-                {
-                    i.FieldName = "EST_NOMBRE";
-                    i.Caption = "Estado:";
-                    i.ColumnSpan = 1;
-                    i.NestedExtension().TextBox(t =>
+                    groupItem.Items.Add( i =>
                     {
-                        t.Properties.ValidationSettings.Display = Display.Dynamic;
-                        t.ShowModelErrors = true;
-                        t.ReadOnly = true;
+
+                        i.FieldName = "OC_CNUMORD";
+                        i.Caption = "Número";
+
+                        i.ColumnSpan = 2;
+                        i.NestedExtension().TextBox(t =>
+                        {
+                            t.ReadOnly = true;
+                            t.Width = Unit.Percentage(25);
+                            t.Properties.ClientSideEvents.Init = "onData";
+                        });
                     });
-                });
-
-                groupItem = layoutSetting.Items.AddGroupItem(groupSettings =>
-                {
-                    groupSettings.Caption = "informacion principal";
-                    groupSettings.ShowCaption = DefaultBoolean.True;
-                    groupSettings.GroupBoxDecoration = GroupBoxDecoration.Default;
-                    groupSettings.ColumnCount = 12;
-                });
-
-
-                groupItem.Items.Add(i =>
-                {
-                    i.FieldName = "oc_ccodpro";
-                    i.Name = "datax";
-
-                    i.ShowCaption = DefaultBoolean.False;
-
-                    i.ColumnSpan = 8;
-                    i.SetNestedContent(() =>
+                    groupItem.Items.Add( i =>
                     {
-
-                        Html.RenderAction("MultiSelectProveedor" , new { CurrentCategory = DataBinder.Eval(c.DataItem, "oc_ccodpro") });
-                    });
-                });
-                groupItem.Items.Add( i =>
-
-                {
-                    i.FieldName = "OC_CRAZSOC";
-                    i.ShowCaption = DefaultBoolean.False;
-                    i.ColumnSpan = 4;
-                    i.Visible = false;
-
-                    i.NestedExtension().TextBox(t =>
-                    {
-                        t.Properties.ValidationSettings.Display = Display.Dynamic;
-                        t.ShowModelErrors = true;
-                        t.ReadOnly = true;
-                    });
-                });
-                groupItem.Items.Add( i =>
-
-                {
-                    i.FieldName = "RUC";
-                    i.Caption = "RUC:";
-                    i.ColumnSpan = 4;
-                    i.NestedExtension().TextBox(t =>
-                    {
-                        t.Properties.ValidationSettings.Display = Display.Dynamic;
-                        t.ShowModelErrors = true;
-                        t.ReadOnly = true;
-                    });
-                });
-                groupItem.Items.Add(i =>
-
-                {
-                    i.FieldName = "OC_SOLICITA";
-                    i.ColumnSpan = 4;
-                    i.Caption = " Solicitado por";
-                    i.NestedExtension().ComboBox(t =>
-                    {
-                        t.Properties.ValidationSettings.Display = Display.Dynamic;
-                        t.ShowModelErrors = true;
-                       
-                        t.Properties.ValueType = typeof(string);
-                        t.Properties.DataSource = GridViewHelper.GetSolitud();
-                        t.Properties.ValueField = "TCLAVE";
-                        t.Properties.TextField = "TDESCRI";
+                        i.FieldName = "EST_NOMBRE";
+                        i.Caption = "Estado:";
+                        i.ColumnSpan = 1;
+                        i.NestedExtension().TextBox(t =>
+                        {
+                            t.Properties.ValidationSettings.Display = Display.Dynamic;
+                            t.ShowModelErrors = true;
+                            t.ReadOnly = true;
+                        });
                     });
 
-                });
-
-                groupItem.Items.Add(i =>
-
-                {
-                    i.FieldName = "OC_DFECDOC";
-                    i.ColumnSpan = 2;
-                    i.Caption = "Emisión";
-
-                    i.NestedExtension().DateEdit(t =>
+                    groupItem = layoutSetting.Items.AddGroupItem(groupSettings =>
                     {
-                        t.Properties.ValidationSettings.Display = Display.Dynamic;
-                        t.ShowModelErrors = true;
-                        t.Date = DateTime.Now;
-                        t.Properties.ClientSideEvents.Init = "DateEmision";
+                        groupSettings.Caption = "informacion principal";
+                        groupSettings.ShowCaption = DefaultBoolean.True;
+                        groupSettings.GroupBoxDecoration = GroupBoxDecoration.Default;
+                        groupSettings.ColumnCount = 12;
                     });
-                });
-                groupItem.Items.Add(i =>
 
-                {
-                    i.FieldName = "OC_DFECENT";
-                    i.ColumnSpan = 2;
-                    i.Caption = "Entrega";
 
-                    i.NestedExtension().DateEdit(t =>
+                    groupItem.Items.Add(i =>
                     {
+                        i.FieldName = "oc_ccodpro";
+                        i.Name = "datax";
 
+                        i.ShowCaption = DefaultBoolean.False;
 
-                        t.Date = new DateTime(1984, 06, 14);
-                        t.Width = Unit.Percentage(100);
+                        i.ColumnSpan = 8;
+                        i.SetNestedContent(() =>
+                        {
+
+                            Html.RenderAction("MultiSelectProveedor" , new { CurrentCategory = DataBinder.Eval(c.DataItem, "oc_ccodpro") });
+                        });
+                    });
+                    groupItem.Items.Add( i =>
+
+                    {
+                        i.FieldName = "OC_CRAZSOC";
+                        i.ShowCaption = DefaultBoolean.False;
+                        i.ColumnSpan = 4;
+                        i.Visible = false;
+
+                        i.NestedExtension().TextBox(t =>
+                        {
+                            t.Properties.ValidationSettings.Display = Display.Dynamic;
+                            t.ShowModelErrors = true;
+                            t.ReadOnly = true;
+                        });
+                    });
+                    groupItem.Items.Add( i =>
+
+                    {
+                        i.FieldName = "RUC";
+                        i.Caption = "RUC:";
+                        i.ColumnSpan = 4;
+                        i.NestedExtension().TextBox(t =>
+                        {
+                            t.Properties.ValidationSettings.Display = Display.Dynamic;
+                            t.ShowModelErrors = true;
+                            t.ReadOnly = true;
+                        });
+                    });
+                    groupItem.Items.Add(i =>
+
+                    {
+                        i.FieldName = "OC_SOLICITA";
+                        i.ColumnSpan = 4;
+                        i.Caption = " Solicitado por";
+                        i.NestedExtension().ComboBox(t =>
+                        {
+                            t.Properties.ValidationSettings.Display = Display.Dynamic;
+                            t.ShowModelErrors = true;
+
+                            t.Properties.ValueType = typeof(string);
+                            t.Properties.DataSource = GridViewHelper.GetSolitud();
+                            t.Properties.ValueField = "TCLAVE";
+                            t.Properties.TextField = "TDESCRI";
+                        });
 
                     });
-                });
 
+                    groupItem.Items.Add(i =>
 
-                groupItem.Items.Add( i =>
-
-                {
-                    i.FieldName = "OC_CDOCREF";
-                    i.Caption="Doc Ref:";
-                    i.ShowCaption = DefaultBoolean.False;
-                    i.ColumnSpan = 2;
-                    i.SetNestedContent(() =>
                     {
+                        i.FieldName = "OC_DFECDOC";
+                        i.ColumnSpan = 2;
+                        i.Caption = "Emisión";
 
-                        Html.RenderAction("MultiSelectDocRef", new { OC_CDOCREF = DataBinder.Eval(c.DataItem, "OC_CDOCREF") });
+                        i.NestedExtension().DateEdit(t =>
+                        {
+                            t.Properties.ValidationSettings.Display = Display.Dynamic;
+                            t.ShowModelErrors = true;
+                            t.Date = DateTime.Now;                      
+                            t.Properties.ClientSideEvents.Init = "DateEmision";
+                        });
                     });
-                });
-                groupItem.Items.Add( i =>
+                    groupItem.Items.Add(i =>
 
-                {
-                    i.FieldName = "OC_CNRODOCREF";
-                    i.ColumnSpan = 2;
-                    i.ShowCaption = DefaultBoolean.False;
-                    i.NestedExtension().ComboBox(t =>
                     {
-                        t.SelectedIndex = 0;
-                        t.Properties.ValueType = typeof(string);
-                        t.Properties.Items.Add("REQUISCIONES DE COMRA ", "100001");
-                        t.Properties.Items.Add("sOLICITUD DE COTIZACIÓN ", "10002");
+                        i.FieldName = "OC_DFECENT";
+                        i.ColumnSpan = 2;
+                        i.Caption = "Entrega";
 
-                        t.Properties.ValidationSettings.Display = Display.Dynamic;
-                        t.ShowModelErrors = true;
+                        i.NestedExtension().DateEdit(t =>
+                        {
+
+
+                            t.Date = new DateTime(1984, 06, 14);
+                            t.Width = Unit.Percentage(100);
+
+                        });
+                    });
+
+
+                    groupItem.Items.Add( i =>
+
+                    {
+                        i.FieldName = "OC_CDOCREF";
+                        i.Caption="Doc Ref:";
+                        i.ShowCaption = DefaultBoolean.False;
+                        i.ColumnSpan = 2;
+                        i.SetNestedContent(() =>
+                        {
+
+                            Html.RenderAction("MultiSelectDocRef", new { OC_CDOCREF = DataBinder.Eval(c.DataItem, "OC_CDOCREF") });
+                        });
+                    });
+                    groupItem.Items.Add( i =>
+
+                    {
+                        i.FieldName = "OC_CNRODOCREF";
+                        i.ColumnSpan = 2;
+                     
+                        i.ShowCaption = DefaultBoolean.False;
+                        i.SetNestedContent(() =>
+                        {
+
+                            Html.RenderAction("MultiSelectNroRef", new {  NROREQUI= DataBinder.Eval(c.DataItem, "OC_CNRODOCREF") });
                     });
                 });
                 groupItem.Items.Add(i =>

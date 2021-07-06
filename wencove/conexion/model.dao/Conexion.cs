@@ -50,6 +50,7 @@ namespace wencove.conexion.model.dao
 
         private string cadenaConexion(string nameBaseDatos)
         {
+            //return $"data source = SERVIDOR; initial catalog = {nameBaseDatos}; user id = SOPORTE; password = SOPORTE";
             return $"Data Source=DESKTOP-6OG4V32\\SQLEXPRESS;Initial Catalog={nameBaseDatos}; Integrated Security=True";
         }
     }
